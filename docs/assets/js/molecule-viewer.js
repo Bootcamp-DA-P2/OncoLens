@@ -20,11 +20,11 @@
   if (!stage || typeof $3Dmol === 'undefined') return;
 
   const TUMOR_TYPES = [
-    { code: 'BRCA', gene: 'ESR1', pdbId: '1A52', color: 0x1652f0 },
-    { code: 'KIRC', gene: 'VHL',  pdbId: '1VCB', color: 0x2c7be5 },
-    { code: 'LUAD', gene: 'EGFR', pdbId: '1M17', color: 0x14a6b8 },
-    { code: 'PRAD', gene: 'AR',   pdbId: '1E3G', color: 0x0e8f8a },
-    { code: 'COAD', gene: 'KRAS', pdbId: '5P21', color: 0x6b5ce0 },
+    { code: 'BRCA', gene: 'ESR1', pdbId: '1A52', color: 0x1652f0, zoom: 1.0 },
+    { code: 'KIRC', gene: 'VHL',  pdbId: '1VCB', color: 0x2c7be5, zoom: 1.0 },
+    { code: 'LUAD', gene: 'EGFR', pdbId: '1M17', color: 0x14a6b8, zoom: 1.0 },
+    { code: 'PRAD', gene: 'AR',   pdbId: '1E3G', color: 0x0e8f8a, zoom: 1.0 },
+    { code: 'COAD', gene: 'KRAS', pdbId: '5P21', color: 0x6b5ce0, zoom: 1.0 },
   ];
 
   const CYCLE_MS = 4200;
@@ -50,6 +50,7 @@
 
   const viewer = $3Dmol.createViewer(stage, {
     backgroundColor: pageBg,
+    nomouse: true,
   });
 
   let activeIndex = 0;
@@ -68,6 +69,7 @@
     $3Dmol.download('pdb:' + type.pdbId, viewer, {}, function () {
       viewer.setStyle({}, { cartoon: { color: hexColor(type.color) } });
       viewer.zoomTo();
+      viewer.zoom(1.1);
       viewer.render();
       viewer.spin('y', 0.35);
       loading = false;
