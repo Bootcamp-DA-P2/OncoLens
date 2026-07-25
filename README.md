@@ -1,4 +1,4 @@
-# 🧬 Onco Seq Explorer
+# 🧬 OncoLens
 
 **Sistema de Clasificación Jerárquica de Cáncer mediante RNA-Seq**
 
@@ -8,7 +8,7 @@ Aplicación profesional, modular y escalable para análisis y predicción de cla
 
 ## 📋 Descripción
 
-**Onco Seq Explorer** es una plataforma completa para:
+**OncoLens** es una plataforma completa para:
 
 - 🔬 **Análisis de Expresión Génica:** Procesamiento y normalización de datos RNA-Seq
 - 🎯 **Predicción Jerárquica:** 
@@ -26,7 +26,7 @@ Aplicación profesional, modular y escalable para análisis y predicción de cla
 ### Estructura de Directorios
 
 ```
-Onco_Seq_Explorer/
+OncoLens/
 │
 ├── app.py                        # Launcher estable: streamlit run app.py
 ├── config.py                     # Configuración centralizada
@@ -300,25 +300,19 @@ Media: 92.80% ± 0.22%
 
 ---
 
-## 💾 Base de Datos
+## 🗄️ Base de Datos (Supabase)
 
-SQLite con tabla `predictions`:
+El proyecto **Oncoseq** utiliza una base de datos relacional alojada en **Supabase** para gestionar la información clínica, genómica y los modelos de predicción.
 
-```sql
-CREATE TABLE predictions (
-    id INTEGER PRIMARY KEY,
-    timestamp DATETIME,
-    sample_name TEXT,
-    stage1_prediction TEXT,
-    stage1_probability REAL,
-    stage2_prediction TEXT,
-    stage2_probability REAL,
-    final_prediction TEXT,
-    confidence_level TEXT,
-    n_features INTEGER,
-    user_notes TEXT,
-    validated BOOLEAN
-)
+### 📋 Tablas Principales
+
+*   **`patients`**: Almacena la información demográfica y clínica de los pacientes (edad, sexo, nacionalidad, peso, altura, hábitos como tabaquismo, etc.).
+*   **`samples`**: Contiene los datos de las muestras biológicas asociadas a los pacientes y sus respectivas cohortes o fechas de carga.
+*   **`genes`**: Información detallada sobre genes, símbolos, cromosomas y longitud génica.
+*   **`predictions`**: Resultados y probabilidades de los modelos de predicción (etapas, confianza, características, estado del caso y validaciones).
+*   **`model_versions`**: Control de versiones de los modelos de machine learning utilizados, métricas en formato JSON y rutas asociadas.
+*   **`retraining_buffer`**: Almacén temporal para la gestión de reentrenamiento de los modelos y datos confirmados.
+*   **`expression`**: Datos de expresión relacionados con las muestras.
 ```
 
 ---
