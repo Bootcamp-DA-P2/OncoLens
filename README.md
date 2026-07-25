@@ -75,7 +75,7 @@ OncoLens/
 ```bash
 # 1. Clonar o descargar
 git clone <repo-url>
-cd Onco_Seq_Explorer
+cd OncoLens
 
 # 2. Crear entorno virtual
 python -m venv .venv
@@ -110,6 +110,15 @@ docker run -p 8501:8501 -v ${PWD}/data:/app/data onco-seq-explorer:latest
 
 ---
 
+## ✅ Verificación
+
+Antes de fusionar cambios a `main` o de la entrega final, se recomienda correr el script de chequeo, que ejecuta todos los notebooks y scripts del proyecto y reporta cuáles corren sin errores:
+
+```bash
+python scripts/oncocheck.py .
+```
+
+---
 ## 📊 Características
 
 ### 1. **Dashboard**
@@ -274,29 +283,13 @@ OUTPUTS_DIR = Path("outputs")
 
 ## 📈 Métricas de Evaluación
 
-### Validación Cruzada (5-fold)
+### Validación Cruzada (5-fold, agrupada por paciente)
 
-**Modelo 1:**
-```
-Fold 1: 94.8%
-Fold 2: 95.5%
-Fold 3: 95.0%
-Fold 4: 95.3%
-Fold 5: 95.1%
-─────────────
-Media: 95.14% ± 0.26%
-```
+**Modelo 1 (TUMOR vs NORMAL):** F1-macro medio = **97,75%**
 
-**Modelo 2:**
-```
-Fold 1: 92.5%
-Fold 2: 93.0%
-Fold 3: 92.8%
-Fold 4: 93.1%
-Fold 5: 92.6%
-─────────────
-Media: 92.80% ± 0.22%
-```
+**Modelo 2 (Tipificación de cáncer):** F1-macro medio = **99,93%**
+
+*(detalle por fold disponible en `notebooks/02_feature_selection_&_modeling.ipynb`)*
 
 ---
 
@@ -313,7 +306,6 @@ El proyecto **Oncoseq** utiliza una base de datos relacional alojada en **Supaba
 *   **`model_versions`**: Control de versiones de los modelos de machine learning utilizados, métricas en formato JSON y rutas asociadas.
 *   **`retraining_buffer`**: Almacén temporal para la gestión de reentrenamiento de los modelos y datos confirmados.
 *   **`expression`**: Datos de expresión relacionados con las muestras.
-```
 
 ---
 
@@ -349,31 +341,6 @@ Para reportar bugs o sugerencias:
 MIT License - Uso educativo y de investigación
 
 ---
-
-## 👨‍💻 Autor
-
-**Desarrollado como aplicación profesional para portfolio de Machine Learning**
-
-Senior Python Developer especializado en:
-- Machine Learning & Bioinformática
-- Streamlit & UI/UX
-- Despliegue de aplicaciones de IA
-- Arquitectura de software modular y escalable
-
----
-
-## ⚠️ Descargo Legal
-
-Esta herramienta es **SOLO para fines educativos y de investigación**.
-
-**NO debe usarse para:**
-- Diagnóstico clínico
-- Tratamiento médico
-- Decisiones médicas sin validación profesional
-
-Siempre consulta con personal médico certificado.
-
----
 ## 👩‍💻 Equipo
 
 | Integrante | Responsabilidad |
@@ -386,6 +353,18 @@ Siempre consulta con personal médico certificado.
 **Trabajo compartido por todo el equipo:** exploración de datos (EDA), modelado y evaluación de los clasificadores, y contenerización del proyecto con Docker.
 
 Cada integrante trabajó, además, de forma transversal en otras partes del proyecto según la necesidad, coordinando el avance a través de un tablero Kanban en GitHub Projects.
+
+---
+## ⚠️ Descargo Legal
+
+Esta herramienta es **SOLO para fines educativos y de investigación**.
+
+**NO debe usarse para:**
+- Diagnóstico clínico
+- Tratamiento médico
+- Decisiones médicas sin validación profesional
+
+Siempre consulta con personal médico certificado.
 
 ---
 
