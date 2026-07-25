@@ -110,3 +110,35 @@
 @media (max-width:720px){
   .lens-credits p{font-size:9px}
 }
+
+/* =============================================================
+   DERIVA LENTA SOBRE IMAGEN FIJA
+   ============================================================= */
+
+.deriva {
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #140a10;
+  aspect-ratio: 16 / 9;
+}
+
+.deriva img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border: 0;
+  border-radius: 0;
+  transform-origin: 26% 39%;
+  animation: deriva 18s ease-in-out infinite alternate;
+}
+
+@keyframes deriva {
+  from { transform: scale(1); }
+  to   { transform: scale(1.35); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deriva img { animation: none; }
+}

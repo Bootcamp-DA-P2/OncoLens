@@ -571,6 +571,44 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* =============================================================
+   PORTADA: contenido arriba, texto e imagen en dos columnas
+   ============================================================= */
+
+.tour-cover { align-items: flex-start; }
+
+.tour-cover .tour-display { margin-bottom: 0; }
+
+.tour-cover-body {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+  margin-top: clamp(28px, 4vh, 44px);
+}
+
+/* la fila entra un poco por dentro del titular */
+.tour-cover-body {
+  align-items: center;
+  width: 86%;
+  margin-inline: auto;
+  gap: clamp(28px, 4vw, 52px);
+}
+
+.tour-cover-body .tour-figure {
+  margin-top: 28px;             /* ← esta es la que baja la imagen */
+}
+
+/* el párrafo ocupa todo el ancho de su columna */
+.tour-cover-body .tour-lead { max-width: none; }
+
+/* el pie deja de partirse y se alinea bajo la imagen */
+.tour-cover-body .tour-figcaption {
+  max-width: none;
+  text-align: left;
+  align-self: start;
+}
+
+/* =============================================================
    RESPONSIVE
    ============================================================= */
 
@@ -582,6 +620,7 @@ a { color: inherit; text-decoration: none; }
   }
   .tour-split--figure-left .tour-figure { order: 0; }
   .tour-figure svg { max-height: 36vh; }
+  .tour-cover-body { grid-template-columns: 1fr; gap: 32px; }
 }
 
 @media (max-width: 720px) {
@@ -605,80 +644,3 @@ a { color: inherit; text-decoration: none; }
   * { animation: none !important; transition: none !important; }
 }
 
-/* =============================================================
-   LENTE DE ESCALA — apartado 01
-   Depende de los tokens de styles-tour.css. Cargar DESPUES.
-   ============================================================= */
-
-/* ── LENTE DE ESCALA ────────────────────────────────────────── */
-.lens{
-  position:relative;width:100%;max-width:420px;
-  aspect-ratio:3/4;max-height:58vh;
-  border:1px solid var(--line);border-radius:12px;
-  overflow:hidden;background:var(--bg);
-  cursor:grab;touch-action:pan-y;
-  user-select:none;-webkit-user-select:none;
-}
-.lens:active{cursor:grabbing}
-.lens-layer{position:absolute;inset:0;will-change:transform,opacity;backface-visibility:hidden}
-.lens-layer img{
-  width:100%;height:100%;object-fit:cover;display:block;pointer-events:none;
-  border:0;border-radius:0;
-}
-#lensB{opacity:0}
-
-/* retícula: encuadra el punto de fuga sin taparlo */
-.lens-ret{position:absolute;inset:0;pointer-events:none;opacity:.55;transition:opacity .4s}
-.lens-ret span{position:absolute;width:13px;height:13px;border:1px solid var(--accent)}
-.lens-ret span:nth-child(1){left:14px;top:14px;border-right:0;border-bottom:0}
-.lens-ret span:nth-child(2){right:14px;top:14px;border-left:0;border-bottom:0}
-.lens-ret span:nth-child(3){left:14px;bottom:14px;border-right:0;border-top:0}
-.lens-ret span:nth-child(4){right:14px;bottom:14px;border-left:0;border-top:0}
-.lens.is-running .lens-ret{opacity:.22}
-
-/* barra de escala sobre la imagen */
-.lens-scale{
-  position:absolute;left:18px;bottom:18px;pointer-events:none;
-  font-family:var(--font-mono);
-  background:rgba(255,255,255,.82);backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
-  border:1px solid var(--line-strong);border-radius:7px;
-  padding:9px 12px 11px;
-}
-.lens-scale b{display:block;font-size:15px;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.01em}
-.lens-scale b i{font-style:normal;font-size:.68em;color:var(--accent);margin-left:.3em}
-.lens-scale u{display:block;text-decoration:none;height:1px;background:var(--accent);width:64px;margin-top:8px;position:relative}
-.lens-scale u::before,.lens-scale u::after{content:'';position:absolute;top:-3px;width:1px;height:7px;background:var(--accent)}
-.lens-scale u::before{left:0}.lens-scale u::after{right:0}
-
-/* lectura y controles en la columna de texto */
-.lens-readout{
-  display:flex;flex-wrap:wrap;align-items:baseline;gap:12px 32px;
-  margin-top:40px;padding-top:26px;border-top:1px solid var(--line);
-}
-.lens-readout dt{font-family:var(--font-mono);font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:7px}
-.lens-readout dd{font-family:var(--font-display);font-size:clamp(17px,1.5vw,21px);font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
-.lens-readout dd em{font-style:normal;color:var(--data)}
-
-.lens-ctl{display:flex;align-items:center;gap:18px;margin-top:26px;flex-wrap:wrap}
-.lens-btn{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:11px 22px;border:1px solid var(--line-strong);border-radius:100px;
-  background:var(--surface);color:var(--ink);
-  font-family:var(--font-body);font-size:14px;cursor:pointer;
-  transition:border-color .2s,color .2s;
-}
-.lens-btn:hover{border-color:var(--accent);color:var(--accent)}
-.lens-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.lens-hint{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;color:var(--ink-faint)}
-
-@media (max-width:1040px){
-  .lens{max-height:44vh;margin:0 auto}
-}
-@media (max-width:720px){
-  .lens{max-height:52vh}
-  .lens-hint{display:none}
-}
-@media (prefers-reduced-motion:reduce){
-  .lens-layer{transition:none!important}
-}
