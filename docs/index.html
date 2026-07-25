@@ -21,12 +21,11 @@
          srcset="assets/img/logo-oncolens@2x.png 2x, assets/img/logo-oncolens@3x.png 3x"
          alt="OncoLens" class="logo-img" width="205" height="56">
   </a>
-  <div class="nav-links">
-      <button type="button" data-tab="que-es">Qué es</button>
-      <button type="button" data-tab="datos">Los datos</button>
-      <button type="button" data-tab="metodo">Cómo funciona</button>
-      <button type="button" data-tab="equipo">Equipo</button>
-    <a href="https://oncolens-wkuy.onrender.com" target="_blank" rel="noopener" class="nav-cta">Abrir la demo</a>
+  <div class="nav-links" id="tabsBar">
+      <button type="button" class="tab-btn" data-tab="que-es" aria-selected="true">Qué es</button>
+      <button type="button" class="tab-btn" data-tab="datos" aria-selected="false">Los datos</button>
+      <button type="button" class="tab-btn" data-tab="metodo" aria-selected="false">Cómo funciona</button>
+      <button type="button" class="tab-btn" data-tab="equipo" aria-selected="false">Equipo</button>
   </div>
 </nav>
 
@@ -41,10 +40,6 @@
         <!-- ===== BOTÓN TOUR ===== -->
         <div class="tour-cta">
           <a href="tour/01-intro oncolens/index-01intro.html" class="tour-link">
-
-            <div class="axis-row row-top">
-              <div class="tour-label">Ir a</div>
-            </div>
 
             <div class="magnifier">
               <svg class="magnifier-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
@@ -77,6 +72,14 @@
             <p class="tour-desc">Navega por una presentación para conocer todo lo que OncoLens hace</p>
 
           </a>
+
+          <div class="demo-cta">
+            <a href="https://oncolens-wkuy.onrender.com" target="_blank" rel="noopener" class="btn-primary btn-lg">
+              Abrir la demo
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <p class="tour-desc">Sube un perfil de expresión y prueba el clasificador en directo</p>
+          </div>
         </div>
       </div>
 
@@ -112,18 +115,6 @@
 <div class="ticker-wrap">
     <div class="ticker-track" id="tickerTrack"></div>
 </div>
-
-<!-- ============================================================
-     BARRA DE PESTAÑAS
-     ============================================================ -->
-<div class="tabs-bar" id="tabsBar" role="tablist" aria-label="Secciones de OncoLens">
-    <button type="button" class="tab-btn" data-tab="que-es" role="tab" aria-selected="true">Qué es</button>
-    <button type="button" class="tab-btn" data-tab="datos" role="tab" aria-selected="false">Los datos</button>
-    <button type="button" class="tab-btn" data-tab="metodo" role="tab" aria-selected="false">Cómo funciona</button>
-    <button type="button" class="tab-btn" data-tab="demo" role="tab" aria-selected="false">Demo</button>
-    <button type="button" class="tab-btn" data-tab="equipo" role="tab" aria-selected="false">Equipo</button>
-</div>
-
 
 <!-- ===== PESTAÑA · QUE-ES ===== -->
 <div class="tab-panel tab-panel-intro" id="panel-que-es" data-tab="que-es" role="tabpanel">

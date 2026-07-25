@@ -37,6 +37,7 @@
 .logo {
   display: flex;
   align-items: center;
+  align-self: center;
   gap: 12px;
   text-decoration: none;
   transition: opacity 0.2s ease;
@@ -55,7 +56,7 @@
 
 /* Imagen del logo — AUMENTADO */
 .logo-img {
-  height: 56px;
+  height: 46px;
   width: auto;
   display: block;
 }
@@ -80,21 +81,21 @@
     position: relative;
     z-index: 10;
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: space-between;
-    width: 100%;                    /* Cambiar de max-width a width: 100% */
-    padding: 50px 64px 20px 75px;   /* Cambiar: arriba 50px, izquierda 50px */
-    box-sizing: border-box;         /* Asegurar que padding no estire el ancho */
-    gap: 64px;
+    padding: 24px 64px 0 64px;
+    max-width: 1360px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--line);
   }
 
   .nav-links {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 48px;
   }
 
-  .nav-links a,
+  /*.nav-links a,
 .nav-links button[data-tab] {
   font-size: 13px;
   font-weight: 400;
@@ -104,23 +105,37 @@
 }
 
 .nav-links a:hover,
-.nav-links button[data-tab]:hover { color: var(--ink); }
+.nav-links button[data-tab]:hover { color: var(--ink); }*/
 
-  .nav-links a:hover { color: var(--ink); }
 
-  .nav-cta {
-    padding: 11px 22px;
-    border: 1px solid var(--line-strong);
-    border-radius: 100px;
-    color: var(--ink) !important;
+  .nav-links .tab-btn {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0 0 15px 0;
+    font-family: var(--font-body);
     font-size: 13px;
     font-weight: 400;
-    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    color: var(--ink-soft);
+    letter-spacing: 0.01em;
+    transition: color 0.2s ease;
   }
 
-  .nav-cta:hover {
-    background: var(--ink);
-    color: var(--surface) !important;
+  .nav-links .tab-btn:hover,
+  .nav-links .tab-btn[aria-selected="true"] {
+    color: var(--ink);
+  }
+
+  .nav-links .tab-btn[aria-selected="true"]::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 2px;
   }
 
   @media (max-width: 720px) {
@@ -1529,7 +1544,9 @@ footer {
 
 .hero .tour-cta {
   --size: 190px;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 24px 0 0;
 }
 
@@ -1670,4 +1687,12 @@ footer {
   font-weight: 300;
   line-height: 1.5;
   color: var(--ink-soft);
+}
+
+.demo-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 40px;
 }
