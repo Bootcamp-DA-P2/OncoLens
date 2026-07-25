@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="../styles-tour.css">
+  <link rel="stylesheet" href="../lente-styles.css">
 </head>
 <body class="tour-page">
 
@@ -78,6 +79,51 @@
       <p class="tour-note">Si el Modelo 1 concluye que el tejido es sano, el proceso termina ahí. Solo las muestras clasificadas como tumorales pasan al Modelo 2.</p>
     </div>
   </section>
+
+  <section class="tour-section tour-section--surface">
+  <div class="tour-inner tour-split">
+    <div>
+      <p class="tour-eyebrow">Biología · antes de empezar</p>
+      <h2 class="tour-h2">Todo esto ocurre <strong>a una escala que no vemos</strong></h2>
+      <p class="tour-lead">Una biopsia empieza aquí: en un cuerpo, en un trozo de tejido del tamaño de un grano de arroz.</p>
+      <p class="tour-lead">Dentro hay células. Dentro de cada célula, un núcleo. Y dentro del núcleo, los genes cuya actividad mide OncoLens.</p>
+
+      <dl class="lens-readout">
+        <div>
+          <dt>Campo de visión</dt>
+          <dd><span id="fovN">28,0</span> <em id="fovU">cm</em></dd>
+        </div>
+        <div>
+          <dt>Aumento</dt>
+          <dd>×<span id="magN">1</span></dd>
+        </div>
+      </dl>
+
+      <div class="lens-ctl">
+        <button type="button" class="lens-btn" id="lensPlay">Descender de escala</button>
+        <span class="lens-hint">o arrastra sobre la imagen</span>
+      </div>
+
+      <p class="tour-note">Maqueta con dos capas de seis. Faltan tejido, célula, núcleo y ADN.</p>
+    </div>
+
+    <figure class="tour-figure">
+      <div class="lens" id="lens">
+        <div class="lens-layer" id="lensA"><img src="lente-01-brazo.webp" alt="Brazo sostenido por una mano"></div>
+        <div class="lens-layer" id="lensB"><img src="lente-02-piel.webp" alt="Superficie de la piel ampliada"></div>
+        <div class="lens-ret"><span></span><span></span><span></span><span></span></div>
+        <div class="lens-scale"><b><span id="barN">28,0</span><i id="barU">cm</i></b><u></u></div>
+      </div>
+      <figcaption class="tour-figcaption">De la piel a la superficie cutánea · 28 cm → 1,2 mm</figcaption>
+      <div class="lens-credits">
+        <p><span>01</span> Brazo — <a href="https://www.pexels.com/" target="_blank" rel="noopener">Pexels</a> · licencia libre</p>
+        <p><span>02</span> Superficie cutánea — <a href="https://www.pexels.com/" target="_blank" rel="noopener">Pexels</a> · licencia libre</p>
+        <p><span>03</span> Tejido — KRT5 en cáncer de piel, anticuerpo CAB000027 · <a href="https://www.proteinatlas.org/ENSG00000186081-KRT5/cancer/skin+cancer#img" target="_blank" rel="noopener">Human Protein Atlas</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
+      </div>
+    </figure>
+  </div>
+</section>
+
 
   <!-- 4 · BIOLOGÍA · EL ADN -->
   <section class="tour-section tour-section--surface">
@@ -282,6 +328,7 @@
 
 </main>
 
-<script src="../script-tour.js"></script>
+<!--<script src="../script-tour.js"></script>-->
+<script src="../lente-script.js"></script>
 </body>
 </html>
