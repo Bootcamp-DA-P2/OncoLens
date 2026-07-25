@@ -374,6 +374,20 @@ Esta herramienta es **SOLO para fines educativos y de investigación**.
 Siempre consulta con personal médico certificado.
 
 ---
+## 👩‍💻 Equipo
+
+| Integrante | Responsabilidad |
+|---|---|
+| **Alejandra Duque García** | Diseño y creación de la base de datos |
+| **Noelia Sánchez Fácila** | Desarrollo de la app en Streamlit |
+| **Yasira Blanco Moreno** | Desarrollo web y app en Streamlit  |
+| **Romina Navea Rodríguez** | Informe ejecutivo y script de verificación (oncocheck) |
+
+**Trabajo compartido por todo el equipo:** exploración de datos (EDA), modelado y evaluación de los clasificadores, y contenerización del proyecto con Docker.
+
+Cada integrante trabajó, además, de forma transversal en otras partes del proyecto según la necesidad, coordinando el avance a través de un tablero Kanban en GitHub Projects.
+
+---
 
 ## 📞 Contacto
 
