@@ -28,7 +28,7 @@
 
 <main class="tour-container">
 
-  <!-- 1 · PORTADA -->
+  <!-- 1 · ¿Qué es OncoLens y qué hace? -->
   <section class="tour-section tour-cover">
     <div class="tour-inner">
       <h1 class="tour-display">¿Qué es <strong>OncoLens</strong> y qué hace?</h1>
@@ -57,26 +57,11 @@
     </div>
   </section>
 
-  <!-- 2 · QUÉ ES -->
-  <section class="tour-section tour-section--surface">
-    <div class="tour-inner">
-      <h2 class="tour-h2">¿Cómo funciona?</h2>
-      <p class="tour-lead"> El programa está preparado para que se le introduzca un documento .xlsx, .csv o .tsv con la expresión génica RNA-Seq que predice si tiene cáncer o no y qué tipo de entre los 5 con los modelos entrenados. <strong></strong></p>
-      <div class="tour-grid">
-        <article class="tour-card"><span class="tour-card-num">BRCA</span><p><strong>Mama</strong></p></article>
-        <article class="tour-card"><span class="tour-card-num">KIRC</span><p><strong>Riñón</strong></p></article>
-        <article class="tour-card"><span class="tour-card-num">LUAD</span><p><strong>Pulmón</strong></p></article>
-        <article class="tour-card"><span class="tour-card-num">PRAD</span><p><strong>Próstata</strong></p></article>
-        <article class="tour-card"><span class="tour-card-num">COAD</span><p><strong>Colon</strong></p></article>
-      </div>
-    </div>
-  </section>
-
-  <!-- 3 · CÓMO FUNCIONA -->
+  <!-- 2 · ¿Cómo funciona? -->
   <section class="tour-section">
     <div class="tour-inner">
-      <h2 class="tour-h2">Se le entrega un archivo, devuelve una clasificación</h2>
-      <p class="tour-lead">El programa admite un documento <em>xlsx</em>, <em>csv</em> o <em>tsv</em> con la expresión génica RNA-Seq de la muestra. A partir de ahí, dos modelos entrenados en cascada responden en orden.</p>
+      <h2 class="tour-h2">¿Cómo funciona?</h2>
+      <p class="tour-lead">El programa admite un documento <em>xlsx</em>, <em>csv</em> o <em>tsv</em> con la expresión génica RNA-Seq que predice si tiene cáncer o no y qué tipo de entre los 5, con los modelos entrenados.</p>
       <div class="tour-chain">
         <div class="tour-chain-node"><span>Entrada</span><strong>Archivo RNA-Seq</strong></div>
         <div class="tour-chain-link" aria-hidden="true">
@@ -86,19 +71,20 @@
         <div class="tour-chain-link" aria-hidden="true">
           <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7h17M18 7l-5-5M18 7l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <div class="tour-chain-node is-data"><span>Modelo 2</span><strong>¿De qué órgano?</strong></div>
+        <div class="tour-chain-node is-data"><span>Modelo 2</span><strong>¿BRCA · KIRC · LUAD · <br> PRAD · COAD?</strong></div>
       </div>
       <p class="tour-note">Si el Modelo 1 concluye que el tejido es sano, el proceso termina ahí. Solo las muestras clasificadas como tumorales pasan al Modelo 2.</p>
     </div>
   </section>
 
+
+  <!-- 2 · Biología -->
   <section class="tour-section">
   <div class="tour-inner tour-split">
     <div>
- 
-      <h2 class="tour-h2">Todo esto ocurre <strong>a una escala que no vemos</strong></h2>
-      <p class="tour-lead">Una biopsia empieza aquí: en un cuerpo, en un trozo de tejido del tamaño de un grano de arroz.</p>
-      <p class="tour-lead">A partir de cierto punto el ojo ya no llega y hace falta un microscopio. Ahí abajo hay células, y dentro de cada una, un núcleo.</p>
+      <h2 class="tour-h2"><strong>Biología</strong></h2>
+      <p class="tour-lead">En cada célula de nuestro organismo hay un <strong>núcleo</strong> donde se almacena la información genética en forma de <strong>ADN</strong>.</p>
+      <p class="tour-lead">El ADN es una molécula que contiene todas las instrucciones necesarias para que funcione el cuerpo. El manual de instrucciones de la vida.</p>
 
       <dl class="lens-readout">
         <div>
@@ -140,16 +126,19 @@
       </div>
     </figure>
   </div>
-</section>
+  </section>
 
-  <!-- 4 · BIOLOGÍA · EL ADN -->
+
+
+  <!-- 3 · Bilogía -->
   <section class="tour-section tour-section--surface">
     <div class="tour-inner tour-split">
       <div>
        
-        <h2 class="tour-h2">Cada célula guarda un libro de recetas</h2>
-        <p class="tour-lead">En cada célula de nuestro organismo hay un <strong>núcleo</strong> donde se almacena la información genética en forma de <strong>ADN</strong>.</p>
-        <p class="tour-lead">El ADN es una molécula que contiene todas las instrucciones necesarias para que funcione el cuerpo. El manual de instrucciones de la vida.</p>
+        <h2 class="tour-h2"><strong>Biología</strong> - <span>el libro de recetas</span></h2>
+        <p class="tour-lead">Esa molécula está organizada en segmentos llamados <strong>genes</strong>, que en <u>el humano cuenta con unos 20.000</u>. Cada uno de estos genes es una instrucción concreta para hacer una cosa específica.</p>
+        <p class="tour-lead">Cada gen activo, la célula hace copias temporales de ese gen un número de veces. Estas copias se llaman ARN mensajero (mRNA en inglés).</p>
+        <p class="tour-lead">Contando cuántas copias de mRNA hay de cada gen, podemos ver el patrón de actividad de ese tejido. Un tumor tiene un patrón de expresión distinto al tejido sano del mismo órgano — y eso es lo que el modelo aprende a detectar.</p>
       </div>
       <figure class="tour-figure">
         <svg viewBox="0 0 200 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Doble hélice de ADN">
@@ -183,115 +172,49 @@
     </div>
   </section>
 
-  <!-- 5 · BIOLOGÍA · LOS GENES -->
-  <section class="tour-section">
-    <div class="tour-inner">
-      
-      <h2 class="tour-h2">Esa molécula está dividida en genes</h2>
-      <p class="tour-lead">Cada <strong>gen</strong> es una instrucción concreta para hacer una cosa específica. El genoma humano tiene unos <strong>20.000</strong>.</p>
-      <p class="tour-lead">Pero no todos están activos a la vez. Todas las células tienen los mismos genes y cada tipo de célula usa solo algunos: una célula de pulmón enciende un conjunto distinto al de una célula de próstata. Mismo libro, recetas diferentes.</p>
-      <p class="tour-note">A ese nivel de actividad de cada gen se le llama <strong>expresión génica</strong>. Un gen puede estar apagado, a medio gas, o funcionando a pleno rendimiento.</p>
-    </div>
-  </section>
-
-  <!-- 6 · BIOLOGÍA · EL mRNA -->
+  <!-- 4 · ¿Qué soluciona -->
   <section class="tour-section tour-section--surface">
-    <div class="tour-inner">
-      <h2 class="tour-h2">Un gen activo se copia en ARN mensajero</h2>
-      <p class="tour-lead">Cuando la célula necesita una instrucción, hace <strong>copias temporales</strong> de ese gen. Esas copias se llaman <strong>ARN mensajero</strong> (mRNA). Son la fotocopia que llevas a la cocina para no manchar el libro.</p>
-      <p class="tour-lead">Con esa fotocopia la célula fabrica una <strong>proteína</strong>, y las proteínas hacen todo el trabajo: colágeno para la piel, hemoglobina para transportar oxígeno, enzimas para digerir. Cuanto más se usa una receta, más fotocopias hay.</p>
-      <div class="tour-chain">
-        <div class="tour-chain-node"><span>Núcleo</span><strong>ADN</strong></div>
-        <div class="tour-chain-link" aria-hidden="true">
-          <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7h17M18 7l-5-5M18 7l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="tour-chain-node"><span>Segmento</span><strong>Gen activo</strong></div>
-        <div class="tour-chain-link" aria-hidden="true">
-          <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7h17M18 7l-5-5M18 7l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="tour-chain-node is-accent"><span>Copia temporal</span><strong>mRNA</strong></div>
-        <div class="tour-chain-link" aria-hidden="true">
-          <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7h17M18 7l-5-5M18 7l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="tour-chain-node is-data"><span>Producto</span><strong>Proteína</strong></div>
+    <div class="tour-inner tour-split">
+      <div> 
+        <h2 class="tour-h2">¿Qué soluciona?</h2>
+        <p class="tour-lead">Esta herramienta ofrece una capa molecular complementaria a la histopatología tradicional (análisis al microscopio con tinciones de las muestras de tejido), acelerando la investigación y tipificación de muestras tumorales.</p>
       </div>
     </div>
   </section>
 
-  <!-- 7 · BIOLOGÍA · RNA-SEQ -->
-  <section class="tour-section">
-    <div class="tour-inner">
-      <h2 class="tour-h2">RNA-Seq cuenta esas copias</h2>
-      <p class="tour-lead">Es la técnica de laboratorio que mide qué genes están activos en una muestra de tejido, y cuánto.</p>
-      <div class="tour-steps">
-        <div class="tour-step">
-          <span class="tour-step-num">01</span>
-          <div class="tour-step-body"><h4>Extraer</h4><p>Se aísla todo el ARN mensajero presente en la muestra de tejido.</p></div>
-        </div>
-        <div class="tour-step">
-          <span class="tour-step-num">02</span>
-          <div class="tour-step-body"><h4>Secuenciar</h4><p>Se corta en fragmentos pequeños y se identifica de qué gen procede cada uno.</p></div>
-        </div>
-        <div class="tour-step">
-          <span class="tour-step-num">03</span>
-          <div class="tour-step-body"><h4>Contar</h4><p>Se suman las copias de cada gen. Más copias, más activo está ese gen.</p></div>
-        </div>
-        <div class="tour-step">
-          <span class="tour-step-num">04</span>
-          <div class="tour-step-body"><h4>Obtener el perfil</h4><p>Un número por gen: <strong>20.531 valores</strong> que describen ese tejido por completo.</p></div>
-        </div>
-      </div>
-      <p class="tour-note">Un tumor tiene un patrón de expresión distinto al del tejido sano del mismo órgano. Esa diferencia es lo que el modelo aprende a detectar.</p>
-    </div>
-  </section>
-
-  <!-- 8 · QUÉ SOLUCIONA -->
-  <section class="tour-section tour-section--surface">
-    <div class="tour-inner">
-      <h2 class="tour-h2">Una segunda capa de evidencia, molecular y rápida</h2>
-      <p class="tour-lead">Determinar el origen de un tumor es hoy trabajo de la histopatología, y en casos ambiguos el margen de duda es real. Un perfil molecular no la reemplaza, pero aporta un criterio independiente basado en datos.</p>
-      <div class="tour-grid">
-        <article class="tour-card">
-          <span class="tour-card-num">01</span>
-          <h3 class="tour-h3">Automatiza el análisis</h3>
-          <p>Clasifica un perfil de 20.531 genes en segundos, sin intervención manual.</p>
-        </article>
-        <article class="tour-card">
-          <span class="tour-card-num">02</span>
-          <h3 class="tour-h3">Explica su decisión</h3>
-          <p>Devuelve qué genes pesaron en el resultado. No es una caja negra.</p>
-        </article>
-        <article class="tour-card">
-          <span class="tour-card-num">03</span>
-          <h3 class="tour-h3">Acelera la investigación</h3>
-          <p>Permite tipificar lotes de muestras y explorar patrones de expresión.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- 9 · A QUIÉN VA DIRIGIDO -->
+  <!-- 5 · ¿A quién va dirigido? -->
   <section class="tour-section">
     <div class="tour-inner">
       <h2 class="tour-h2">A quién va dirigido</h2>
-      <div class="tour-limits">
+
+      <div class="tour-limits tour-audience">
         <article class="tour-limit">
-          <h4>Investigación en oncología</h4>
-          <p>Grupos que trabajan con perfiles de expresión y necesitan tipificar muestras.</p>
+          <h4>Investigación y laboratorios</h4>
+          <p class="tour-who">
+            Grupos de <span style="font-weight: 500; color: var(--accent)">oncología</span>, <span style="font-weight: 500; color: var(--accent)">laboratorios moleculares</span> y <span style="font-weight: 500; color: var(--accent)">centros</span> que trabajan
+            con perfiles de expresión génica.
+          </p>
         </article>
+
         <article class="tour-limit">
-          <h4>Laboratorios moleculares</h4>
-          <p>Como herramienta de apoyo y contraste sobre datos ya secuenciados.</p>
+          <h4>Práctica clínica</h4>
+          <p class="tour-who">
+            Profesionales <span style="font-weight: 500; color: var(--accent)">médicos</span> interesados en la aplicación de modelos
+            predictivos sobre datos transcriptómicos.
+          </p>
         </article>
+
         <article class="tour-limit">
           <h4>Docencia y aprendizaje</h4>
-          <p>Estudiantes de bioinformática y ciencia de datos que quieren ver un pipeline real de principio a fin.</p>
+          <p class="tour-who">
+            Estudiantes de <span style="font-weight: 500; color: var(--accent)">bioinformática</span> y <span style="font-weight: 500; color: var(--accent)">ciencia de datos</span>.
+          </p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- 10 · LO QUE NO ES -->
+  <!-- 6 · Lo que no es -->
   <section class="tour-section tour-section--surface">
     <div class="tour-inner">
       <h2 class="tour-h2">Lo que no es</h2>
@@ -302,7 +225,7 @@
       <div class="tour-limits">
         <article class="tour-limit">
           <h4>Cinco tipos, no todos</h4>
-          <p>Ante un tumor de otro órgano devolvería una de esas cinco etiquetas, necesariamente equivocada.</p>
+          <p>Ante un tumor de otro órgano podría devolver un positivo en el primer filtro, pero no identificaría el tipo por no tener datos.</p>
         </article>
         <article class="tour-limit">
           <h4>Población no representativa</h4>
@@ -340,7 +263,73 @@
 
 </main>
 
+<script src="../../assets/js/3Dmol-min.js"></script>
 <script src="../script-tour.js"></script>
 <script src="../lente-script.js"></script>
+<script>
+  
+(function () {
+  const cap = Array.from(document.querySelectorAll('figcaption'))
+    .find(el => el.textContent.includes('doble hélice'));
+  if (!cap || typeof $3Dmol === 'undefined') return;
+
+  const fig = cap.closest('figure');
+  const svg = fig && fig.querySelector('svg');
+  if (!fig || !svg) return;
+
+  fig.classList.add('bio-visual');
+
+  const host = document.createElement('div');
+  host.className = 'bio-3d';
+  host.setAttribute('aria-hidden', 'true');
+  fig.insertBefore(host, svg);
+
+  let iniciado = false;
+
+  function initDna3D() {
+    if (iniciado) return;
+    iniciado = true;
+
+    fetch('../../assets/pdb/1bna.pdb')
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+      .then(data => {
+        // 1) Mostrar el contenedor ANTES de crear el viewer
+        fig.classList.add('is-3d');
+
+        // 2) Ahora el div ya tiene altura y 3Dmol puede medirlo
+        const viewer = $3Dmol.createViewer(host, {
+          backgroundColor: '#ffffff',
+          backgroundAlpha: 0,
+          nomouse: true
+        });
+
+        viewer.addModel(data, 'pdb');
+        viewer.setStyle({ chain: 'A' }, { cartoon: { color: '#1652F0', style: 'oval' } });
+        viewer.setStyle({ chain: 'B' }, { cartoon: { color: '#14B8B3', style: 'oval' } });
+        viewer.zoomTo();
+        viewer.zoom(1.1);
+        viewer.render();
+
+        const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!quieto) viewer.spin('y', 0.6);
+
+        cap.textContent = 'ADN — doble hélice (PDB 1BNA)';
+        console.log('[dna3d] OK');
+
+        window.addEventListener('resize', () => viewer.resize());
+      })
+      .catch(err => {
+        console.warn('[dna3d] fallback al SVG:', err.message);
+      });
+      
+  }
+
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { initDna3D(); obs.disconnect(); }
+    });
+  }, { rootMargin: '200px' }).observe(fig);
+})();
+</script>
 </body>
 </html>

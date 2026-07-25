@@ -644,3 +644,7 @@ a { color: inherit; text-decoration: none; }
   * { animation: none !important; transition: none !important; }
 }
 
+.bio-visual { position: relative; }
+.bio-visual .bio-3d { width: 100%; height: 380px; }
+.bio-visual:not(.is-3d) .bio-3d { display: none; }
+.bio-visual.is-3d > svg { display: none; }

@@ -9,8 +9,8 @@
  * tengáis, si los genes top resultan tener estructura conocida en PDB,
  * podéis sustituir los pdbId de aquí abajo por los reales.
  *
- * Las estructuras se descargan en directo desde el RCSB Protein Data Bank
- * (files.rcsb.org) a través de 3Dmol.js — no alojamos ningún archivo molecular.
+ * Las estructuras se sirven desde assets/pdb/ (descargadas previamente del
+ * RCSB Protein Data Bank) para no depender de la red durante la presentación.
  */
 
 (function () {
@@ -60,24 +60,40 @@
     return '#' + c.toString(16).padStart(6, '0');
   }
 
+  const pdbCache = {};
+
   function loadStructure(index) {
     if (loading) return;
     loading = true;
     const type = TUMOR_TYPES[index];
 
-    viewer.clear();
-    $3Dmol.download('pdb:' + type.pdbId, viewer, {}, function () {
+    activeLabel.textContent = type.code + ' · ' + type.gene;
+    legendItems.forEach((el, i) => el.classList.toggle('active', i === index));
+
+    const pintar = (data) => {
+      viewer.clear();
+      viewer.addModel(data, 'pdb');
       viewer.setStyle({}, { cartoon: { color: hexColor(type.color) } });
       viewer.zoomTo();
       viewer.zoom(1.1);
       viewer.render();
       viewer.spin('y', 0.35);
       loading = false;
-    });
+    };
 
-    activeLabel.textContent = type.code + ' · ' + type.gene;
-    legendItems.forEach((el, i) => el.classList.toggle('active', i === index));
-  }
+    if (pdbCache[type.pdbId]) {
+      pintar(pdbCache[type.pdbId]);
+      return;
+    }
+
+    fetch('assets/pdb/' + type.pdbId + '.pdb')
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then(data => {
+        pdbCache[type.pdbId] = data;
+        pintar(data);
+      })
+
+}
 
   loadStructure(0);
   setInterval(() => {
