@@ -173,3 +173,14 @@ if (document.readyState === 'loading') {
 } else {
     registrarVisita();
 }
+
+// Animación del gráfico de barras (capítulo 02)
+(function () {
+  const chart = document.getElementById('chart');
+  if (!chart) return;
+  new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { chart.classList.add('is-live'); obs.disconnect(); }
+    });
+  }, { threshold: 0.35 }).observe(chart);
+})();
