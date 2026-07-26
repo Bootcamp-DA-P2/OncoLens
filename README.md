@@ -372,4 +372,4 @@ Siempre consulta con personal médico certificado.
 
 Para preguntas, sugerencias o colaboraciones, contactar al equipo de desarrollo.
 
-**Estado:** ✓ Producción | v1.0.0 | 2024
+**Estado:** ✓ Producción | v1.0.0 | 2026
