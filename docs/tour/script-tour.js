@@ -184,3 +184,54 @@ if (document.readyState === 'loading') {
     });
   }, { threshold: 0.35 }).observe(chart);
 })();
+
+// Texto mecanografiado de agradecimiento (capítulo 07)
+(function () {
+  const el = document.getElementById('gracias');
+  if (!el) return;
+
+  const salida = el.querySelector('.typed-txt');
+  const bruto  = el.dataset.texto || '';
+  const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let lanzado = false;
+
+  // Tramos alternos: par = normal, impar = resaltado
+  const partes = bruto.split(/\*(.+?)\*/g);
+  const total  = partes.join('').length;
+
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+  function pintar(n) {
+    let out = '', usados = 0;
+    partes.forEach((p, idx) => {
+      if (usados >= n) return;
+      const trozo = p.slice(0, n - usados);
+      usados += trozo.length;
+      if (!trozo) return;
+      out += (idx % 2) ? '<b class="typed-hl">' + esc(trozo) + '</b>' : esc(trozo);
+    });
+    salida.innerHTML = out;
+  }
+
+  function escribir() {
+    if (lanzado) return;
+    lanzado = true;
+    if (quieto) { pintar(total); el.classList.add('is-done'); return; }
+    let i = 0;
+    (function paso() {
+      pintar(++i);
+      if (i < total) setTimeout(paso, 42);
+      else el.classList.add('is-done');
+    })();
+  }
+
+  function visible() {
+    const r = el.getBoundingClientRect();
+    return r.top < window.innerHeight * 0.85 && r.bottom > 0;
+  }
+
+  const cont = document.querySelector('.tour-container');
+  if (cont) cont.addEventListener('scroll', () => { if (visible()) escribir(); }, { passive: true });
+  window.addEventListener('resize', () => { if (visible()) escribir(); });
+  if (visible()) escribir();
+})();
