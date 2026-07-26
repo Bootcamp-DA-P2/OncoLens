@@ -4,13 +4,13 @@
 
 // Mapeo de apartados
 const TOUR_APARTADOS = [
-    { id: 1, titulo: 'Introducción', url: '/tour/01-introduccion/', nombre: 'introduccion' },
-    { id: 2, titulo: 'Datos y Metodología', url: '/tour/02-datos-metodologia/', nombre: 'datos-metodologia' },
-    { id: 3, titulo: 'Resultados Clave', url: '/tour/03-resultados/', nombre: 'resultados' },
-    { id: 4, titulo: 'Demo', url: '/tour/04-demo/', nombre: 'demo' },
-    { id: 5, titulo: 'Limitaciones', url: '/tour/05-limitaciones/', nombre: 'limitaciones' },
-    { id: 6, titulo: 'Desarrollos Futuros', url: '/tour/06-desarrollos/', nombre: 'desarrollos' },
-    { id: 7, titulo: 'Equipo y Agradecimientos', url: '/tour/07-equipo/', nombre: 'equipo' }
+    { id: 1, titulo: 'Introducción',             nombre: '01-intro-oncolens',      url: '../01-intro-oncolens/index-01intro.html' },
+    { id: 2, titulo: 'Datos y Metodología',      nombre: '02-datos-metodologia',   url: '../02-datos-metodologia/index-02datos.html' },
+    { id: 3, titulo: 'Resultados Clave',         nombre: '03-resultados',          url: '../03-resultados/index-03resultados.html' },
+    { id: 4, titulo: 'Demo',                     nombre: '04-demo',                url: '../04-demo/index-04demo.html' },
+    { id: 5, titulo: 'Limitaciones',             nombre: '05-limitaciones',        url: '../05-limitaciones/index-05limitaciones.html' },
+    { id: 6, titulo: 'Desarrollos Futuros',      nombre: '06-desarrollos-futuros', url: '../06-desarrollos-futuros/index-06desarrollos.html' },
+    { id: 7, titulo: 'Equipo y Agradecimientos', nombre: '07-equipo-agradecimientos', url: '../07-equipo-agradecimientos/index-07equipo.html' }
 ];
 
 // Detectar apartado actual
@@ -25,7 +25,7 @@ function actualizarProgreso() {
     const progressEl = document.querySelector('.tour-progress');
     
     if (progressEl && apartado) {
-        progressEl.textContent = `${String(apartado.id).padStart(2, '0')} / 07`;
+        progressEl.textContent = `${String(apartado.id).padStart(2, '0')} · ${apartado.titulo}`;
     }
 }
 

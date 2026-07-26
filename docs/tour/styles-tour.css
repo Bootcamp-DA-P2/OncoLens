@@ -76,13 +76,13 @@ a { color: inherit; text-decoration: none; }
   gap: 20px;
 }
 
-.tour-chapter {
+/*.tour-chapter {
   font-family: var(--font-mono);
   font-size: 11.5px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-faint);
-}
+}*/
 
 .tour-progress {
   font-family: var(--font-mono);
@@ -93,6 +93,81 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--line-strong);
   border-radius: 100px;
 }
+
+/* ── Desplegable de capítulos ─────────────────────────── */
+
+.tour-menu { position: relative; }
+
+.tour-menu summary {
+  list-style: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+  min-width: 62px; 
+  justify-content: center;
+}
+
+.tour-menu summary::-webkit-details-marker { display: none; }
+
+.tour-menu summary::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-right: 1.3px solid var(--ink-faint);
+  border-bottom: 1.3px solid var(--ink-faint);
+  transform: rotate(45deg) translate(-1px, -2px);
+  transition: transform 0.2s ease;
+}
+
+.tour-menu[open] summary::after {
+  transform: rotate(-135deg) translate(-1px, -1px);
+}
+
+.tour-menu ul {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  min-width: 264px;
+  padding: 6px;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  box-shadow: 0 10px 34px rgba(12, 30, 48, 0.10);
+  z-index: 120;
+}
+
+.tour-menu li { list-style: none; }
+
+.tour-menu ul a {
+  display: block;
+  padding: 10px 13px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.tour-menu ul a:hover { background: var(--bg); color: var(--ink); }
+
+.tour-menu ul a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/*.tour-menu summary .cap {
+  font-family: 'IBM Plex Sans', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .72rem;
+  color: #6B7280;
+}*/
 
 /* =============================================================
    CONTENEDOR CON SCROLL SNAP
@@ -235,7 +310,9 @@ a { color: inherit; text-decoration: none; }
    PORTADA
    ============================================================= */
 
-.tour-cover .tour-display { margin-bottom: 34px; }
+.tour-cover .tour-display { 
+  margin-bottom: 34px; 
+}
 
 .tour-cover-meta {
   display: flex;
@@ -574,7 +651,7 @@ a { color: inherit; text-decoration: none; }
    PORTADA: contenido arriba, texto e imagen en dos columnas
    ============================================================= */
 
-.tour-cover { align-items: flex-start; }
+.tour-cover { align-items: center; }
 
 .tour-cover .tour-display { margin-bottom: 0; }
 
