@@ -30,9 +30,9 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/python_deployment_automate:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/python_deployment_automate:v${{ github.run_number }}
-      # Disparar el deploy hook de Render después de subir la imagen
+            ${{ secrets.DOCKERHUB_USERNAME }}/onco_seq_explorer-app:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/onco_seq_explorer-app:v${{ github.run_number }}
+                # Disparar el deploy hook de Render después de subir la imagen
       - name: Disparar deployment en Render
         if: success()
         run: |
