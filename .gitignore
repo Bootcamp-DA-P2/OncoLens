@@ -3,15 +3,19 @@ venv/
 env/
 .venv/
 
-# Datos (pesan mucho y no deben ir al repo)
-data/
+# Datos (ignorar por defecto y permitir solo archivos runtime necesarios)
+data/*
+!data/raw/
+data/raw/*
+!data/raw/oncoseq_metadatos.csv
+!data/raw/gene_names.csv
 *.tar.gz
-*.csv
 *.zip
 
 # Datos: los originales viven en Drive, no en el repo.
 # Los convertidos son reproducibles a partir de los originales,
 # así que tampoco hace falta versionarlos (pesan y son datos, no código).
+!data/processed/
 data/processed/*
 !data/processed/.gitkeep
 
@@ -20,6 +24,12 @@ data/processed/*
 *.pkl
 *.joblib
 models/*.pkl
+!models/
+!models/pipeline_modelo1.joblib
+!models/pipeline_modelo2.joblib
+!models/feature_names.json
+!models/metadata_modelo1.json
+!models/metadata_modelo2.json
 
 # Base de datos local
 *.db
