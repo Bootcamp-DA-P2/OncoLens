@@ -1,23 +1,30 @@
 (function () {
-  const triggers = document.querySelectorAll('[data-tab]');
+  const links  = document.querySelectorAll('.tab-btn');
   const panels = document.querySelectorAll('.tab-panel');
+  if (!links.length || !panels.length) return;
 
-  function activar(tab) {
-    panels.forEach(p => {
-      const visible = p.getAttribute('data-tab') === tab;
-      p.hidden = !visible;
-      if (visible) p.setAttribute('data-state', 'active');
-      else p.removeAttribute('data-state');
+  // Marca la pestaña activa según el panel visible
+  const io = new IntersectionObserver(entradas => {
+    entradas.forEach(e => {
+      if (!e.isIntersecting) return;
+      const id = e.target.id;
+      links.forEach(l => {
+        const suyo = l.getAttribute('href') === '#' + id;
+        l.setAttribute('aria-selected', suyo ? 'true' : 'false');
+      });
+      e.target.setAttribute('data-state', 'active');
     });
+  }, { rootMargin: '-45% 0px -45% 0px' });
 
-    document.querySelectorAll('.tab-btn').forEach(b => {
-      b.setAttribute('aria-selected', b.getAttribute('data-tab') === tab ? 'true' : 'false');
+  panels.forEach(p => io.observe(p));
+
+  // Desplazamiento suave al pulsar
+  links.forEach(l => {
+    l.addEventListener('click', ev => {
+      const destino = document.querySelector(l.getAttribute('href'));
+      if (!destino) return;
+      ev.preventDefault();
+      destino.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  triggers.forEach(t => {
-    t.addEventListener('click', () => activar(t.getAttribute('data-tab')));
   });
 })();
