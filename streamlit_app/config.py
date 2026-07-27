@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 import streamlit as st
 
 
@@ -22,6 +22,19 @@ def _get_secret_or_env(key: str, default: str = "") -> str:
 
     env_value = os.getenv(key, default)
     return str(env_value).strip() if env_value is not None else default
+
+
+def _parse_bool(value: Any, default: bool = False) -> bool:
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    text = str(value).strip().lower()
+    if text in {"1", "true", "yes", "on", "y", "si"}:
+        return True
+    if text in {"0", "false", "no", "off", "n"}:
+        return False
+    return default
 
 
 def _first_existing_dir(candidates: Iterable[Path]) -> Path:
@@ -122,8 +135,28 @@ class Config:
     PLOT_TEMPLATE: str = "plotly_white"
     PLOT_HEIGHT: int = 420
 
+    def get_setting(self, secret_key: str, env_key: Optional[str] = None, default: Any = "") -> Any:
+        """Single project entrypoint for app settings from secrets/env/default."""
+        try:
+            value = st.secrets[secret_key]
+            if value is not None and str(value).strip() != "":
+                return value
+        except Exception:
+            pass
+
+        env_name = env_key or secret_key
+        env_value = os.getenv(env_name)
+        if env_value is not None and str(env_value).strip() != "":
+            return env_value
+
+        return default
+
+    def get_bool_setting(self, secret_key: str, env_key: Optional[str] = None, default: bool = False) -> bool:
+        value = self.get_setting(secret_key=secret_key, env_key=env_key, default=default)
+        return _parse_bool(value, default=default)
+
     def __post_init__(self) -> None:
-        env_models_dir = os.getenv("ONCOSEQ_MODELS_DIR")
+        env_models_dir = str(self.get_setting("ONCOSEQ_MODELS_DIR", default="")).strip()
 
         self.BASE_DIR = self.PROJECT_ROOT
         self.ASSETS_DIR = _first_existing_dir([self.PROJECT_ROOT / "assets", self.APP_DIR / "assets"])
@@ -133,8 +166,8 @@ class Config:
         self.METRICS_DIR = _first_existing_dir([self.REPORTS_DIR / "metrics", self.PROJECT_ROOT / "outputs"])
         self.INTERPRETABILITY_DIR = _first_existing_dir([self.REPORTS_DIR / "interpretability", self.PROJECT_ROOT / "outputs"])
         self.PCA_DIR = _first_existing_dir([self.APP_DIR / "pca", self.REPORTS_DIR / "pca", self.DATA_DIR])
-        self.SUPABASE_URL = _get_secret_or_env("SUPABASE_URL")
-        self.SUPABASE_KEY = _get_secret_or_env("SUPABASE_KEY")
+        self.SUPABASE_URL = str(self.get_setting("SUPABASE_URL", default="")).strip()
+        self.SUPABASE_KEY = str(self.get_setting("SUPABASE_KEY", default="")).strip()
 
         models_candidates = [
             Path(env_models_dir) if env_models_dir else None,

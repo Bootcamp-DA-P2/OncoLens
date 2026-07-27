@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 import uuid
 import hashlib
 from datetime import datetime
@@ -92,9 +91,7 @@ def _inject_page_style() -> None:
 
 
 def _is_dev_mode() -> bool:
-    secret_flag = bool(st.secrets.get("DEV_MODE", False))
-    env_flag = os.getenv("ONCOSEQ_DEV_MODE", "0").strip().lower() in {"1", "true", "yes", "on"}
-    return secret_flag or env_flag
+    return config.get_bool_setting("DEV_MODE", env_key="ONCOSEQ_DEV_MODE", default=False)
 
 
 def _render_perf_metrics(perf: Dict[str, float | str]) -> None:

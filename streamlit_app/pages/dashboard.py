@@ -150,17 +150,40 @@ def _render_tumor_normal_bar(filtered_df: pd.DataFrame) -> None:
 
 
 @st.cache_data(show_spinner=False)
+def _load_expression_matrix_for_pca(metadata_df: pd.DataFrame) -> pd.DataFrame:
+    if config.EXPRESSION_PARQUET_PATH.exists():
+        try:
+            return pd.read_parquet(config.EXPRESSION_PARQUET_PATH)
+        except Exception:
+            pass
+
+    dataset_clean_path = config.PROCESSED_DIR / "dataset_clean.csv"
+    if not dataset_clean_path.exists():
+        return pd.DataFrame()
+
+    try:
+        fallback_df = pd.read_csv(dataset_clean_path)
+    except Exception:
+        return pd.DataFrame()
+
+    drop_columns = [col for col in ["participante", "tipo", "cohorte", "muestra_id", "index"] if col in fallback_df.columns]
+    matrix = fallback_df.drop(columns=drop_columns, errors="ignore")
+    matrix = matrix.apply(pd.to_numeric, errors="coerce").fillna(0.0)
+
+    if "muestra_id" in metadata_df.columns and len(metadata_df) == len(matrix):
+        matrix.index = metadata_df["muestra_id"].astype(str).values
+
+    return matrix
+
+
+@st.cache_data(show_spinner=False)
 def _compute_global_pca_projection() -> pd.DataFrame:
     metadata_df = _load_metadata()
     if metadata_df.empty or "muestra_id" not in metadata_df.columns:
         return pd.DataFrame()
 
-    if not config.EXPRESSION_PARQUET_PATH.exists():
-        return pd.DataFrame()
-
-    try:
-        expression_df = pd.read_parquet(config.EXPRESSION_PARQUET_PATH)
-    except Exception:
+    expression_df = _load_expression_matrix_for_pca(metadata_df)
+    if expression_df.empty:
         return pd.DataFrame()
 
     sample_ids = metadata_df["muestra_id"].astype(str)

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 from time import perf_counter
 
 import pandas as pd
@@ -10,15 +9,14 @@ from database.cdss_database import CDSSDatabase
 from managers.feedback_manager import FeedbackManager
 from streamlit_app.components.cards import render_kpi_card, render_status_card
 from streamlit_app.components.layout import render_page_header
+from streamlit_app.config import config
 
 
 VALID_DIAGNOSES = ["NORMAL", "BRCA", "COAD", "KIRC", "LUAD", "PRAD"]
 
 
 def _is_dev_mode() -> bool:
-    secret_flag = bool(st.secrets.get("DEV_MODE", False))
-    env_flag = os.getenv("ONCOSEQ_DEV_MODE", "0").strip().lower() in {"1", "true", "yes", "on"}
-    return secret_flag or env_flag
+    return config.get_bool_setting("DEV_MODE", env_key="ONCOSEQ_DEV_MODE", default=False)
 
 
 def _render_perf_metrics(perf: dict[str, float]) -> None:
