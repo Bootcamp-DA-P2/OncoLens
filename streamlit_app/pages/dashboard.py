@@ -2,13 +2,10 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 import streamlit.components.v1 as components
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
 
 from streamlit_app.config import config
 from streamlit_app.components.cards import render_kpi_card
@@ -150,67 +147,43 @@ def _render_tumor_normal_bar(filtered_df: pd.DataFrame) -> None:
 
 
 @st.cache_data(show_spinner=False)
-def _load_expression_matrix_for_pca(metadata_df: pd.DataFrame) -> pd.DataFrame:
-    if config.EXPRESSION_PARQUET_PATH.exists():
-        try:
-            return pd.read_parquet(config.EXPRESSION_PARQUET_PATH)
-        except Exception:
-            pass
-
-    dataset_clean_path = config.PROCESSED_DIR / "dataset_clean.csv"
-    if not dataset_clean_path.exists():
+def _compute_global_pca_projection() -> pd.DataFrame:
+    pca_path = config.PCA_DATA_CSV_PATH
+    if not pca_path.exists():
         return pd.DataFrame()
 
     try:
-        fallback_df = pd.read_csv(dataset_clean_path)
+        pca_df = pd.read_csv(pca_path)
     except Exception:
         return pd.DataFrame()
 
-    drop_columns = [col for col in ["participante", "tipo", "cohorte", "muestra_id", "index"] if col in fallback_df.columns]
-    matrix = fallback_df.drop(columns=drop_columns, errors="ignore")
-    matrix = matrix.apply(pd.to_numeric, errors="coerce").fillna(0.0)
+    required_cols = {"PC1", "PC2"}
+    if not required_cols.issubset(set(pca_df.columns)):
+        return pd.DataFrame()
 
-    if "muestra_id" in metadata_df.columns and len(metadata_df) == len(matrix):
-        matrix.index = metadata_df["muestra_id"].astype(str).values
-
-    return matrix
-
-
-@st.cache_data(show_spinner=False)
-def _compute_global_pca_projection() -> pd.DataFrame:
     metadata_df = _load_metadata()
-    if metadata_df.empty or "muestra_id" not in metadata_df.columns:
-        return pd.DataFrame()
+    if not metadata_df.empty and len(metadata_df) == len(pca_df):
+        if "muestra_id" not in pca_df.columns and "muestra_id" in metadata_df.columns:
+            pca_df["muestra_id"] = metadata_df["muestra_id"].astype(str).values
+        if "tipo" not in pca_df.columns and "tipo" in metadata_df.columns:
+            pca_df["tipo"] = metadata_df["tipo"].astype(str).values
+        if "cohorte" not in pca_df.columns and "cohorte" in metadata_df.columns:
+            pca_df["cohorte"] = metadata_df["cohorte"].astype(str).values
 
-    expression_df = _load_expression_matrix_for_pca(metadata_df)
-    if expression_df.empty:
-        return pd.DataFrame()
+    if "muestra_id" not in pca_df.columns:
+        pca_df["muestra_id"] = pca_df.index.astype(str)
 
-    sample_ids = metadata_df["muestra_id"].astype(str)
-    valid_ids = [sample_id for sample_id in sample_ids if sample_id in expression_df.index]
-    if not valid_ids:
-        return pd.DataFrame()
+    if "tipo" in pca_df.columns:
+        pca_df["tipo"] = pca_df["tipo"].astype(str).str.upper()
+    if "cohorte" in pca_df.columns:
+        pca_df["cohorte"] = pca_df["cohorte"].astype(str).str.upper()
 
-    meta_valid = metadata_df[metadata_df["muestra_id"].isin(valid_ids)].copy()
-    matrix = expression_df.loc[valid_ids].astype(float)
+    if "tipo" not in pca_df.columns:
+        pca_df["tipo"] = "N/D"
+    if "cohorte" not in pca_df.columns:
+        pca_df["cohorte"] = "N/D"
 
-    # Use high-variance genes to keep PCA responsive in Streamlit.
-    gene_variance = matrix.var(axis=0).values
-    top_gene_count = min(1500, matrix.shape[1])
-    top_indices = np.argsort(gene_variance)[-top_gene_count:]
-    matrix_reduced = matrix.iloc[:, top_indices]
-
-    scaled = StandardScaler().fit_transform(matrix_reduced.values)
-    pca_model = PCA(n_components=2, random_state=42, svd_solver="randomized")
-    pca_values = pca_model.fit_transform(scaled)
-
-    return pd.DataFrame(
-        {
-            "muestra_id": valid_ids,
-            "PC1": pca_values[:, 0],
-            "PC2": pca_values[:, 1],
-        }
-    ).merge(meta_valid[["muestra_id", "tipo", "cohorte"]], on="muestra_id", how="left")
+    return pca_df
 
 
 def _render_global_pca_chart(filtered_df: pd.DataFrame) -> None:
