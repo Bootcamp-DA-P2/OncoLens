@@ -331,8 +331,17 @@ def _build_storage_context(patient_payload: Dict[str, Any], consent: bool) -> Di
     }
 
 
+def _reset_new_patient_result_state() -> None:
+    st.session_state.new_patient_prediction = None
+    st.session_state.new_patient_report = None
+    st.session_state.new_patient_report_html = None
+    st.session_state.new_patient_report_pdf = None
+    st.session_state.new_patient_perf = {}
+    st.session_state.new_patient_last_request_signature = None
+
+
 def _render_primary_results(prediction_payload: Dict[str, Any]) -> None:
-    st.markdown('<div class="np-card"><div class="np-step">Resultado principal</div><h3 class="np-title">Prediccion clinica IA</h3>', unsafe_allow_html=True)
+    st.markdown('<div class="np-card"><div class="np-step">Resultado principal</div><h3 class="np-title">Prediccion clinica</h3>', unsafe_allow_html=True)
 
     model1_text = "Tumoral" if prediction_payload.get("is_tumor") else "Normal"
     cancer_type = prediction_payload.get("stage2_prediction") if prediction_payload.get("is_tumor") else "No aplica"
@@ -356,8 +365,8 @@ def _render_primary_results(prediction_payload: Dict[str, Any]) -> None:
 
 
 def _render_advanced_analysis(prediction_payload: Dict[str, Any]) -> None:
-    st.markdown("### Detalles IA")
-    st.caption("Vista técnica para análisis de comportamiento del modelo. Esta información no forma parte del flujo clínico principal.")
+    st.markdown("### Detalles del modelo")
+    st.caption("Vista tecnica para revisar el comportamiento de los modelos predictivos. Esta informacion no forma parte del flujo clinico principal.")
 
     probabilities = prediction_payload.get("model2_probabilities", {}) or {}
     if not probabilities:
@@ -412,7 +421,8 @@ def render() -> None:
     _inject_page_style()
     render_page_header(
         "Nuevo Paciente",
-        "Registro clinico, validacion de muestra y prediccion IA en una sola vista.",
+        "Flujo de analisis clinico",
+        "Registro clinico, validacion de muestra y generacion de prediccion basada en clasificacion transcriptomica en una sola vista.",
     )
 
     db = _get_db()
@@ -483,7 +493,7 @@ def render() -> None:
     clinical_notes = st.text_area("Observaciones clinicas", height=80)
 
     consent = st.checkbox(
-        "Autorizo el almacenamiento anonimizado de mis datos clinicos y resultados para fines de investigacion y mejora del sistema de IA.",
+        "Autorizo el almacenamiento anonimizado de mis datos clinicos y resultados para fines de investigacion y mejora de los modelos predictivos.",
         value=False,
     )
 
@@ -516,9 +526,17 @@ def render() -> None:
             validation_summary = st.session_state.new_patient_validation_summary or {}
 
         if validation_summary.get("status") in {"VALIDA", "VALIDA_CON_AJUSTES"}:
-            render_status_card("Muestra procesada", validation_summary.get("message", ""), "ok")
+            render_status_card(
+                "Estado de la muestra",
+                "Validacion completada. La muestra se ha validado correctamente y esta preparada para el analisis transcriptomico.",
+                "ok",
+            )
         else:
-            render_status_card("Muestra no valida", validation_summary.get("message", ""), "warning")
+            render_status_card(
+                "Estado de la muestra",
+                validation_summary.get("message", "La muestra no cumple con los criterios de validacion."),
+                "warning",
+            )
 
         with st.expander("Ver detalles de la validacion"):
             st.write(f"Genes encontrados: {validation_summary.get('genes_found', 0)}")
@@ -584,6 +602,7 @@ def render() -> None:
             return
 
         st.session_state.new_patient_is_running = True
+        _reset_new_patient_result_state()
         perf: Dict[str, float | str] = {}
 
         try:
@@ -609,6 +628,12 @@ def render() -> None:
             if consent:
                 t0 = perf_counter()
                 db.save_or_update_patient(patient_payload)
+                perf["db_save_or_update_patient_ms"] = round((perf_counter() - t0) * 1000.0, 2)
+            else:
+                # Keep anonymous flows deterministic: ensure a minimal patient row exists
+                # before persisting samples/predictions.
+                t0 = perf_counter()
+                db.save_or_update_patient(storage_context)
                 perf["db_save_or_update_patient_ms"] = round((perf_counter() - t0) * 1000.0, 2)
 
             sample_name = f"sample_{patient_id.strip()}_{datetime.now().strftime('%Y%m%d%H%M%S_%f')}_{uuid.uuid4().hex[:6]}"
@@ -684,9 +709,28 @@ def render() -> None:
 
             progress.progress(100, text="Analisis completado")
             if consent:
-                render_status_card("Analisis completado", "Prediccion registrada con consentimiento para investigacion.", "ok")
+                render_status_card(
+                    "Analisis completado",
+                    "La prediccion se ha generado correctamente. El informe clinico ya esta disponible.",
+                    "ok",
+                )
             else:
-                render_status_card("Analisis completado", "Prediccion ejecutada sin almacenar datos personales.", "ok")
+                render_status_card(
+                    "Analisis completado",
+                    "La prediccion se ha generado correctamente. El informe clinico ya esta disponible sin almacenar datos personales.",
+                    "ok",
+                )
+        except Exception as exc:
+            st.session_state.new_patient_prediction = None
+            st.session_state.new_patient_report = None
+            st.session_state.new_patient_report_html = None
+            st.session_state.new_patient_report_pdf = None
+            st.session_state.new_patient_perf = perf
+            render_status_card(
+                "Error durante el analisis",
+                f"No se pudo completar el flujo de Nuevo Paciente. Detalle: {exc}",
+                "error",
+            )
         finally:
             st.session_state.new_patient_is_running = False
 

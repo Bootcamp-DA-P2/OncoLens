@@ -2,60 +2,42 @@
 
 # Rediseño del flujo clínico del CDSS
 
-Este documento resume el rediseño de las páginas **Nuevo Paciente** e **Histórico**, estableciendo una separación clara de responsabilidades dentro del Sistema de Soporte a la Decisión Clínica (CDSS).
+## Flujo actual de base de datos (Supabase)
 
-## Objetivo
+### Esquema operativo
 
-- **Nuevo Paciente** gestiona exclusivamente el flujo de predicción mediante Inteligencia Artificial.
-- **Histórico** gestiona la validación clínica y todo el ciclo de vida posterior al análisis.
-- La predicción generada por la IA **nunca se considera un diagnóstico médico confirmado**.
+- `patients`: datos clínicos del paciente y contexto base.
+- `samples`: metadatos de muestra (sample_id, tipo, cohorte, fecha).
+- `predictions`: salida del flujo de inferencia y estado del caso.
+- `clinical_feedback`: diagnóstico confirmado y notas clínicas.
+- `retraining_buffer`: casos confirmados listos para reentrenamiento.
+- `model_versions`: histórico de versiones y métricas del modelo reentrenado.
 
-## Responsabilidades por módulo
+### Flujo 1: Nuevo Paciente (inferencia + persistencia)
 
-### Inferencia y registro de casos
+1. `new_patient.py` valida muestra y prepara el contexto clínico.
+2. `CDSSDatabase.save_or_update_patient(...)` crea/actualiza `patients`.
+3. `PredictionManager.run_prediction(...)` ejecuta Modelo 1 y, si aplica, Modelo 2.
+4. `CDSSDatabase.save_prediction(...)`:
+  - asegura existencia de paciente en `patients`;
+  - crea/actualiza `samples` (upsert por `sample_id`);
+  - inserta en `predictions` con `case_status=PENDIENTE_VALIDACION`;
+  - aplica guardas de idempotencia por `sample_id`.
 
-- `streamlit_app/pages/new_patient.py`
-  - Formulario de recogida de datos clínicos y del paciente.
-  - Generación de la plantilla de RNA-Seq (.xlsx) basada en `feature_names.json`.
-  - Validación y normalización de los datos de RNA-Seq.
-  - Ejecución guiada de la inferencia con indicadores de progreso.
-  - Creación del `ClinicalReport` y generación de informes en formato HTML y PDF.
+### Flujo 2: Validación clínica
 
-- `managers/prediction_manager.py`
-  - Carga de los modelos y de los nombres de las variables (`feature_names`).
-  - Preprocesamiento de la muestra de entrada para adaptarla al formato esperado por el modelo.
-  - Ejecución del Modelo 1 y, en caso de detectar un tumor, del Modelo 2.
-  - Almacenamiento persistente de las predicciones y de una instantánea inmutable del contexto del análisis.
+1. `history.py` consulta casos con `CDSSDatabase.get_predictions(...)`.
+2. `FeedbackManager.submit_feedback(...)` delega en `CDSSDatabase.confirm_case_validation(...)`.
+3. `confirm_case_validation(...)`:
+  - actualiza `predictions` a `CONFIRMADO` y define `comparison_result`;
+  - inserta/actualiza `clinical_feedback`;
+  - inserta/actualiza `retraining_buffer` cuando hay muestra válida.
 
-- `services/report_generator.py`
-  - Define el objeto `ClinicalReport` como única fuente de información del informe.
-  - Genera tanto la versión HTML como la PDF a partir del mismo objeto.
-  - Incluye el aviso legal (disclaimer) obligatorio.
+### Flujo 3: Reentrenamiento manual
 
-### Ciclo de vida de la validación clínica
-
-- `streamlit_app/pages/history.py`
-  - Tabla de casos con su estado y acciones disponibles.
-  - Formulario de confirmación del diagnóstico para los casos pendientes.
-  - Comparación automática entre la predicción y el diagnóstico confirmado (correcto/incorrecto).
-  - Ejecución manual del reentrenamiento y visualización del historial de versiones de los modelos.
-
-- `managers/feedback_manager.py`
-  - Delega el proceso de confirmación del diagnóstico al servicio de base de datos.
-
-- `streamlit_app/database/cdss_database.py`
-  - Almacena la instantánea de la predicción, el estado del caso (pendiente o confirmado), el diagnóstico confirmado y el resultado de la comparación.
-  - Conserva la predicción original sin modificaciones tras la validación clínica.
-  - Marca los casos confirmados como aptos para el reentrenamiento.
-  - Guarda la información de versionado de los modelos generados tras el reentrenamiento.
-
-### Reentrenamiento (manual)
-
-- `services/retraining.py`
-  - Utiliza únicamente los casos clínicamente confirmados y marcados como aptos para el reentrenamiento.
-  - Construye el conjunto de datos de reentrenamiento a partir de las muestras almacenadas.
-  - Reentrena los modelos únicamente bajo demanda.
-  - Genera nuevas versiones de los modelos junto con sus métricas de rendimiento.
+1. `retraining.py` lista candidatos con `CDSSDatabase.get_confirmed_retraining_cases(...)`.
+2. `RetrainingService.run_manual_retraining()` consume `retraining_buffer`.
+3. Se registra la nueva versión con `CDSSDatabase.save_model_version(...)` en `model_versions`.
 
 ## Aspectos principales del modelo de datos
 
@@ -73,4 +55,4 @@ La tabla `predictions` almacena:
 
 ## Principio de seguridad
 
-Todos los informes y elementos de la interfaz presentan los resultados como **predicciones generadas por Inteligencia Artificial para apoyar la toma de decisiones clínicas**, y **nunca como un diagnóstico médico definitivo**.
+Todos los informes y elementos de la interfaz presentan los resultados como **predicciones generadas por modelos de aprendizaje automático para apoyar la toma de decisiones clínicas**, y **nunca como un diagnóstico médico definitivo**.

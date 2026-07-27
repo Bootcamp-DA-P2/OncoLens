@@ -67,6 +67,9 @@ class PredictionManager:
     ) -> Dict[str, Any]:
         timings: Dict[str, float | str] = {}
 
+        if sample_df is None or sample_df.empty:
+            raise ValueError("sample_df no puede estar vacio para ejecutar la prediccion.")
+
         t0 = perf_counter()
         self._load_models_if_needed()
         timings["model_load_ms"] = round((perf_counter() - t0) * 1000.0, 2)
@@ -129,7 +132,10 @@ class PredictionManager:
         }
 
         t0 = perf_counter()
-        prediction_id = self.db.save_prediction(payload)
+        try:
+            prediction_id = self.db.save_prediction(payload)
+        except Exception as exc:
+            raise RuntimeError(f"No fue posible persistir la prediccion: {exc}") from exc
         timings["db_save_ms"] = round((perf_counter() - t0) * 1000.0, 2)
 
         for key, value in (self.db.last_timings or {}).items():

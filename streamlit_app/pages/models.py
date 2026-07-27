@@ -27,6 +27,7 @@ def _pick_metric(primary: dict, secondary: dict, keys: list[str], default: float
     return float(default)
 
 
+@st.cache_data(show_spinner=False)
 def _load_top_genes_model1() -> pd.DataFrame:
     data = read_json_file(config.TOP_GENES_MODEL1_JSON_PATH)
     if isinstance(data, dict):
@@ -39,6 +40,7 @@ def _load_top_genes_model1() -> pd.DataFrame:
     return csv_df if csv_df is not None else pd.DataFrame()
 
 
+@st.cache_data(show_spinner=False)
 def _load_top_genes_model2() -> pd.DataFrame:
     data = read_json_file(config.TOP_GENES_MODEL2_JSON_PATH)
     if isinstance(data, list):
@@ -128,10 +130,10 @@ def _render_metric_comparison_charts(comparison_df: pd.DataFrame) -> None:
     )
     fig = style_figure(fig, "Comparativa de rendimiento por metrica", "Valor")
     fig.update_yaxes(range=[0, 1.05])
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
-    st.markdown("### Tabla de comparacion")
-    render_dataframe(comparison_df)
+    with st.expander("Ver tabla de comparacion", expanded=False):
+        render_dataframe(comparison_df)
 
 
 def _render_cv_panel(csv_path, section_title: str, metric_col: str, color: str) -> None:
@@ -154,9 +156,10 @@ def _render_cv_panel(csv_path, section_title: str, metric_col: str, color: str) 
     )
     fig = style_figure(fig, f"Top algoritmos por {metric_col}", metric_col)
     fig.update_layout(showlegend=False)
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
-    render_dataframe(top_df)
+    with st.expander(f"Ver tabla - {section_title}", expanded=False):
+        render_dataframe(top_df)
 
 
 def _render_interpretability(top_genes_model1: pd.DataFrame, top_genes_model2: pd.DataFrame) -> None:
@@ -178,8 +181,9 @@ def _render_interpretability(top_genes_model1: pd.DataFrame, top_genes_model2: p
                 color_discrete_map={"NORMAL": config.COLORS["secondary"], "TUMOR": config.COLORS["primary"]},
             )
             fig_m1 = style_figure(fig_m1, "Importancia local - Modelo 1", "|coeficiente|")
-            st.plotly_chart(fig_m1, use_container_width=True)
-            render_dataframe(top_genes_model1.head(20))
+            st.plotly_chart(fig_m1, width="stretch")
+            with st.expander("Ver tabla de genes - Modelo 1", expanded=False):
+                render_dataframe(top_genes_model1.head(20))
 
     with right_col:
         st.markdown("### Modelo 2: genes con mayor importancia")
@@ -196,13 +200,15 @@ def _render_interpretability(top_genes_model1: pd.DataFrame, top_genes_model2: p
                 color_discrete_sequence=[config.COLORS["primary"], config.COLORS["secondary"], config.COLORS["accent"], "#60A5FA", "#0F766E"],
             )
             fig_m2 = style_figure(fig_m2, "Importancia global - Modelo 2", "Importancia")
-            st.plotly_chart(fig_m2, use_container_width=True)
-            render_dataframe(top_genes_model2.head(20))
+            st.plotly_chart(fig_m2, width="stretch")
+            with st.expander("Ver tabla de genes - Modelo 2", expanded=False):
+                render_dataframe(top_genes_model2.head(20))
 
 
 def render() -> None:
     render_page_header(
         "Modelos",
+        "Rendimiento e interpretabilidad",
         "Comparativa estructurada de rendimiento, validacion cruzada e interpretabilidad usando artefactos del proyecto.",
     )
 

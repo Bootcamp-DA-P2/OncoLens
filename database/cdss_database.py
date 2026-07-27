@@ -11,6 +11,18 @@ from database.supabase_client import supabase
 class CDSSDatabase:
     def __init__(self, db_path: Path | None = None):
         self.last_timings: Dict[str, Any] = {}
+
+    @staticmethod
+    def _response_data(response: Any) -> Any:
+        return getattr(response, "data", None) if response is not None else None
+
+    @staticmethod
+    def _first_row(data: Any) -> Dict[str, Any] | None:
+        if isinstance(data, list):
+            return data[0] if data else None
+        if isinstance(data, dict):
+            return data
+        return None
     
     def _get_patient_db_id(self, clinical_patient_id: str) -> int:
         response = (
@@ -22,12 +34,13 @@ class CDSSDatabase:
             .execute()
         )
 
-        if not response.data:
+        row = self._first_row(self._response_data(response))
+        if row is None:
             raise ValueError(
                 f"No existe el paciente con clinical_patient_id='{clinical_patient_id}'"
             )
 
-        return response.data["id"]
+        return int(row["id"])
     # def _get_conn(self):
     #     conn = sqlite3.connect(self.db_path)
     #     conn.row_factory = sqlite3.Row
@@ -345,7 +358,7 @@ class CDSSDatabase:
         )
         timings["patient_lookup_ms"] = round((perf_counter() - t0) * 1000.0, 2)
 
-        patient_data = patient.data if patient is not None else None
+        patient_data = self._first_row(self._response_data(patient))
 
         if not patient_data:
             # Ensure prediction persistence is resilient for anonymized flows
@@ -359,13 +372,24 @@ class CDSSDatabase:
             )
             timings["patient_create_ms"] = round((perf_counter() - t0) * 1000.0, 2)
 
-            created_data = created.data if created is not None else None
+            created_data = self._first_row(self._response_data(created))
+
+            if not created_data:
+                retry = (
+                    supabase
+                    .table("patients")
+                    .select("id")
+                    .eq("clinical_patient_id", clinical_patient_id)
+                    .limit(1)
+                    .execute()
+                )
+                created_data = self._first_row(self._response_data(retry))
 
             if not created_data:
                 raise ValueError(
                     f"No fue posible crear el paciente con clinical_patient_id={clinical_patient_id}"
                 )
-            patient_id = created_data[0]["id"]
+            patient_id = created_data["id"]
         else:
             patient_id = patient_data["id"]
 
@@ -461,7 +485,22 @@ class CDSSDatabase:
         timings["prediction_write_ms"] = round((perf_counter() - t0) * 1000.0, 2)
         self.last_timings = timings
 
-        return response.data[0]["id"]
+        inserted = self._first_row(self._response_data(response))
+        if inserted is None:
+            retry = (
+                supabase
+                .table("predictions")
+                .select("id")
+                .eq("sample_id", sample_id)
+                .limit(1)
+                .execute()
+            )
+            inserted = self._first_row(self._response_data(retry))
+
+        if inserted is None:
+            raise ValueError(f"No fue posible recuperar la prediccion guardada para sample_id={sample_id}")
+
+        return int(inserted["id"])
 
     # def get_predictions(self, limit: int = 500) -> List[Dict[str, Any]]:
     #     with self._get_conn() as conn:
@@ -647,17 +686,16 @@ class CDSSDatabase:
             .table("predictions")
             .select("*")
             .eq("id", prediction_id)
-            .single()
+            .limit(1)
             .execute()
         )
 
-        if not response.data:
+        prediction = self._first_row(self._response_data(response))
+        if prediction is None:
             return {
                 "ok": False,
                 "message": "Caso no encontrado."
             }
-
-        prediction = response.data
 
         predicted_label = prediction["final_prediction"].strip().upper()
 
@@ -697,12 +735,13 @@ class CDSSDatabase:
             .limit(1)
             .execute()
         )
-        if feedback_existing.data:
+        feedback_existing_row = self._first_row(self._response_data(feedback_existing))
+        if feedback_existing_row is not None:
             (
                 supabase
                 .table("clinical_feedback")
                 .update(feedback_row)
-                .eq("feedback_id", feedback_existing.data[0]["feedback_id"])
+                .eq("feedback_id", feedback_existing_row["feedback_id"])
                 .execute()
             )
         else:
@@ -731,12 +770,13 @@ class CDSSDatabase:
                 .limit(1)
                 .execute()
             )
-            if retraining_existing.data:
+            retraining_existing_row = self._first_row(self._response_data(retraining_existing))
+            if retraining_existing_row is not None:
                 (
                     supabase
                     .table("retraining_buffer")
                     .update(retraining_row)
-                    .eq("buffer_id", retraining_existing.data[0]["buffer_id"])
+                    .eq("buffer_id", retraining_existing_row["buffer_id"])
                     .execute()
                 )
             else:

@@ -5,7 +5,7 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, Iterable, List
+from typing import Dict, Iterable, List, Optional
 import streamlit as st
 
 
@@ -75,7 +75,7 @@ class Config:
     PCA_HTML_PATH: Path = field(default_factory=lambda: Path(__file__).resolve().parent / "pca" / "transcriptomic_space_explorer.html")
     PCA_DATA_CSV_PATH: Path = field(default_factory=lambda: Path(__file__).resolve().parent / "pca" / "pca_data.csv")
 
-    DB_PATH: Path = field(default_factory=lambda: Path(__file__).resolve().parent.parent / "database" / "oncoseq.db")
+    DB_PATH: Optional[Path] = field(default=None)
     SUPABASE_URL: str = field(default="")
     SUPABASE_KEY: str = field(default="")
 
@@ -83,23 +83,23 @@ class Config:
     BINARY_CLASSES: List[str] = field(default_factory=lambda: ["NORMAL", "TUMOR"])
 
     COLORS: Dict[str, str] = field(default_factory=lambda: {
-        "primary": "#1068DA",
-        "secondary": "#10CDDA",
-        "accent": "#10DA82",
+        "primary": "#1652F0",
+        "secondary": "#14B8B3",
+        "accent": "#0F3FC7",
         "surface": "#FFFFFF",
-        "background": "#F8FAFC",
-        "text": "#0F172A",
-        "muted": "#64748B",
-        "border": "#E2E8F0",
-        "sidebar": "#1E293B",
+        "background": "#FBFDFF",
+        "text": "#0C1E30",
+        "muted": "#6B7C8F",
+        "border": "#E7EDF4",
+        "sidebar": "#0C1E30",
         "success": "#16A34A",
         "warning": "#F59E0B",
         "danger": "#DC2626",
     })
 
     PAGE_CONFIG: Dict[str, object] = field(default_factory=lambda: {
-        "page_title": "Sistema de Soporte a la decisión clinica",
-        "page_icon": "🧬",
+        "page_title": "OncoLens",
+        "page_icon": "",
         "layout": "wide",
         "initial_sidebar_state": "expanded",
     })
@@ -208,11 +208,12 @@ class Config:
             self.DATA_DIR / "pca_data.csv",
         ])
 
-        self.DB_PATH = _first_existing_file([
-            self.PROJECT_ROOT / "database" / "oncoseq.db",
-            self.DATA_DIR / "predictions.db",
-            self.APP_DIR / "database" / "oncoseq.db",
-        ])
+        sqlite_candidates = [
+            *sorted((self.PROJECT_ROOT / "database").glob("*.db")),
+            *sorted(self.DATA_DIR.glob("*.db")),
+            *sorted((self.APP_DIR / "database").glob("*.db")),
+        ]
+        self.DB_PATH = sqlite_candidates[0] if sqlite_candidates else None
 
         for directory in (
             self.ASSETS_DIR,
@@ -220,7 +221,6 @@ class Config:
             self.IMAGES_DIR,
             self.DATA_DIR,
             self.UPLOADS_DIR,
-            self.TEMPLATES_DIR,
             self.PROCESSED_DIR,
             self.RETRAINING_DIR,
             self.MODELS_DIR,
@@ -230,7 +230,6 @@ class Config:
             self.INTERPRETABILITY_DIR,
             self.PCA_DIR,
             self.LOGS_DIR,
-            self.DB_PATH.parent,
         ):
             directory.mkdir(parents=True, exist_ok=True)
 

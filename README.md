@@ -363,7 +363,7 @@ MIT License - Uso educativo y de investigación
 Senior Python Developer especializado en:
 - Machine Learning & Bioinformática
 - Streamlit & UI/UX
-- Despliegue de aplicaciones de IA
+- Despliegue de aplicaciones basadas en modelos predictivos
 - Arquitectura de software modular y escalable
 
 ---

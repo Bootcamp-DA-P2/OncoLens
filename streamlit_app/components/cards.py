@@ -23,15 +23,22 @@ def render_kpi_card(title: str, value: str, subtitle: str = "") -> None:
 
 def render_status_card(title: str, text: str, kind: str = "ok") -> None:
     palette = {
-        "ok": ("#EEF9EF", config.COLORS["success"], "#1F5D26"),
-        "warning": ("#FFF6E8", config.COLORS["warning"], "#7F4E00"),
-        "error": ("#FDEEEE", config.COLORS["danger"], "#7F1D1D"),
+        "ok": ("#DCE6F1", "#0F3759", "✓", "Actualizacion completada"),
+        "warning": ("#E5E7EB", "#334155", "i", "Revisar informacion"),
+        "error": ("#E2E8F0", "#7F1D1D", "!", "Se detecto un problema"),
     }
-    background, border, color = palette.get(kind, palette["ok"])
+    border, title_color, icon, label = palette.get(kind, palette["ok"])
     st.markdown(
         f"""
-        <div style="border:1px solid {border};background:{background};color:{color};border-radius:10px;padding:0.85rem;margin-bottom:0.75rem;">
-            <strong>{title}</strong><br>{text}
+        <div style="background:#FFFFFF;border:1px solid {border};border-radius:12px;padding:0.9rem 1rem;margin-bottom:0.75rem;box-shadow:0 6px 18px rgba(15, 23, 42, 0.04);">
+            <div style="display:flex;align-items:flex-start;gap:10px;">
+                <div style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:1px solid #CBD5E1;color:#475569;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;line-height:1;">{icon}</div>
+                <div style="flex:1;min-width:0;">
+                    <div style="font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:#64748B;font-weight:600;">{label}</div>
+                    <div style="font-size:15px;font-weight:600;color:{title_color};margin-top:2px;">{title}</div>
+                    <div style="font-size:13px;color:#475569;line-height:1.55;margin-top:3px;">{text}</div>
+                </div>
+            </div>
         </div>
         """,
         unsafe_allow_html=True,

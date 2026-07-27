@@ -16,6 +16,7 @@ from streamlit_app.components.layout import render_page_header
 from utils.helpers import read_csv_file, read_parquet_shape
 
 
+@st.cache_data(show_spinner=False)
 def _load_metadata() -> pd.DataFrame:
     metadata_df = read_csv_file(config.METADATA_CSV_PATH)
     if metadata_df is None:
@@ -35,15 +36,20 @@ def _sidebar_filters(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str], list[st
     tipo_options = sorted([value for value in df["tipo"].dropna().unique().tolist() if value])
 
     with st.sidebar.expander("Filtros del dashboard", expanded=True):
+        st.markdown('<div class="ol-filter-group-title">Cohortes</div>', unsafe_allow_html=True)
         selected_cohorts = st.multiselect(
             "Cohortes",
             options=cohort_options,
             default=cohort_options,
+            label_visibility="collapsed",
         )
+        st.markdown('<div class="ol-filter-group-divider"></div>', unsafe_allow_html=True)
+        st.markdown('<div class="ol-filter-group-title">Tipo de muestra</div>', unsafe_allow_html=True)
         selected_tipos = st.multiselect(
             "Tipo de muestra",
             options=tipo_options,
             default=tipo_options,
+            label_visibility="collapsed",
         )
 
     filtered = df.copy()
@@ -106,7 +112,7 @@ def _render_cohort_chart(filtered_df: pd.DataFrame) -> None:
     fig_coh = style_figure(fig_coh, "Carga por cohorte clinica", "Muestras")
     fig_coh.update_layout(showlegend=False)
     fig_coh.update_traces(textposition="outside")
-    st.plotly_chart(fig_coh, use_container_width=True)
+    st.plotly_chart(fig_coh, width="stretch")
 
 
 def _render_tumor_normal_bar(filtered_df: pd.DataFrame) -> None:
@@ -134,7 +140,7 @@ def _render_tumor_normal_bar(filtered_df: pd.DataFrame) -> None:
     fig_tipo = style_figure(fig_tipo, "Balance de clases", "Muestras")
     fig_tipo.update_layout(showlegend=False)
     fig_tipo.update_traces(textposition="outside")
-    st.plotly_chart(fig_tipo, use_container_width=True)
+    st.plotly_chart(fig_tipo, width="stretch")
 
 
 @st.cache_data(show_spinner=False)
@@ -197,7 +203,7 @@ def _render_global_pca_chart(filtered_df: pd.DataFrame) -> None:
     )
     fig_pca = style_figure(fig_pca, "Separacion transcriptomica global", "PC2")
     fig_pca.update_xaxes(title_text="PC1")
-    st.plotly_chart(fig_pca, use_container_width=True)
+    st.plotly_chart(fig_pca, width="stretch")
 
 
 def _render_tumor_pca_chart(selected_cohorts: list[str]) -> None:
@@ -231,7 +237,7 @@ def _render_tumor_pca_chart(selected_cohorts: list[str]) -> None:
     )
     fig_pca = style_figure(fig_pca, "Proyeccion PCA de subtipos tumorales", "PC2")
     fig_pca.update_xaxes(title_text="PC1")
-    st.plotly_chart(fig_pca, use_container_width=True)
+    st.plotly_chart(fig_pca, width="stretch")
 
 def _render_transcriptomic_html_preview() -> None:
     st.markdown("### Mapa de Expresión Génica")
@@ -268,6 +274,7 @@ def _render_transcriptomic_html_preview() -> None:
 def render() -> None:
     render_page_header(
         "Dashboard",
+        "Panel clinico de datos transcriptomicos",
         "Vista ejecutiva del dataset oncologico con distribucion de cohortes y proyeccion PCA tumoral.",
     )
 
