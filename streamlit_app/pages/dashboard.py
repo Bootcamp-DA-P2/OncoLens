@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import plotly.express as px
@@ -14,6 +15,11 @@ from streamlit_app.components.cards import render_kpi_card
 from streamlit_app.components.charts import style_figure
 from streamlit_app.components.layout import render_page_header
 from utils.helpers import read_csv_file, read_parquet_shape
+
+
+def _show_load_error(ruta: Path, exc: Exception, contexto: str) -> None:
+    st.error(f"{contexto}\nRuta: {ruta}")
+    st.exception(exc)
 
 
 @st.cache_data(show_spinner=False)
@@ -260,8 +266,17 @@ def _render_transcriptomic_html_preview() -> None:
         return
 
     # 1) Leer el HTML base y el CSV de PCA
-    html_content = html_path.read_text(encoding="utf-8")
-    pca_df = pd.read_csv(pca_csv_path)
+    try:
+        html_content = html_path.read_text(encoding="utf-8")
+    except Exception as exc:
+        _show_load_error(html_path, exc, "No se pudo leer el HTML transcriptomico.")
+        return
+
+    try:
+        pca_df = pd.read_csv(pca_csv_path)
+    except Exception as exc:
+        _show_load_error(pca_csv_path, exc, "No se pudo leer el CSV de PCA.")
+        return
 
     # 2) Convertir a JSON para inyectar datos sin fetch externo
     json_data = json.dumps(pca_df.to_dict(orient="records"))
@@ -288,8 +303,18 @@ def render() -> None:
     expression_shape = read_parquet_shape(config.EXPRESSION_PARQUET_PATH)
 
     if metadata_df.empty:
+        try:
+            _ = pd.read_csv(config.METADATA_CSV_PATH)
+        except Exception as exc:
+            _show_load_error(config.METADATA_CSV_PATH, exc, "No se pudo cargar el metadata CSV.")
         st.warning("No se pudo cargar oncoseq_metadatos.csv. Revisa la ruta de datos en configuración.")
         return
+
+    if expression_shape is None and config.EXPRESSION_PARQUET_PATH.exists():
+        try:
+            _ = pd.read_parquet(config.EXPRESSION_PARQUET_PATH)
+        except Exception as exc:
+            _show_load_error(config.EXPRESSION_PARQUET_PATH, exc, "No se pudo leer oncoseq_expresion.parquet.")
 
     filtered_df, selected_cohorts, selected_tipos = _sidebar_filters(metadata_df)
 
