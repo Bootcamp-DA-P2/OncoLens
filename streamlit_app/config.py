@@ -9,6 +9,21 @@ from typing import Dict, Iterable, List, Optional
 import streamlit as st
 
 
+def _get_secret_or_env(key: str, default: str = "") -> str:
+    """Read a key from Streamlit secrets with environment fallback."""
+    try:
+        value = st.secrets[key]
+        if value is not None:
+            value = str(value).strip()
+            if value:
+                return value
+    except Exception:
+        pass
+
+    env_value = os.getenv(key, default)
+    return str(env_value).strip() if env_value is not None else default
+
+
 def _first_existing_dir(candidates: Iterable[Path]) -> Path:
     candidate_list = [path for path in candidates if path is not None]
     for path in candidate_list:
@@ -118,8 +133,8 @@ class Config:
         self.METRICS_DIR = _first_existing_dir([self.REPORTS_DIR / "metrics", self.PROJECT_ROOT / "outputs"])
         self.INTERPRETABILITY_DIR = _first_existing_dir([self.REPORTS_DIR / "interpretability", self.PROJECT_ROOT / "outputs"])
         self.PCA_DIR = _first_existing_dir([self.APP_DIR / "pca", self.REPORTS_DIR / "pca", self.DATA_DIR])
-        self.SUPABASE_URL = st.secrets["SUPABASE_URL"]
-        self.SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
+        self.SUPABASE_URL = _get_secret_or_env("SUPABASE_URL")
+        self.SUPABASE_KEY = _get_secret_or_env("SUPABASE_KEY")
 
         models_candidates = [
             Path(env_models_dir) if env_models_dir else None,
