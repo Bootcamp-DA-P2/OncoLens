@@ -9,6 +9,7 @@ data/*
 data/raw/*
 !data/raw/oncoseq_metadatos.csv
 !data/raw/gene_names.csv
+!data/processed/dataset_clean.csv
 *.tar.gz
 *.zip
 
