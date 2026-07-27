@@ -2,5 +2,13 @@
 .git
 __pycache__
 .ipynb_checkpoints
-data/raw
-models
+data/raw/*
+!data/raw/oncoseq_metadatos.csv
+!data/raw/gene_names.csv
+!data/raw/oncoseq_expresion.parquet
+models/*
+!models/feature_names.json
+!models/metadata_modelo1.json
+!models/metadata_modelo2.json
+!models/pipeline_modelo1.joblib
+!models/pipeline_modelo2.joblib

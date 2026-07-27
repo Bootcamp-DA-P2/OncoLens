@@ -149,7 +149,13 @@ def _compute_global_pca_projection() -> pd.DataFrame:
     if metadata_df.empty or "muestra_id" not in metadata_df.columns:
         return pd.DataFrame()
 
-    expression_df = pd.read_parquet(config.EXPRESSION_PARQUET_PATH)
+    if not config.EXPRESSION_PARQUET_PATH.exists():
+        return pd.DataFrame()
+
+    try:
+        expression_df = pd.read_parquet(config.EXPRESSION_PARQUET_PATH)
+    except Exception:
+        return pd.DataFrame()
 
     sample_ids = metadata_df["muestra_id"].astype(str)
     valid_ids = [sample_id for sample_id in sample_ids if sample_id in expression_df.index]

@@ -183,10 +183,14 @@ class Config:
         self.TOP_GENES_MODEL1_JSON_PATH = _first_existing_file([
             self.PROJECT_ROOT / "outputs" / "top_genes_modelo1.json",
             self.OUTPUTS_DIR / "top_genes_modelo1.json",
+            self.INTERPRETABILITY_DIR / "top_genes_modelo1.json",
+            self.REPORTS_DIR / "interpretability" / "top_genes_modelo1.json",
         ])
         self.TOP_GENES_MODEL2_JSON_PATH = _first_existing_file([
             self.PROJECT_ROOT / "outputs" / "top_genes_modelo2.json",
             self.OUTPUTS_DIR / "top_genes_modelo2.json",
+            self.INTERPRETABILITY_DIR / "top_genes_modelo2.json",
+            self.REPORTS_DIR / "interpretability" / "top_genes_modelo2.json",
         ])
         self.TOP_GENES_MODEL1_CSV_PATH = _first_existing_file([
             self.INTERPRETABILITY_DIR / "top_genes_modelo1.csv",
