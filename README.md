@@ -1,4 +1,4 @@
-# 🧬 Onco Seq Explorer
+# 🧬 OncoLens
 
 **Sistema de Clasificación Jerárquica de Cáncer mediante RNA-Seq**
 
@@ -8,7 +8,7 @@ Aplicación profesional, modular y escalable para análisis y predicción de cla
 
 ## 📋 Descripción
 
-**Onco Seq Explorer** es una plataforma completa para:
+**OncoLens** es una plataforma completa para:
 
 - 🔬 **Análisis de Expresión Génica:** Procesamiento y normalización de datos RNA-Seq
 - 🎯 **Predicción Jerárquica:** 
@@ -26,7 +26,7 @@ Aplicación profesional, modular y escalable para análisis y predicción de cla
 ### Estructura de Directorios
 
 ```
-Onco_Seq_Explorer/
+OncoLens/
 │
 ├── app.py                        # Launcher estable: streamlit run app.py
 ├── config.py                     # Configuración centralizada
@@ -75,7 +75,7 @@ Onco_Seq_Explorer/
 ```bash
 # 1. Clonar o descargar
 git clone <repo-url>
-cd Onco_Seq_Explorer
+cd OncoLens
 
 # 2. Crear entorno virtual
 python -m venv .venv
@@ -110,6 +110,15 @@ docker run -p 8501:8501 -v ${PWD}/data:/app/data onco-seq-explorer:latest
 
 ---
 
+## ✅ Verificación
+
+Antes de fusionar cambios a `main` o de la entrega final, se recomienda correr el script de chequeo, que ejecuta todos los notebooks y scripts del proyecto y reporta cuáles corren sin errores:
+
+```bash
+python scripts/oncocheck.py .
+```
+
+---
 ## 📊 Características
 
 ### 1. **Dashboard**
@@ -274,52 +283,29 @@ OUTPUTS_DIR = Path("outputs")
 
 ## 📈 Métricas de Evaluación
 
-### Validación Cruzada (5-fold)
+### Validación Cruzada (5-fold, agrupada por paciente)
 
-**Modelo 1:**
-```
-Fold 1: 94.8%
-Fold 2: 95.5%
-Fold 3: 95.0%
-Fold 4: 95.3%
-Fold 5: 95.1%
-─────────────
-Media: 95.14% ± 0.26%
-```
+**Modelo 1 (TUMOR vs NORMAL):** F1-macro medio = **97,75%**
 
-**Modelo 2:**
-```
-Fold 1: 92.5%
-Fold 2: 93.0%
-Fold 3: 92.8%
-Fold 4: 93.1%
-Fold 5: 92.6%
-─────────────
-Media: 92.80% ± 0.22%
-```
+**Modelo 2 (Tipificación de cáncer):** F1-macro medio = **99,93%**
+
+*(detalle por fold disponible en `notebooks/02_feature_selection_&_modeling.ipynb`)*
 
 ---
 
-## 💾 Base de Datos
+## 🗄️ Base de Datos (Supabase)
 
-SQLite con tabla `predictions`:
+El proyecto **Oncoseq** utiliza una base de datos relacional alojada en **Supabase** para gestionar la información clínica, genómica y los modelos de predicción.
 
-```sql
-CREATE TABLE predictions (
-    id INTEGER PRIMARY KEY,
-    timestamp DATETIME,
-    sample_name TEXT,
-    stage1_prediction TEXT,
-    stage1_probability REAL,
-    stage2_prediction TEXT,
-    stage2_probability REAL,
-    final_prediction TEXT,
-    confidence_level TEXT,
-    n_features INTEGER,
-    user_notes TEXT,
-    validated BOOLEAN
-)
-```
+### 📋 Tablas Principales
+
+*   **`patients`**: Almacena la información demográfica y clínica de los pacientes (edad, sexo, nacionalidad, peso, altura, hábitos como tabaquismo, etc.).
+*   **`samples`**: Contiene los datos de las muestras biológicas asociadas a los pacientes y sus respectivas cohortes o fechas de carga.
+*   **`genes`**: Información detallada sobre genes, símbolos, cromosomas y longitud génica.
+*   **`predictions`**: Resultados y probabilidades de los modelos de predicción (etapas, confianza, características, estado del caso y validaciones).
+*   **`model_versions`**: Control de versiones de los modelos de machine learning utilizados, métricas en formato JSON y rutas asociadas.
+*   **`retraining_buffer`**: Almacén temporal para la gestión de reentrenamiento de los modelos y datos confirmados.
+*   **`expression`**: Datos de expresión relacionados con las muestras.
 
 ---
 
@@ -355,10 +341,16 @@ Para reportar bugs o sugerencias:
 MIT License - Uso educativo y de investigación
 
 ---
+## 👩‍💻 Equipo
 
-## 👨‍💻 Autor
+| Integrante | Responsabilidad |
+|---|---|
+| **Alejandra Duque García** | Diseño y creación de la base de datos |
+| **Noelia Sánchez Fácila** | Desarrollo de la app en Streamlit |
+| **Yasira Blanco Moreno** | Desarrollo web y app en Streamlit  |
+| **Romina Navea Rodríguez** | Informe ejecutivo y script de verificación (oncocheck) |
 
-**Desarrollado como aplicación profesional para portfolio de Machine Learning**
+**Trabajo compartido por todo el equipo:** exploración de datos (EDA), modelado y evaluación de los clasificadores, y contenerización del proyecto con Docker.
 
 Senior Python Developer especializado en:
 - Machine Learning & Bioinformática
@@ -367,7 +359,6 @@ Senior Python Developer especializado en:
 - Arquitectura de software modular y escalable
 
 ---
-
 ## ⚠️ Descargo Legal
 
 Esta herramienta es **SOLO para fines educativos y de investigación**.
@@ -385,4 +376,4 @@ Siempre consulta con personal médico certificado.
 
 Para preguntas, sugerencias o colaboraciones, contactar al equipo de desarrollo.
 
-**Estado:** ✓ Producción | v1.0.0 | 2024
+**Estado:** ✓ Producción | v1.0.0 | 2026
