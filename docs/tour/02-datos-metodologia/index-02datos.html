@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OncoLens · 01 Introducción</title>
+  <title>OncoLens · 02 Los datos y la metodología</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -174,7 +174,123 @@
   </div>
 </section>
 
-  <!-- 11 · CIERRE + SIGUIENTE -->
+<!-- 3 · Partición y data leakage -->
+<section class="tour-section tour-section--surface">
+  <div class="tour-inner">
+
+    <h2 class="tour-h2">El examen con las <strong>respuestas</strong></h2>
+    <p class="tour-lead">320 pacientes aportaron dos muestras: una tumoral y una sana. Si caen en lados distintos de la partición, el modelo reconoce <strong>al paciente</strong>, no al cáncer. Saca buena nota sin haber aprendido nada.</p>
+
+    <div class="tour-limits">
+      <article class="tour-limit">
+        <h4>División aleatoria</h4>
+        <p>Las muestras se reparten al azar. El mismo paciente acaba a ambos lados y las métricas salen infladas.</p>
+      </article>
+      <article class="tour-limit">
+        <h4>Agrupación por paciente</h4>
+        <p><em>GroupShuffleSplit</em> para el hold-out y <em>StratifiedGroupKFold</em> para la validación cruzada: todas las muestras de una persona van juntas.</p>
+      </article>
+    </div>
+
+    <dl class="chart-foot">
+      <div><dt>Pacientes con doble muestra</dt><dd>320</dd></div>
+      <div><dt>Compartidos · al azar</dt><dd>107</dd></div>
+      <div><dt>Compartidos · agrupado</dt><dd>0</dd></div>
+    </dl>
+
+  </div>
+</section>
+
+<!-- 4 · Correcciones metodológicas -->
+<section class="tour-section">
+  <div class="tour-inner">
+
+    <h2 class="tour-h2">Lo que tuvimos que <strong>corregir</strong></h2>
+    <p class="tour-lead">Tres decisiones que cambiaron el resultado, y una de ellas fue un error nuestro.</p>
+
+    <div class="tour-steps">
+
+      <article class="tour-step">
+        <span class="tour-step-num">01</span>
+        <div class="tour-step-body">
+          <h4>El modelo miraba el sexo, no el tumor</h4>
+          <p>Una doble transformación logarítmica hacía que destacaran genes de los cromosomas sexuales en lugar de marcadores biológicos reales. Detectado y corregido.</p>
+        </div>
+      </article>
+
+      <article class="tour-step">
+        <span class="tour-step-num">02</span>
+        <div class="tour-step-body">
+          <h4>Seleccionar genes por señal, no por ruido</h4>
+          <p>Un gen puede variar mucho sin decir nada. Elegimos por relación estadística con la etiqueta mediante <em>ANOVA</em> (F-test), validado con pruebas de permutación.</p>
+        </div>
+      </article>
+
+      <article class="tour-step">
+        <span class="tour-step-num">03</span>
+        <div class="tour-step-body">
+          <h4>Clases desiguales, métricas honestas</h4>
+          <p>Mama tiene el triple de muestras que colon, y la proporción tumor/sano es fija 80/20. Usamos <em>class_weight='balanced'</em>, particiones estratificadas y F1-macro como referencia.</p>
+        </div>
+      </article>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- 5 · La cascada -->
+<section class="tour-section tour-section--surface">
+  <div class="tour-inner">
+
+    <h2 class="tour-h2">Cómo trabaja un <strong>laboratorio</strong></h2>
+    <p class="tour-lead">Primero se confirma si hay malignidad; solo después se determina el tipo. El sistema imita ese orden. Frente a un modelo único de seis clases, hacerlo en dos etapas permite entrenar, medir y explicar cada decisión por separado.</p>
+
+    <div class="tour-chain">
+      <div class="tour-chain-node"><span>Entrada</span><strong>Perfil RNA-Seq</strong></div>
+      <div class="tour-chain-link" aria-hidden="true">
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7h17M18 7l-5-5M18 7l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="tour-chain-node is-accent"><span>Modelo 1 · F1 0,974</span><strong>¿Tumoral o sano?</strong></div>
+      <div class="tour-chain-link" aria-hidden="true">
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7h17M18 7l-5-5M18 7l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="tour-chain-node is-data"><span>Modelo 2 · F1 1,00</span><strong>¿Qué órgano?</strong></div>
+    </div>
+
+    <p class="tour-note">Si el Modelo 1 dice «sano», el proceso termina ahí. Y si se equivoca —un 2% de los tumores— ese error no se recupera después. Por eso el <strong>recall de la clase tumoral</strong> es la métrica crítica de todo el sistema. Ambas etapas usan Regresión Logística y selección de genes por ANOVA.</p>
+
+  </div>
+</section>
+
+<!-- 6 · Interpretabilidad -->
+<section class="tour-section">
+  <div class="tour-inner">
+
+    <h2 class="tour-h2">El modelo que sabe <strong>explicarse</strong></h2>
+    <p class="tour-lead">Comparamos tres algoritmos. Ganó el más simple.</p>
+
+    <div class="tour-grid">
+      <article class="tour-card">
+        <span class="tour-card-num">F1-macro 0,974</span>
+        <p><strong>Regresión logística</strong><br>8 veces más rápida de entrenar, y sus coeficientes dicen qué genes pesan en cada decisión.</p>
+      </article>
+      <article class="tour-card">
+        <span class="tour-card-num">F1-macro 0,972</span>
+        <p><strong>Random Forest</strong><br>Rendimiento equivalente, pero no explica en qué se basa.</p>
+      </article>
+      <article class="tour-card">
+        <span class="tour-card-num">F1-macro 0,969</span>
+        <p><strong>XGBoost</strong><br>Algo por debajo, y también opaco.</p>
+      </article>
+    </div>
+
+    <p class="tour-note">Al mirar dentro encontramos algo inesperado: no decide por unos pocos oncogenes conocidos, sino por una <strong>firma difusa de miles de genes</strong> repartidos por todo el transcriptoma. Además devuelve probabilidad por clase, así que cada predicción viene con su nivel de confianza.</p>
+
+  </div>
+</section>
+
+  <!-- 11 · CIERRE + SIGUIENTE 
   <section class="tour-section tour-section--end">
     <div class="tour-end-inner">
       <p class="tour-end-label">Siguiente apartado</p>
@@ -190,9 +306,29 @@
     <footer class="tour-footer">
       <p>OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</p>
     </footer>
-  </section>
+  </section> -->
 
 </main>
+
+<div class="tour-bar">
+  <span class="tour-bar-prog" id="barProg"></span>
+
+  <button type="button" class="tour-bar-prev" onclick="prevApartado()">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M13 8H3M3 8l4-4M3 8l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Anterior
+  </button>
+
+  <span class="tour-bar-tag">OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</span>
+  
+  <button type="button" class="tour-bar-next" onclick="nextApartado()">
+    Siguiente apartado
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 8h10M13 8L9 4M13 8l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
 
 <script src="../../assets/js/3Dmol-min.js"></script>
 <script src="../script-tour.js"></script>

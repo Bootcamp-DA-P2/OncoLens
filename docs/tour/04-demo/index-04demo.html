@@ -13,10 +13,25 @@
 </head>
 <body class="gate-page">
 
-<header class="gate-top">
-  <a href="../../index.html" aria-label="Volver al inicio de OncoLens">
-    <img src="../../assets/img/logo/logo-oncolens.png" alt="OncoLens" width="154" height="42">
+<header class="tour-header">
+  <a href="../../index.html" class="tour-logo">
+    <img src="../../assets/img/logo/logo-oncolens.png"
+         alt="OncoLens" width="168" height="46">
   </a>
+  <nav class="tour-nav">
+    <details class="tour-menu" id="tourMenu">
+      <summary class="tour-progress">04 · Demo</summary>
+      <ul>
+        <li><a href="../01-intro-oncolens/index-01intro.html">01 · Introducción</a></li>
+        <li><a href="../02-datos-metodologia/index-02datos.html">02 · Los datos y la metodología</a></li>
+        <li><a href="../03-resultados/index-03resultados.html">03 · Resultados</a></li>
+        <li><a href="../04-demo/index-04demo.html" aria-current="page">04 · Demostración</a></li>
+        <li><a href="../05-limitaciones/index-05limitaciones.html">05 · Limitaciones</a></li>
+        <li><a href="../06-desarrollos-futuros/index-06desarrollos.html">06 · Desarrollos futuros</a></li>
+        <li><a href="../07-equipo-agradecimientos/index-07equipo.html">07 · Equipo y agradecimientos</a></li>
+      </ul>
+    </details>
+  </nav>
 </header>
 
 <main class="gate-main">
@@ -44,32 +59,49 @@
         <p class="gate-hint" id="pista" role="status">Marca la casilla para continuar</p>
       </div>
 
-      <div class="gate-alt">
+      <!--<div class="gate-alt">
         <a href="#" id="volver">Volver</a>
         <a href="../05-limitaciones/index-05limitaciones.html">Continuar con el tour</a>
-      </div>
+      </div>-->
     </div>
 
   </div>
 </main>
 
-<footer class="gate-foot">
-  <p>OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</p>
-</footer>
+<div class="tour-bar">
+  <span class="tour-bar-prog" id="barProg"></span>
+
+  <button type="button" class="tour-bar-prev" onclick="prevApartado()">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M13 8H3M3 8l4-4M3 8l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Anterior
+  </button>
+
+  <span class="tour-bar-tag">OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</span>
+  
+  <button type="button" class="tour-bar-next" onclick="nextApartado()">
+    Siguiente apartado
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 8h10M13 8L9 4M13 8l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+<script src="../script-tour.js"></script>
 
 <script>
 (function(){
-  // ⚠️ Sustituir por la URL real del Streamlit
-  const DEMO_URL = 'https://oncolens-wkuy.onrender.com';
+  const DEMO_URL = 'https://onco-seq-explorer-app.onrender.com';
 
   const chk   = document.getElementById('ok');
   const btn   = document.getElementById('ir');
   const pista = document.getElementById('pista');
+  if (!chk || !btn) return;
 
   function sync(){
     const listo = chk.checked;
     btn.setAttribute('aria-disabled', listo ? 'false' : 'true');
-    pista.textContent = listo
+    if (pista) pista.textContent = listo
       ? 'La demo se abrirá en una pestaña nueva'
       : 'Marca la casilla para continuar';
   }
@@ -81,16 +113,9 @@
     window.open(DEMO_URL, '_blank', 'noopener');
   });
 
-  document.getElementById('volver').addEventListener('click', function(e){
-    e.preventDefault();
-    if (history.length > 1) history.back();
-    else window.location.href = '../03-resultados/index-03resultados.html';
-  });
-
   sync();
 })();
 </script>
 
 </body>
-</html>
 </html>

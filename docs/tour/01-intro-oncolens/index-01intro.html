@@ -252,7 +252,7 @@
     </div>
   </section>
 
-  <!-- 11 · CIERRE + SIGUIENTE -->
+  <!-- 11 · CIERRE + SIGUIENTE 
   <section class="tour-section tour-section--end">
     <div class="tour-end-inner">
       <p class="tour-end-label">Siguiente apartado</p>
@@ -268,9 +268,27 @@
     <footer class="tour-footer">
       <p>OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</p>
     </footer>
-  </section>
+  </section> -->
 
 </main>
+
+<div class="tour-bar">
+  <span class="tour-bar-prog" id="barProg"></span>
+    <a href="../../index.html" class="tour-bar-prev">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M13 8H3M3 8l4-4M3 8l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Inicio
+    </a>
+  <span class="tour-bar-tag">OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</span>
+
+  <button type="button" class="tour-bar-next" onclick="nextApartado()">
+    Siguiente apartado
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 8h10M13 8L9 4M13 8l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
 
 <script src="../../assets/js/3Dmol-min.js"></script>
 <script src="../script-tour.js"></script>

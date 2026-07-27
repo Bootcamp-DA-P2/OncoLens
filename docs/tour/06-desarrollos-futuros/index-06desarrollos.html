@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OncoLens · 01 Introducción</title>
+  <title>OncoLens · 06 Desarrollos futuros</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,36 +37,41 @@
 
 <main class="tour-container">
 
-  <!-- 1 · ¿Qué es OncoLens y qué hace? -->
-  <section class="tour-section tour-cover">
-    <div class="tour-inner">
-      <h1 class="tour-display">¿Qué es <strong>OncoLens</strong> y qué hace?</h1>
+  <!-- 1 · Mejoras futuras -->
+<section class="tour-section">
+  <div class="tour-inner">
 
-      <div class="tour-cover-body">
-        <p class="tour-lead"><strong>OncoLens</strong> es una aplicación web de <u><em>Machine Learning</em></u> que diferencia muestras de tejido sano y <span style="color: var(--accent); font-weight: 500;">tejido tumoral</span>, obtenidas en una biopsia, y posteriormente, diferencia entre 5 tipos de cáncer; <strong>mama, riñón, pulmón, próstata, colon.</strong></p>
+    <h2 class="tour-h2">Hacia dónde <strong>seguir</strong></h2>
+    <p class="tour-lead"><span style="font-weight: 600; color: var(--accent);">Ocho</span> líneas de trabajo que quedan abiertas, en dos frentes: <br>qué <span style="font-weight: 500; color: var(--ink);">datos</span> entran y cómo aprende el <span style="font-weight: 500; color: var(--ink);">modelo</span>.</p>
 
-        <figure class="tour-figure">
-          <div class="deriva">
-            <img src="images intro/pancreatic_cancer.jpg" alt="Adenocarcinoma de páncreas, ilustración 3D">
-          </div>
-          <figcaption class="tour-figcaption">
-            Adenocarcinoma de páncreas · Scientific Animations vía Wikimedia Commons · CC BY-SA 4.0
-          </figcaption>
-        </figure>
+    <div class="next-grid">
+
+      <div class="next-col">
+        <p class="next-head">Los datos</p>
+        <ol class="next-list">
+          <li><b>Más tipos de cáncer</b><span>Ampliar más allá de los cinco actuales.</span></li>
+          <li><b>Contexto clínico</b><span>Edad, estadio tumoral y tratamiento recibido.</span></li>
+          <li><b>Datos multi-ómicos</b><span>Mutaciones, metilación del ADN y proteómica.</span></li>
+          <li><b>Nuevas poblaciones</b><span>Validar fuera de la cohorte estadounidense.</span></li>
+        </ol>
       </div>
 
-      <!--
-      <dl class="tour-cover-meta">
-        <div><dt>Muestras</dt><dd>1.680</dd></div>
-        <div><dt>Genes por muestra</dt><dd>20.531</dd></div>
-        <div><dt>Tipos de tumor</dt><dd>5</dd></div>
-        <div><dt>Fuente</dt><dd>TCGA</dd></div>
-      </dl>
-      -->
-    </div>
-  </section>
+      <div class="next-col">
+        <p class="next-head">El modelo</p>
+        <ol class="next-list" start="5">
+          <li><b>Otros algoritmos</b><span>Random Forest, XGBoost y redes neuronales.</span></li>
+          <li><b>Métricas de clustering</b><span>Silhouette Score, ARI y NMI.</span></li>
+          <li><b>Confianza calibrada</b><span>Que las probabilidades reflejen el rendimiento real.</span></li>
+          <li><b>Aprendizaje continuo</b><span>Feedback clínico para monitorizar y reentrenar.</span></li>
+        </ol>
+      </div>
 
-  <!-- PENDIENTE DE APROBACIÓN DE JAVIER DÍAZ SANTOS — NO PUBLICAR -->
+    </div>
+
+  </div>
+</section>
+
+<!-- APROBADO JAVIER DÍAZ SANTOS -->
 <section class="tour-section tour-section--surface">
   <div class="tour-inner">
 
@@ -74,22 +79,20 @@
 
     <div class="doc">
       <div class="doc-photo">
-        <img src="../../assets/img/teachers/javierdiazsantos.jpg" alt="">
-        <!-- si aún no hay foto, sustituye el img por: <span>JD</span> -->
+        <img src="img06/drjavierdiazsantos.jpeg" alt="Dr. Javier Díaz Santos">
       </div>
       <div class="doc-body">
         <p class="tour-lead">Durante el desarrollo contactamos con el <strong>Dr. Javier Díaz Santos</strong>, jefe del servicio de oncología del <strong>Hospital HM Santa Elena</strong>, para contrastar nuestro enfoque con la práctica clínica real. Nos atendió, nos corrigió, y nos abrió una puerta.</p>
         <div class="doc-org">
-          <img src="../../assets/img/fundations/logo-hm-santa-elena.png" alt="Hospital HM Santa Elena">
+          <img src="img06/logo_hm_hospitales_horizontal.png" alt="Hospitales HM" loading="lazy">
         </div>
       </div>
     </div>
 
     <div class="prop">
-
       <div class="prop-body">
-        <p class="prop-lead">De esa conversación salió una línea de trabajo a varios años: explorar si un clasificador basado en <strong>expresión génica</strong>, entrenado con datos públicos, podría cubrir parte de lo que hoy resuelven los paneles genómicos comerciales.</p>
-        <p class="prop-lead">Esos paneles secuencian el tumor para orientar el tratamiento. Son potentes, y caros.</p>
+        <p class="prop-lead">Una línea de trabajo a varios años: que un clasificador de <strong>expresión génica</strong>, con datos públicos, cubra parte de lo que hoy hacen los paneles genómicos.</p>
+        <p class="prop-lead">Esos paneles orientan el tratamiento. Son potentes, y caros.</p>      
       </div>
 
       <div class="prop-cost">
@@ -105,11 +108,11 @@
           <span class="cost-num">300 – 600 €</span>
         </div>
         <p class="cost-src">Cifras estimadas por el Dr. Díaz Santos durante la entrevista.</p>
-      </div>
 
+      </div>
     </div>
 
-    <p class="tour-note">No es una promesa de producto ni un plan de negocio. Es la dirección en la que este proyecto tendría sentido continuar, señalada por alguien que trata pacientes cada día.</p>
+    <p class="tour-note prop-nota">No es una promesa de producto. Es la dirección señalada por alguien que trata pacientes cada día.</p>  
 
   </div>
 </section>
@@ -118,7 +121,7 @@
 
   
 
-  <!-- 11 · CIERRE + SIGUIENTE -->
+    <!-- 11 · CIERRE + SIGUIENTE 
   <section class="tour-section tour-section--end">
     <div class="tour-end-inner">
       <p class="tour-end-label">Siguiente apartado</p>
@@ -134,9 +137,29 @@
     <footer class="tour-footer">
       <p>OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</p>
     </footer>
-  </section>
+  </section> -->
 
 </main>
+
+<div class="tour-bar">
+  <span class="tour-bar-prog" id="barProg"></span>
+
+  <button type="button" class="tour-bar-prev" onclick="prevApartado()">
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M13 8H3M3 8l4-4M3 8l4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Anterior
+  </button>
+
+  <span class="tour-bar-tag">OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</span>
+  
+  <button type="button" class="tour-bar-next" onclick="nextApartado()">
+    Siguiente apartado
+    <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 8h10M13 8L9 4M13 8l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
 
 <script src="../../assets/js/3Dmol-min.js"></script>
 <script src="../script-tour.js"></script>

@@ -1526,7 +1526,7 @@ footer {
   --size: 280px;
   --lens-cx: 34.35%;
   --lens-cy: 40.52%;
-  --lens-d: 50.32%;
+  --lens-d: 54.75%;
   --onco-nudge: calc(var(--size) * 0.036);
   --logo-blue: #0059EF;
   --logo-coral: #FF6B5B;
@@ -1560,7 +1560,7 @@ footer {
   transition: transform 0.3s ease;
 }
 
-.tour-cta .tour-link:hover { transform: translateY(-4px); }
+.tour-cta .tour-link:hover { transform: none; }
 
 .tour-cta .axis-row { position: relative; width: var(--size); }
 
@@ -1600,7 +1600,7 @@ footer {
   transition: transform 0.35s ease;
 }
 
-.tour-cta .tour-link:hover .magnifier { transform: scale(1.05); }
+.tour-cta .tour-link:hover .magnifier { transform: none; }
 
 .tour-cta .magnifier-svg {
   width: 100%;
@@ -1608,7 +1608,7 @@ footer {
   display: block;
   fill: none;
   stroke: var(--logo-blue);
-  filter: drop-shadow(0 6px 18px rgba(0, 89, 239, 0.16));
+  filter: drop-shadow(0 4px 12px rgba(12, 30, 48, 0.10));
 }
 
 .tour-cta .lens {
@@ -1628,10 +1628,10 @@ footer {
 
 .tour-cta .lens-text {
   position: absolute;
-  font-size: calc(var(--size) * 0.132);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: #000;
+  font-size: calc(var(--size) * 0.115);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--ink);
   transform: rotateY(0deg) scale(1);
   transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
@@ -1660,13 +1660,13 @@ footer {
 .tour-cta .helix-strand {
   fill: none;
   stroke: var(--logo-blue);
-  stroke-width: 4;
+  stroke-width: 2.4;
   stroke-linecap: round;
 }
 
 .tour-cta .helix-bridge {
   stroke: var(--logo-coral);
-  stroke-width: 3.2;
+  stroke-width: 2;
   stroke-linecap: round;
 }
 

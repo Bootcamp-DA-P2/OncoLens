@@ -239,3 +239,38 @@ document.querySelectorAll('.typed').forEach(function (el) {
   window.addEventListener('resize', () => { if (visible()) escribir(); });
   if (visible()) escribir();
 });
+
+/*// Botón flotante de siguiente apartado
+(function () {
+  const fab = document.getElementById('fab');
+  const cont = document.querySelector('.tour-container');
+  if (!fab || !cont) return;
+
+  function check() {
+    const cerca = cont.scrollTop + cont.clientHeight >= cont.scrollHeight - 260;
+    fab.classList.toggle('is-on', cerca);
+  }
+
+  cont.addEventListener('scroll', check, { passive: true });
+  check();
+})();*/
+
+// Barra inferior: progreso y aviso de final
+(function () {
+  const prog = document.getElementById('barProg');
+  const cont = document.querySelector('.tour-container');
+  const next = document.querySelector('.tour-bar-next');
+  if (!cont) return;
+
+  function check() {
+    const max = cont.scrollHeight - cont.clientHeight;
+    const pct = max > 0 ? cont.scrollTop / max : 0;
+    if (prog) prog.style.width = (pct * 100) + '%';
+    if (next) next.classList.toggle('is-vis', pct > 0.9);
+    if (next) next.classList.toggle('is-end', pct > 0.97);
+  }
+
+  cont.addEventListener('scroll', check, { passive: true });
+  window.addEventListener('resize', check);
+  check();
+})();
