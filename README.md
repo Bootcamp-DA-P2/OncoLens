@@ -352,7 +352,11 @@ MIT License - Uso educativo y de investigación
 
 **Trabajo compartido por todo el equipo:** exploración de datos (EDA), modelado y evaluación de los clasificadores, y contenerización del proyecto con Docker.
 
-Cada integrante trabajó, además, de forma transversal en otras partes del proyecto según la necesidad, coordinando el avance a través de un tablero Kanban en GitHub Projects.
+Senior Python Developer especializado en:
+- Machine Learning & Bioinformática
+- Streamlit & UI/UX
+- Despliegue de aplicaciones basadas en modelos predictivos
+- Arquitectura de software modular y escalable
 
 ---
 ## ⚠️ Descargo Legal

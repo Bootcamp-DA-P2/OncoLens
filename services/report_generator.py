@@ -9,9 +9,10 @@ from typing import Any, Dict
 
 
 DISCLAIMER_TEXT = (
-    "Este informe corresponde a la prediccion realizada por un modelo de inteligencia "
-    "artificial desarrollado con fines de investigacion y apoyo a la decision clinica. "
-    "No constituye un diagnostico medico ni sustituye el criterio del profesional sanitario."
+    "Este informe corresponde a la prediccion generada mediante modelos predictivos de "
+    "Machine Learning entrenados con datos transcriptomicos y desarrollados exclusivamente "
+    "con fines de investigacion y apoyo a la decision clinica. No constituye un diagnostico "
+    "medico ni sustituye el criterio del profesional sanitario."
 )
 
 
@@ -199,7 +200,7 @@ class ReportGeneratorService:
             <main class="report">
                 <section class="header">
                     <div>
-                        <div class="brand">OncoSeq Explorer</div>
+                        <div class="brand">OncoLens</div>
                         <div class="muted">Informe clínico de apoyo a la decisión</div>
                     </div>
                     <div class="meta">Fecha del analisis<br>{report.generated_at}</div>

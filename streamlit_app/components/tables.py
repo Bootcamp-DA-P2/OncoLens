@@ -10,4 +10,4 @@ def render_dataframe(dataframe: pd.DataFrame, empty_message: str = "No hay regis
     if dataframe.empty:
         st.info(empty_message)
         return
-    st.dataframe(dataframe, use_container_width=True, hide_index=True)
+    st.dataframe(dataframe, width="stretch", hide_index=True)
