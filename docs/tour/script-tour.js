@@ -185,31 +185,35 @@ if (document.readyState === 'loading') {
   }, { threshold: 0.35 }).observe(chart);
 })();
 
-// Texto mecanografiado de agradecimiento (capítulo 07)
-(function () {
-  const el = document.getElementById('gracias');
-  if (!el) return;
-
+// Texto mecanografiado (cualquier elemento con .typed y data-texto)
+document.querySelectorAll('.typed').forEach(function (el) {
   const salida = el.querySelector('.typed-txt');
   const bruto  = el.dataset.texto || '';
+  if (!salida || !bruto) return;
+
   const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let lanzado = false;
 
-  // Tramos alternos: par = normal, impar = resaltado
-  const partes = bruto.split(/\*(.+?)\*/g);
-  const total  = partes.join('').length;
+  const trozos = [];
+  bruto.split(/(\*[^*]+\*|_[^_]+_)/g).forEach(p => {
+    if (!p) return;
+    if (p.startsWith('*') && p.endsWith('*'))      trozos.push({ t: p.slice(1, -1), c: 'typed-hl' });
+    else if (p.startsWith('_') && p.endsWith('_')) trozos.push({ t: p.slice(1, -1), c: 'typed-ac' });
+    else                                           trozos.push({ t: p, c: null });
+  });
 
+  const total = trozos.reduce((n, s) => n + s.t.length, 0);
   const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
   function pintar(n) {
     let out = '', usados = 0;
-    partes.forEach((p, idx) => {
-      if (usados >= n) return;
-      const trozo = p.slice(0, n - usados);
-      usados += trozo.length;
-      if (!trozo) return;
-      out += (idx % 2) ? '<b class="typed-hl">' + esc(trozo) + '</b>' : esc(trozo);
-    });
+    for (const s of trozos) {
+      if (usados >= n) break;
+      const parte = s.t.slice(0, n - usados);
+      usados += parte.length;
+      if (!parte) continue;
+      out += s.c ? '<b class="' + s.c + '">' + esc(parte) + '</b>' : esc(parte);
+    }
     salida.innerHTML = out;
   }
 
@@ -234,4 +238,4 @@ if (document.readyState === 'loading') {
   if (cont) cont.addEventListener('scroll', () => { if (visible()) escribir(); }, { passive: true });
   window.addEventListener('resize', () => { if (visible()) escribir(); });
   if (visible()) escribir();
-})();
+});
