@@ -273,3 +273,23 @@ Trabajo compartido del equipo:
 ## Licencia
 
 MIT License
+
+---
+##  Descargo Legal
+
+Esta herramienta es **SOLO para fines educativos y de investigación**.
+
+**NO debe usarse para:**
+- Diagnóstico clínico
+- Tratamiento médico
+- Decisiones médicas sin validación profesional
+
+Siempre consulta con personal médico certificado.
+
+---
+
+## 📞 Contacto
+
+Para preguntas, sugerencias o colaboraciones, contactar al equipo de desarrollo.
+
+**Estado:** ✓ Producción | v1.0.0 | 2026
