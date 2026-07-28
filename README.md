@@ -91,25 +91,44 @@ OncoLens implementa un flujo completo de ciencia de datos y despliegue productiv
 
 ## 4. Estructura del repositorio
 
-Para mantener un código limpio, modular y fácil de escalar (**Separación de Concerns**), el proyecto organiza sus responsabilidades de la siguiente manera:
-
-| Directorio / Archivo | Propósito / Responsabilidad |
-| :--- | :--- |
-| **`oncolens/`** | Carpeta raíz del proyecto |
-| ┣ 📂 `.github/workflows/` | Automatización CI/CD y despliegue continuo en Docker |
-| ┣ 📂 `.streamlit/` | Configuración visual (`config.toml`) y secretos de la app |
-| ┣ 📂 `app/` & `src/` | Lógica principal de la aplicación, componentes y vistas de Streamlit |
-| ┣ 📂 `assets/` | Recursos estáticos (hojas de estilo CSS, imágenes, logos) |
-| ┣ 📂 `data/` | Datasets del proyecto (datos crudos, procesados y plantillas) |
-| ┣ 📂 `database/` | Capa de persistencia, esquemas y conexión (SQLite / Supabase) |
-| ┣ 📂 `docs/` | Documentación extendida del proyecto y páginas estáticas |
-| ┣ 📂 `managers/` & `services/` | Orquestación de lógica de negocio, inferencia y validación |
-| ┣ 📂 `models/` | Modelos de ML entrenados y metadatos (`.joblib`, `.json`) |
-| ┣ 📂 `notebooks/` | Jupyter Notebooks para análisis exploratorio (EDA) y modelado |
-| ┣ 📂 `outputs/` & `reports/` | Resultados analíticos, métricas de rendimiento y exportables |
-| ┣ 📂 `scripts/` & `utils/` | Scripts de soporte utilitario y funciones de ayuda global |
-| ┣ 📜 `Dockerfile` / `docker-compose.yml` | Contenerización y orquestación local |
-| ┗ 📜 `requirements.txt` | Dependencias y librerías de Python del proyecto |
+```text
+Onco_Seq_Explorer/
+|- .github/
+|  |- workflows/
+|     |- docker-publish.yml
+|- .streamlit/
+|- assets/
+|- data/
+|  |- raw/
+|  |- processed/
+|  |- retraining/
+|  |- uploads/
+|- database/
+|- docs/
+|- managers/
+|- models/
+|- notebooks/
+|- reports/
+|  |- metrics/
+|  |- interpretability/
+|- scripts/
+|- services/
+|- streamlit_app/
+|  |- ui/
+|  |  |- components/
+|  |- pages/
+|  |- pca/
+|  |- config.py
+|  |- main.py
+|- utils/
+|- app.py
+|- Dockerfile
+|- docker-compose.yml
+|- .dockerignore
+|- .gitignore
+|- requirements.txt
+|- README.md
+```
 
 ---
 

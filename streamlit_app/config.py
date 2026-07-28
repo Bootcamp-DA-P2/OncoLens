@@ -133,6 +133,7 @@ class Config:
 
     PLOT_TEMPLATE: str = "plotly_white"
     PLOT_HEIGHT: int = 420
+    TOTAL_EXPRESSION_GENES: int = 20531
 
     def get_setting(self, secret_key: str, env_key: Optional[str] = None, default: Any = "") -> Any:
         """Single project entrypoint for app settings from secrets/env/default."""

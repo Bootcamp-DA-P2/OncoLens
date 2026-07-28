@@ -11,7 +11,7 @@ from streamlit_app.config import config
 from streamlit_app.ui.components.cards import render_kpi_card
 from streamlit_app.ui.components.charts import style_figure
 from streamlit_app.ui.components.layout import render_page_header
-from utils.helpers import read_csv_file, read_parquet_shape
+from utils.helpers import read_csv_file
 
 
 def _show_load_error(ruta: Path, exc: Exception, contexto: str) -> None:
@@ -64,11 +64,11 @@ def _sidebar_filters(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str], list[st
     return filtered, selected_cohorts, selected_tipos
 
 
-def _render_kpis(filtered_df: pd.DataFrame, full_df: pd.DataFrame, expression_shape: tuple[int, int] | None) -> None:
+def _render_kpis(filtered_df: pd.DataFrame, full_df: pd.DataFrame) -> None:
     total_samples = int(filtered_df.shape[0])
     total_participants = int(filtered_df["participante"].nunique()) if "participante" in filtered_df.columns else 0
     total_cohorts = int(filtered_df["cohorte"].nunique()) if "cohorte" in filtered_df.columns else 0
-    total_genes = int(expression_shape[1]) if expression_shape is not None else 0
+    total_genes = int(config.TOTAL_EXPRESSION_GENES)
 
     base_total = int(full_df.shape[0]) if not full_df.empty else 0
 
@@ -80,7 +80,7 @@ def _render_kpis(filtered_df: pd.DataFrame, full_df: pd.DataFrame, expression_sh
     with kpi_cols[2]:
         render_kpi_card("Cohortes activas", f"{total_cohorts}", "Subtipos disponibles")
     with kpi_cols[3]:
-        render_kpi_card("Genes de expresion", f"{total_genes:,}" if total_genes else "N/D", "Matriz transcriptomica")
+        render_kpi_card("Genes de expresion", f"{total_genes:,}", "Matriz transcriptomica")
 
 
 def _render_cohort_chart(filtered_df: pd.DataFrame) -> None:
@@ -296,8 +296,6 @@ def render() -> None:
     )
 
     metadata_df = _load_metadata()
-    expression_shape = read_parquet_shape(config.EXPRESSION_PARQUET_PATH)
-
     if metadata_df.empty:
         try:
             _ = pd.read_csv(config.METADATA_CSV_PATH)
@@ -306,19 +304,13 @@ def render() -> None:
         st.warning("No se pudo cargar oncoseq_metadatos.csv. Revisa la ruta de datos en configuración.")
         return
 
-    if expression_shape is None and config.EXPRESSION_PARQUET_PATH.exists():
-        try:
-            _ = pd.read_parquet(config.EXPRESSION_PARQUET_PATH)
-        except Exception as exc:
-            _show_load_error(config.EXPRESSION_PARQUET_PATH, exc, "No se pudo leer oncoseq_expresion.parquet.")
-
     filtered_df, selected_cohorts, selected_tipos = _sidebar_filters(metadata_df)
 
     if not selected_cohorts or not selected_tipos:
         st.warning("Selecciona al menos una cohorte y un tipo de muestra para continuar.")
         return
 
-    _render_kpis(filtered_df, metadata_df, expression_shape)
+    _render_kpis(filtered_df, metadata_df)
     st.markdown("---")
 
     top_row_col_1, top_row_col_2 = st.columns(2)
