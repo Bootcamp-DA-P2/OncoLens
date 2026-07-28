@@ -351,13 +351,6 @@ MIT License - Uso educativo y de investigación
 | **Romina Navea Rodríguez** | Informe ejecutivo y script de verificación (oncocheck) |
 
 **Trabajo compartido por todo el equipo:** exploración de datos (EDA), modelado y evaluación de los clasificadores, y contenerización del proyecto con Docker.
-
-Senior Python Developer especializado en:
-- Machine Learning & Bioinformática
-- Streamlit & UI/UX
-- Despliegue de aplicaciones basadas en modelos predictivos
-- Arquitectura de software modular y escalable
-
 ---
 ## ⚠️ Descargo Legal
 
