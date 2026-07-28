@@ -8,9 +8,9 @@ import streamlit as st
 import streamlit.components.v1 as components
 
 from streamlit_app.config import config
-from streamlit_app.components.cards import render_kpi_card
-from streamlit_app.components.charts import style_figure
-from streamlit_app.components.layout import render_page_header
+from streamlit_app.ui.components.cards import render_kpi_card
+from streamlit_app.ui.components.charts import style_figure
+from streamlit_app.ui.components.layout import render_page_header
 from utils.helpers import read_csv_file, read_parquet_shape
 
 

@@ -103,7 +103,6 @@ class Config:
     PCA_HTML_PATH: Path = field(default_factory=lambda: Path(__file__).resolve().parent / "pca" / "transcriptomic_space_explorer.html")
     PCA_DATA_CSV_PATH: Path = field(default_factory=lambda: Path(__file__).resolve().parent / "pca" / "pca_data.csv")
 
-    DB_PATH: Optional[Path] = field(default=None)
     SUPABASE_URL: str = field(default="")
     SUPABASE_KEY: str = field(default="")
 
@@ -259,13 +258,6 @@ class Config:
             self.REPORTS_DIR / "pca" / "pca_data.csv",
             self.DATA_DIR / "pca_data.csv",
         ])
-
-        sqlite_candidates = [
-            *sorted((self.PROJECT_ROOT / "database").glob("*.db")),
-            *sorted(self.DATA_DIR.glob("*.db")),
-            *sorted((self.APP_DIR / "database").glob("*.db")),
-        ]
-        self.DB_PATH = sqlite_candidates[0] if sqlite_candidates else None
 
         for directory in (
             self.ASSETS_DIR,

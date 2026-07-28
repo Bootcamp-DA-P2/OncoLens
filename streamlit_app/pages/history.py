@@ -7,8 +7,8 @@ import streamlit as st
 
 from database.cdss_database import CDSSDatabase
 from managers.feedback_manager import FeedbackManager
-from streamlit_app.components.cards import render_kpi_card, render_status_card
-from streamlit_app.components.layout import render_page_header
+from streamlit_app.ui.components.cards import render_kpi_card, render_status_card
+from streamlit_app.ui.components.layout import render_page_header
 from streamlit_app.config import config
 
 

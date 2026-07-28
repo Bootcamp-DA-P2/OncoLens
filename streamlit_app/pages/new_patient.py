@@ -15,8 +15,8 @@ import streamlit as st
 
 from managers.prediction_manager import PredictionManager
 from services.report_generator import ClinicalReport, ReportGeneratorService
-from streamlit_app.components.cards import render_status_card
-from streamlit_app.components.layout import render_page_header
+from streamlit_app.ui.components.cards import render_status_card
+from streamlit_app.ui.components.layout import render_page_header
 from streamlit_app.config import config
 from database.cdss_database import CDSSDatabase
 from utils.helpers import read_json_file

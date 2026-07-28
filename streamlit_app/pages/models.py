@@ -6,9 +6,9 @@ import streamlit as st
 
 from streamlit_app.config import config
 from services.loaders import ArtifactLoader
-from streamlit_app.components.charts import style_figure
-from streamlit_app.components.layout import render_page_header
-from streamlit_app.components.tables import render_dataframe
+from streamlit_app.ui.components.charts import style_figure
+from streamlit_app.ui.components.layout import render_page_header
+from streamlit_app.ui.components.tables import render_dataframe
 from utils.helpers import read_csv_file, read_json_file
 
 

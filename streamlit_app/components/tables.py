@@ -1,13 +1,5 @@
-"""Table rendering helpers."""
+"""Compatibility wrapper for moved UI components."""
 
-from __future__ import annotations
+from streamlit_app.ui.components.tables import render_dataframe
 
-import pandas as pd
-import streamlit as st
-
-
-def render_dataframe(dataframe: pd.DataFrame, empty_message: str = "No hay registros disponibles.") -> None:
-    if dataframe.empty:
-        st.info(empty_message)
-        return
-    st.dataframe(dataframe, width="stretch", hide_index=True)
+__all__ = ["render_dataframe"]

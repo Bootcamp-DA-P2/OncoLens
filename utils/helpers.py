@@ -36,9 +36,3 @@ def read_parquet_shape(path: Path) -> Optional[tuple[int, int]]:
         return dataframe.shape
     except Exception:
         return None
-
-
-def format_metric(value: Optional[float]) -> str:
-    if value is None:
-        return "N/D"
-    return f"{float(value):.4f}"
