@@ -87,7 +87,7 @@
   </section>
 
 
-  <!-- 2 · Biología -->
+  <!-- 3 · Biología -->
   <section class="tour-section">
   <div class="tour-inner tour-split">
     <div>
@@ -139,7 +139,7 @@
 
 
 
-  <!-- 3 · Bilogía -->
+  <!-- 4 · Bilogía -->
   <section class="tour-section tour-section--surface">
     <div class="tour-inner tour-split">
       <div>
@@ -181,15 +181,222 @@
     </div>
   </section>
 
-  <!-- 4 · ¿Qué soluciona -->
-  <section class="tour-section tour-section--surface">
+  <!-- 5 · ¿Qué soluciona -->
+  <!--<section class="tour-section tour-section--surface">
     <div class="tour-inner tour-split">
       <div> 
         <h2 class="tour-h2">¿Qué soluciona?</h2>
         <p class="tour-lead">Esta herramienta ofrece una capa molecular complementaria a la histopatología tradicional (análisis al microscopio con tinciones de las muestras de tejido), acelerando la investigación y tipificación de muestras tumorales.</p>
       </div>
     </div>
-  </section>
+  </section>-->
+
+  <style>
+:root{
+  --bg:#FBFDFF; --surface:#FFFFFF; --ink:#0C1E30; --ink-soft:#6B7C8F;
+  --ink-faint:#A6B4C2; --accent:#1652F0; --line:#E7EDF4;
+  --line-strong:#D2DCE8; --data:#14B8B3; --rosa:#C4517E;
+  --font-display:'Space Grotesk',sans-serif;
+  --font-body:'IBM Plex Sans',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --gutter:64px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-weight:300;-webkit-font-smoothing:antialiased}
+ 
+.tour-section{min-height:100vh;display:flex;align-items:center;padding:56px var(--gutter)}
+.tour-inner{width:100%;max-width:1180px;margin:0 auto}
+.tour-h2{font-family:var(--font-display);font-size:clamp(28px,3.4vw,46px);font-weight:400;line-height:1.14;letter-spacing:-.02em;margin-bottom:16px}
+.tour-h2 strong{font-weight:500;color:var(--accent)}
+.tour-lead{font-size:clamp(15px,1.25vw,18px);line-height:1.62;color:var(--ink-soft);max-width:76ch}
+.tour-lead strong{color:var(--ink);font-weight:500}
+ 
+/* ── Fases del laboratorio ──────────────────────────────── */
+.lab{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:clamp(18px,2.6vw,38px);
+  margin-top:44px;position:relative;
+}
+.lab::before{
+  content:'';position:absolute;top:44px;left:11%;right:11%;
+  height:1px;background:var(--line-strong);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 1.5s cubic-bezier(.22,.8,.28,1) .15s;
+}
+.lab.is-live::before{transform:scaleX(1)}
+ 
+.fase{
+  text-align:center;opacity:0;transform:translateY(14px);
+  transition:opacity .65s ease, transform .65s ease;
+  transition-delay:calc(.4s + var(--i) * .26s);
+}
+.lab.is-live .fase{opacity:1;transform:none}
+ 
+.fase-icono{
+  width:88px;height:88px;margin:0 auto 20px;
+  background:var(--bg);border:1px solid var(--line-strong);
+  border-radius:50%;display:grid;place-items:center;
+  position:relative;z-index:2;
+}
+.fase-icono svg [data-draw]{
+  stroke-dasharray:var(--l,160);stroke-dashoffset:var(--l,160);
+  transition:stroke-dashoffset 1s ease;
+  transition-delay:calc(.68s + var(--i) * .26s);
+}
+.lab.is-live .fase-icono svg [data-draw]{stroke-dashoffset:0}
+.fase-icono svg [data-fade]{
+  opacity:0;transition:opacity .8s ease;
+  transition-delay:calc(1.1s + var(--i) * .26s);
+}
+.lab.is-live .fase-icono svg [data-fade]{opacity:1}
+ 
+.fase-num{
+  display:block;font-family:var(--font-mono);
+  font-size:10px;letter-spacing:.16em;
+  color:var(--ink-faint);margin-bottom:8px;
+}
+.fase h3{
+  font-family:var(--font-display);
+  font-size:clamp(15px,1.35vw,19px);
+  font-weight:500;color:var(--ink);margin-bottom:8px;
+}
+.fase p{font-size:13.5px;line-height:1.55;color:var(--ink-soft);max-width:26ch;margin:0 auto}
+.fase strong{color:var(--ink);font-weight:500}
+ 
+/* ── Remate molecular ───────────────────────────────────── */
+.lab-fin{
+  margin-top:46px;padding:26px 30px;
+  background:var(--surface);
+  border:1px solid var(--line-strong);
+  border-left:3px solid var(--data);
+  border-radius:12px;
+  display:grid;grid-template-columns:auto 1fr;
+  gap:clamp(20px,3vw,38px);align-items:center;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .7s ease 1.6s, transform .7s ease 1.6s;
+}
+.lab.is-live + .lab-fin{opacity:1;transform:none}
+ 
+.lab-fin-tag{
+  font-family:var(--font-mono);font-size:10px;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--data);white-space:nowrap;
+}
+.lab-fin h4{
+  font-family:var(--font-display);
+  font-size:clamp(16px,1.5vw,21px);
+  font-weight:400;line-height:1.4;color:var(--ink);margin-bottom:8px;
+}
+.lab-fin p{font-size:14px;line-height:1.6;color:var(--ink-soft)}
+.lab-fin strong{color:var(--ink);font-weight:500}
+ 
+@media(max-width:900px){
+  .lab{grid-template-columns:1fr 1fr;gap:30px}
+  .lab::before{display:none}
+  .lab-fin{grid-template-columns:1fr;gap:12px}
+}
+@media(max-width:560px){ .lab{grid-template-columns:1fr} }
+@media(prefers-reduced-motion:reduce){
+  .fase,.lab::before,.lab-fin,.fase-icono svg *{transition:none}
+}
+</style>
+</head>
+<body>
+ 
+<section class="tour-section">
+  <div class="tour-inner">
+ 
+    <h2 class="tour-h2">Del corte al <strong>informe</strong></h2>
+    <p class="tour-lead">Lo que ocurre con una biopsia cuando llega al laboratorio de anatomía patológica. Es el método de referencia para diagnosticar un cáncer.</p>
+ 
+    <div class="lab" id="lab">
+ 
+      <!-- 01 · Corte -->
+      <article class="fase" style="--i:0">
+        <div class="fase-icono">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect data-draw style="--l:96" x="9" y="14" width="20" height="20" rx="2" stroke="#0C1E30" stroke-width="1.6"/>
+            <path data-draw style="--l:22" d="M33 17h8" stroke="#1652F0" stroke-width="1.5" stroke-linecap="round"/>
+            <path data-draw style="--l:22" d="M33 24h8" stroke="#1652F0" stroke-width="1.5" stroke-linecap="round"/>
+            <path data-draw style="--l:22" d="M33 31h8" stroke="#1652F0" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="fase-num">01 · MICROTOMÍA</span>
+        <h3>Corte</h3>
+        <p>El tejido, endurecido en parafina, se corta en láminas <strong>más finas que un papel</strong>.</p>
+      </article>
+ 
+      <!-- 02 · Tinción -->
+      <article class="fase" style="--i:1">
+        <div class="fase-icono">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect data-draw style="--l:108" x="12" y="10" width="24" height="30" rx="2" stroke="#0C1E30" stroke-width="1.6"/>
+            <circle data-fade cx="20" cy="21" r="3.2" fill="#1652F0" opacity=".85"/>
+            <circle data-fade cx="29" cy="27" r="3.2" fill="#1652F0" opacity=".85"/>
+            <circle data-fade cx="27" cy="17" r="2.4" fill="#C4517E" opacity=".7"/>
+            <circle data-fade cx="18" cy="31" r="2.4" fill="#C4517E" opacity=".7"/>
+          </svg>
+        </div>
+        <span class="fase-num">02 · TINCIÓN H&amp;E</span>
+        <h3>Color</h3>
+        <p>Las células son transparentes. Se tiñen: <strong>núcleos en azul</strong>, citoplasma en rosa.</p>
+      </article>
+ 
+      <!-- 03 · Análisis -->
+      <article class="fase" style="--i:2">
+        <div class="fase-icono">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <circle data-draw style="--l:94" cx="22" cy="20" r="14" stroke="#0C1E30" stroke-width="1.6"/>
+            <path data-draw style="--l:24" d="M32 30l8 8" stroke="#0C1E30" stroke-width="2" stroke-linecap="round"/>
+            <circle data-fade cx="18" cy="17" r="3" fill="#1652F0" opacity=".8"/>
+            <circle data-fade cx="26" cy="24" r="2.4" fill="#C4517E" opacity=".7"/>
+          </svg>
+        </div>
+        <span class="fase-num">03 · PATÓLOGO</span>
+        <h3>Análisis</h3>
+        <p>Forma, tamaño y organización de las células. <strong>Benigno o maligno</strong>, y de qué tipo.</p>
+      </article>
+ 
+      <!-- 04 · Informe -->
+      <article class="fase" style="--i:3">
+        <div class="fase-icono">
+          <svg width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <path data-draw style="--l:116" d="M13 8h15l7 7v25a2 2 0 01-2 2H13a2 2 0 01-2-2V10a2 2 0 012-2z" stroke="#0C1E30" stroke-width="1.6"/>
+            <path data-draw style="--l:18" d="M28 8v8h7" stroke="#0C1E30" stroke-width="1.4"/>
+            <path data-draw style="--l:14" d="M17 25h13" stroke="#1652F0" stroke-width="1.5" stroke-linecap="round"/>
+            <path data-draw style="--l:10" d="M17 31h9" stroke="#1652F0" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <span class="fase-num">04 · DIAGNÓSTICO</span>
+        <h3>Informe</h3>
+        <p>Tipo de tumor, <strong>grado de agresividad</strong> y marcadores relevantes para el tratamiento.</p>
+      </article>
+ 
+    </div>
+ 
+    <div class="lab-fin">
+      <span class="lab-fin-tag">Una capa más</span>
+      <div>
+        <h4>Dos tumores pueden verse iguales al microscopio y comportarse de forma <strong>completamente distinta</strong>.</h4>
+        <p>Uno crece despacio, otro deprisa. Uno responde al tratamiento, otro no. Esa diferencia está en cómo funcionan las células por dentro. Añadir una <strong>lectura molecular</strong> al informe permite ajustar mejor el tratamiento a cada paciente.</p>
+      </div>
+    </div>
+ 
+  </div>
+</section>
+ 
+<script>
+(function () {
+  const el = document.getElementById('lab');
+  if (!el) return;
+  new IntersectionObserver((es, obs) => {
+    es.forEach(e => {
+      if (e.isIntersecting) { el.classList.add('is-live'); obs.disconnect(); }
+    });
+  }, { threshold: 0.3 }).observe(el);
+})();
+</script>
+
 
   <!-- 5 · ¿A quién va dirigido? -->
   <section class="tour-section">
@@ -229,9 +436,9 @@
       <h2 class="tour-h2">Lo que no es</h2>
       <div class="tour-callout">
         <span>Aviso</span>
-        <p><strong>OncoLens no es una herramienta diagnóstica.</strong> Es un proyecto académico de apoyo a la investigación. Sus resultados no constituyen un diagnóstico médico ni sustituyen la valoración de un profesional sanitario.</p>
+        <p><strong>OncoLens NO es una herramienta diagnóstica.</strong> Es un proyecto académico de apoyo a la investigación. Sus resultados no constituyen un diagnóstico médico ni sustituyen la valoración de un profesional sanitario.</p>
       </div>
-      <div class="tour-limits">
+      <!--<div class="tour-limits">
         <article class="tour-limit">
           <h4>Cinco tipos, no todos</h4>
           <p>Ante un tumor de otro órgano podría devolver un positivo en el primer filtro, pero no identificaría el tipo por no tener datos.</p>
@@ -248,7 +455,7 @@
           <h4>Sin contexto clínico</h4>
           <p>El modelo solo ve expresión génica: ni edad, ni sexo, ni historial, ni datos de la biopsia.</p>
         </article>
-      </div>
+      </div>-->
     </div>
   </section>
 

@@ -274,3 +274,25 @@ document.querySelectorAll('.typed').forEach(function (el) {
   window.addEventListener('resize', check);
   check();
 })();
+
+
+(function () {
+  const el = document.getElementById('nbs');
+  if (!el) return;
+  new IntersectionObserver((es, obs) => {
+    es.forEach(e => {
+      if (e.isIntersecting) { el.classList.add('is-live'); obs.disconnect(); }
+    });
+  }, { threshold: 0.3 }).observe(el);
+})();
+
+
+(function () {
+  const el = document.getElementById('comp');
+  if (!el) return;
+  new IntersectionObserver((es, obs) => {
+    es.forEach(e => {
+      if (e.isIntersecting) { el.classList.add('is-live'); obs.disconnect(); }
+    });
+  }, { threshold: 0.3 }).observe(el);
+})();

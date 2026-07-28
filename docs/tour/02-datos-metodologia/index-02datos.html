@@ -201,69 +201,277 @@
   </div>
 </section>
 
-<!-- 4 · Correcciones metodológicas -->
+
 <section class="tour-section">
   <div class="tour-inner">
-
-    <h2 class="tour-h2">Lo que tuvimos que <strong>corregir</strong></h2>
-    <p class="tour-lead">Tres decisiones que cambiaron el resultado, y una de ellas fue un error nuestro.</p>
-
-    <div class="tour-steps">
-
-      <article class="tour-step">
-        <span class="tour-step-num">01</span>
-        <div class="tour-step-body">
-          <h4>El modelo miraba el sexo, no el tumor</h4>
-          <p>Una doble transformación logarítmica hacía que destacaran genes de los cromosomas sexuales en lugar de marcadores biológicos reales. Detectado y corregido.</p>
+ 
+    <h2 class="tour-h2">Cómo está <strong>construido</strong></h2>
+ 
+    <div class="arq" id="arq">
+ 
+      <div class="arq-flujo">
+ 
+        <!-- 1 · Fuentes -->
+        <div class="caja" style="--i:0">
+          <div class="logos">
+            <span class="logo-slot"><img src="logos-flujo/The_University_of_California_Irvine.svg" alt=""></span>
+            <span class="logo-slot"><img src="logos-flujo/National_Cancer_Institute_logo.svg" alt=""></span>
+          </div>
+          <div class="caja-txt">
+            <span class="caja-tag">01 · Fuentes de datos</span>
+            <h4>TCGA · GDC · perfiles de expresión génica</h4>
+            <p>1.680 muestras RNA-Seq · 20.531 genes · acceso público</p>
+          </div>
         </div>
-      </article>
-
-      <article class="tour-step">
-        <span class="tour-step-num">02</span>
-        <div class="tour-step-body">
-          <h4>Seleccionar genes por señal, no por ruido</h4>
-          <p>Un gen puede variar mucho sin decir nada. Elegimos por relación estadística con la etiqueta mediante <em>ANOVA</em> (F-test), validado con pruebas de permutación.</p>
+ 
+        <div class="flecha" style="--i:1">
+          <svg width="14" height="30" viewBox="0 0 14 30" fill="none"><path d="M7 0v25M7 29l-5-6M7 29l5-6" stroke="#6B7C8F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-      </article>
+ 
+        <!-- 2 · Pipeline -->
+        <div class="caja" style="--i:2">
+          <div class="logos">
+            <span class="logo-slot"><img src="logos-flujo/Google_Colaboratory_SVG_Logo.svg" alt=""></span>
+            
+            <span class="logo-slot"><img src="logos-flujo/scikit-learn_logo_notext.svg" alt=""></span>
 
-      <article class="tour-step">
-        <span class="tour-step-num">03</span>
-        <div class="tour-step-body">
-          <h4>Clases desiguales, métricas honestas</h4>
-          <p>Mama tiene el triple de muestras que colon, y la proporción tumor/sano es fija 80/20. Usamos <em>class_weight='balanced'</em>, particiones estratificadas y F1-macro como referencia.</p>
+            <span class="logo-slot"><img src="logos-flujo/python-logo-notext.svg" alt="" height="28px"></span>
+            
+            <span class="logo-slot"><img src="logos-flujo/Jupyter_logo.svg" alt="" height="28px"></span>
+                        
+          </div>
+          <div class="caja-txt">
+            <span class="caja-tag">02 · Pipeline de datos y modelado</span>
+            <h4>Limpieza, EDA y entrenamiento</h4>
+            <p>Selección de genes por ANOVA · partición por paciente · modelos versionados en joblib</p>
+          </div>
         </div>
-      </article>
-
+ 
+        <div class="flecha" style="--i:3">
+          <svg width="14" height="30" viewBox="0 0 14 30" fill="none"><path d="M7 0v25M7 29l-5-6M7 29l5-6" stroke="#6B7C8F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+ 
+        <!-- 3 · Base de datos -->
+        <div class="caja is-db" style="--i:4">
+          
+          <div class="logos">
+            <span class="logo-slot"><img src="logos-flujo/supabase-icon.png" alt=""></span>
+          </div>
+          <div class="caja-txt">
+            <span class="caja-tag">03 · Base de datos</span>  
+            <h4>Supabase · PostgreSQL</h4>
+            <p>Dataset y predicciones almacenadas</p>
+          </div>
+        </div>
+ 
+        <div class="flecha" style="--i:5">
+          <svg width="14" height="30" viewBox="0 0 14 30" fill="none"><path d="M7 0v25M7 29l-5-6M7 29l5-6" stroke="#14B8B3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+ 
+        <!-- 4 · Salidas -->
+        <div class="nivel-dual">
+ 
+          <div class="caja" style="--i:6">
+            
+            <div class="logos">
+              <span class="logo-slot"><img src="logos-flujo/streamlit-mark-color.png" alt=""></span>
+              <span class="logo-slot"><img src="logos-flujo/render-logo.svg" alt="" height="28px"></span>
+            </div>
+            <div class="caja-txt">
+              <span class="caja-tag">04 · Aplicación</span>
+              <h4>Streamlit</h4>
+              <p>Predicción y explicabilidad en directo. Desplegada en Render.</p>
+            </div>
+          </div>
+ 
+          <div class="caja caja-aqui" style="--i:7">
+            <span class="aqui">
+              <span class="aqui-txt">Usted está aquí</span>
+              <span class="aqui-punto"></span>
+            </span>
+            
+            <div class="logos">
+              <span class="logo-slot"><img src="../../assets/img/logo/logo-oncolens.png" alt=""></span>
+            </div>
+            <div class="caja-txt">
+              <span class="caja-tag">05 · Web del proyecto</span>
+              <h4>Presentación, hallazgos y límites</h4>
+              <p>Publicada en GitHub Pages.</p>
+            </div>
+          </div>
+ 
+        </div>
+ 
+      </div>
+ 
+      <!-- Raíl lateral -->
+      <aside class="arq-rail">
+        <span class="caja-tag">Transversal</span>
+        <h4 style="font-family:var(--font-display);font-size:15px;font-weight:500;margin-bottom:4px">Infraestructura</h4>
+        <p style="margin-bottom:8px">Atraviesa todas las capas: el pipeline, los modelos y las dos salidas viven en el mismo repositorio.</p>
+        <div class="rail-item"><span class="logo-slot"><img src="logos-flujo/GitHub_Invertocat_Black.svg" alt="" height="28px"></span><span>Control de versiones</span></div>
+        <div class="rail-item"><span class="logo-slot"><img src="logos-flujo/githubactions-svgrepo-com.svg" alt="" height="28px"></span><span>GitHub Actions · CI/CD</span></div>
+        <div class="rail-item"><span class="logo-slot"><img src="logos-flujo/docker-seeklogo.png" alt=""></span><span>Contenedores Docker</span></div>
+      </aside>
+ 
     </div>
-
+ 
+    <div class="arq-leyenda">
+      <span><i class="ley-linea"></i> Flujo de datos</span>
+      <span><i class="ley-bi"></i> Lectura y escritura</span>
+      <span><i class="ley-punt"></i> Despliegue</span>
+    </div>
+ 
   </div>
 </section>
+ 
+<script>
+(function () {
+  const el = document.getElementById('arq');
+  if (!el) return;
+  new IntersectionObserver((es, obs) => {
+    es.forEach(e => {
+      if (e.isIntersecting) { el.classList.add('is-live'); obs.disconnect(); }
+    });
+  }, { threshold: 0.25 }).observe(el);
+})();
+</script>
 
-<!-- 5 · La cascada -->
-<section class="tour-section tour-section--surface">
+
+<section class="tour-section">
   <div class="tour-inner">
-
-    <h2 class="tour-h2">Cómo trabaja un <strong>laboratorio</strong></h2>
-    <p class="tour-lead">Primero se confirma si hay malignidad; solo después se determina el tipo. El sistema imita ese orden. Frente a un modelo único de seis clases, hacerlo en dos etapas permite entrenar, medir y explicar cada decisión por separado.</p>
-
-    <div class="tour-chain">
-      <div class="tour-chain-node"><span>Entrada</span><strong>Perfil RNA-Seq</strong></div>
-      <div class="tour-chain-link" aria-hidden="true">
-        <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7h17M18 7l-5-5M18 7l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="tour-chain-node is-accent"><span>Modelo 1 · F1 0,974</span><strong>¿Tumoral o sano?</strong></div>
-      <div class="tour-chain-link" aria-hidden="true">
-        <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 7h17M18 7l-5-5M18 7l-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <div class="tour-chain-node is-data"><span>Modelo 2 · F1 1,00</span><strong>¿Qué órgano?</strong></div>
+ 
+    <h2 class="tour-h2">Dos cuadernos, <strong>dos preguntas</strong></h2>
+    <p class="tour-lead">El primero explora qué hay en los datos. El segundo decide qué genes importan y qué modelo usar.</p>
+ 
+    <div class="nbs" id="nbs">
+ 
+      <!-- ── Notebook 01 ── -->
+      <article class="nb" style="--n:0">
+        <div class="nb-cab">
+          <i></i><i></i><i></i>
+          <span class="nb-nombre">01_exploring_eda.ipynb</span>
+        </div>
+        <div class="nb-cuerpo">
+          <ul class="nb-lista">
+            <li style="--i:0"><span class="nb-celda">[1]</span><span class="nb-txt">Carga y análisis exploratorio. Los datos <strong>ya venían limpios</strong> de origen.</span></li>
+            <li style="--i:1"><span class="nb-celda">[2]</span><span class="nb-txt">Matriz de expresión cruzando <code>expresion</code> y <code>metadatos</code>: tumor o sano, y de qué cohorte.</span></li>
+            <li style="--i:2"><span class="nb-celda">[3]</span><span class="nb-txt"><strong>PCA</strong> para ver si tumor y tejido sano formaban grupos separados.</span></li>
+            <li style="--i:3"><span class="nb-celda">[4]</span><span class="nb-txt">Ranking de los <strong>50 genes más variables</strong> entre muestras.</span></li>
+            <li style="--i:4"><span class="nb-celda">[5]</span><span class="nb-txt">Probamos a eliminar los genes que valen cero. Mismo resultado — <strong>decidimos conservarlos</strong>.</span></li>
+          </ul>
+          <p class="nb-out">→ dataset_clean · gráficos y rutas listos para el notebook 02</p>
+        </div>
+      </article>
+ 
+      <!-- ── Notebook 02 ── -->
+      <article class="nb" style="--n:1">
+        <div class="nb-cab">
+          <i></i><i></i><i></i>
+          <span class="nb-nombre">02_feature_selection_&_modeling.ipynb</span>
+        </div>
+        <div class="nb-cuerpo">
+          <ul class="nb-lista">
+            <li style="--i:0"><span class="nb-celda">[1]</span><span class="nb-txt">Selección de genes con <strong>Ridge</strong> (L2) y <strong>Lasso</strong> (L1): los 250 mejores de cada uno.</span></li>
+            <li style="--i:1"><span class="nb-celda">[2]</span><span class="nb-txt">Intersección de ambos: <strong>106 genes comunes</strong> como conjunto final.</span></li>
+            <li style="--i:2"><span class="nb-celda">[3]</span><span class="nb-txt">Evaluación de <strong>7 clasificadores</strong>: HistGradientBoosting, K-Nearest Neighbors, Regresión logística, SVM lineal, Random Forest, Regresión logística · L1 y Regresión logística · PCA.</span></li>
+            <li style="--i:3"><span class="nb-celda">[4]</span><span class="nb-txt">Validación con partición <strong>70/30</strong> y <strong>5-Fold Cross-Validation</strong>.</span></li>
+          </ul>
+          <p class="nb-out">→ modelos entrenados y versionados en joblib</p>
+        </div>
+      </article>
+ 
     </div>
+ 
+  </div>
+</section>
+ 
 
-    <p class="tour-note">Si el Modelo 1 dice «sano», el proceso termina ahí. Y si se equivoca —un 2% de los tumores— ese error no se recupera después. Por eso el <strong>recall de la clase tumoral</strong> es la métrica crítica de todo el sistema. Ambas etapas usan Regresión Logística y selección de genes por ANOVA.</p>
-
+<section class="tour-section">
+  <div class="tour-inner">
+ 
+    <h2 class="tour-h2">Dos decisiones, <strong>en código</strong></h2>
+    <p class="tour-lead">Todo el proyecto está en el repositorio. Estos dos fragmentos son los que sostienen la validez de los resultados.</p>
+ 
+    <div class="cods" id="cods">
+ 
+      <!-- ── 1 · Partición sin fuga ── -->
+      <div class="cod" style="--n:0">
+        <p class="cod-tit">La partición que evita la trampa</p>
+        <p class="cod-sub">Ningún paciente puede estar a los dos lados. Y lo comprobamos con un <em>assert</em>: si falla, el cuaderno se para.</p>
+ 
+        <div class="cod-caja">
+          <div class="cod-cab"><i></i><i></i><i></i> 02_feature_selection_modeling.ipynb</div>
+<pre><span class="c"># Validación cruzada agrupada por paciente</span>
+cv = <span class="f">StratifiedGroupKFold</span>(n_splits=<span class="n">5</span>, shuffle=<span class="k">True</span>,
+                           random_state=RANDOM_STATE)
+ 
+<span class="c"># Conjunto apartado, también por paciente</span>
+gss = <span class="f">GroupShuffleSplit</span>(n_splits=<span class="n">1</span>, test_size=<span class="n">0.2</span>,
+                        random_state=RANDOM_STATE)
+train_idx, test_idx = <span class="f">next</span>(gss.<span class="f">split</span>(X, binary_target,
+                                     groups=groups))
+ 
+<span class="hl"><span class="k">assert</span> <span class="f">set</span>(groups[train_idx]).<span class="f">isdisjoint</span>(
+       <span class="f">set</span>(groups[test_idx]))</span>
+<span class="f">print</span>(<span class="s">"OK: sin pacientes compartidos"</span>)</pre>
+        </div>
+ 
+        <p class="cod-nota">El <strong>assert</strong> no es decorativo: es una comprobación que se ejecuta cada vez. Si algún paciente apareciera en ambos conjuntos, el análisis se detiene.</p>
+      </div>
+ 
+      <!-- ── 2 · Pipeline ── -->
+      <div class="cod" style="--n:1">
+        <p class="cod-tit">Todo dentro del pipeline</p>
+        <p class="cod-sub">Escalado y selección de genes van <em>dentro</em>, no antes. Así se recalculan en cada partición y no se filtra información del test.</p>
+ 
+        <div class="cod-caja">
+          <div class="cod-cab"><i></i><i></i><i></i> 02_feature_selection_modeling.ipynb</div>
+<pre>pipe = <span class="f">Pipeline</span>([
+    (<span class="s">"var"</span>,    <span class="f">VarianceThreshold</span>(threshold=<span class="n">0.0</span>)),
+    (<span class="s">"scaler"</span>, <span class="f">StandardScaler</span>()),
+    (<span class="s">"select"</span>, <span class="f">SelectKBest</span>(f_classif)),
+    (<span class="s">"clf"</span>,    <span class="f">LogisticRegression</span>(max_iter=<span class="n">5000</span>,
+                   class_weight=<span class="s">"balanced"</span>)),
+])
+ 
+param_dist = {
+    <span class="s">"select__k"</span>: [<span class="n">500</span>, <span class="n">1000</span>, <span class="n">1500</span>, <span class="n">2000</span>, <span class="n">3000</span>],
+    <span class="s">"clf__C"</span>:    [<span class="n">0.01</span>, <span class="n">0.05</span>, <span class="n">0.1</span>, <span class="n">0.5</span>, <span class="n">1.0</span>, <span class="n">2.0</span>],
+}</pre>
+        </div>
+ 
+        <p class="cod-nota">El <strong>class_weight balanced</strong> compensa el desbalance 80/20 sin tocar los datos, y los hiperparámetros se buscan con la misma validación agrupada.</p>
+      </div>
+ 
+    </div>
+ 
+    <p class="cods-pie">
+      <span>El código completo, los cuadernos y los modelos entrenados están en</span>
+      <a href="https://github.com/bootcamp-da-p2/Onco_Seq_Explorer" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </p>
+ 
   </div>
 </section>
 
-<!-- 6 · Interpretabilidad -->
+
+<script>
+(function () {
+  const el = document.getElementById('cods');
+  if (!el) return;
+  new IntersectionObserver((es, obs) => {
+    es.forEach(e => {
+      if (e.isIntersecting) { el.classList.add('is-live'); obs.disconnect(); }
+    });
+  }, { threshold: 0.3 }).observe(el);
+})();
+</script>
+
+
+<!-- 6 · Interpretabilidad 
 <section class="tour-section">
   <div class="tour-inner">
 
@@ -288,25 +496,7 @@
     <p class="tour-note">Al mirar dentro encontramos algo inesperado: no decide por unos pocos oncogenes conocidos, sino por una <strong>firma difusa de miles de genes</strong> repartidos por todo el transcriptoma. Además devuelve probabilidad por clase, así que cada predicción viene con su nivel de confianza.</p>
 
   </div>
-</section>
-
-  <!-- 11 · CIERRE + SIGUIENTE 
-  <section class="tour-section tour-section--end">
-    <div class="tour-end-inner">
-      <p class="tour-end-label">Siguiente apartado</p>
-      <p class="tour-end-next">02 · Los datos y la metodología</p>
-      <button type="button" class="tour-btn-next" onclick="nextApartado()">
-        Continuar
-        <svg width="17" height="17" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M3 8h10M13 8L9 4M13 8l-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <p class="tour-hint">También puedes pulsar <kbd>→</kbd> o <kbd>Espacio</kbd></p>
-    </div>
-    <footer class="tour-footer">
-      <p>OncoLens · Proyecto académico · Bootcamp Data Analyst II · 2026</p>
-    </footer>
-  </section> -->
+</section>-->
 
 </main>
 
