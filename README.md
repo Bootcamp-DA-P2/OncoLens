@@ -1,83 +1,211 @@
-# 🧬 OncoLens
+# OncoLens: Plataforma de Clasificacion de Cancer con RNA-Seq (MLOps + Produccion)
 
-**Sistema de Clasificación Jerárquica de Cáncer mediante RNA-Seq**
+[![CI/CD GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)](https://github.com)
+[![Docker Hub](https://img.shields.io/badge/Registry-Docker%20Hub-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://hub.docker.com)
+[![Deploy Render](https://img.shields.io/badge/Deploy-Render-46E3B7?style=for-the-badge&logo=render&logoColor=1A1A1A)](https://onco-seq-explorer-app.onrender.com/)
+[![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
+[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![Supabase](https://img.shields.io/badge/Database-Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
 
-Aplicación profesional, modular y escalable para análisis y predicción de clasificación de cáncer basada en datos de expresión génica (RNA-Seq) utilizando machine learning.
+Solucion de apoyo a decision clinica para clasificacion de muestras transcriptomicas en dos etapas: deteccion TUMOR vs NORMAL y tipificacion tumoral.
 
----
+## Demo y web
 
-## 📋 Descripción
-
-**OncoLens** es una plataforma completa para:
-
-- 🔬 **Análisis de Expresión Génica:** Procesamiento y normalización de datos RNA-Seq
-- 🎯 **Predicción Jerárquica:** 
-  - Etapa 1: Clasificación TUMOR vs NORMAL (Modelo 1)
-  - Etapa 2: Tipificación de Tipo de Cáncer (Modelo 2) - solo si TUMOR
-- 📊 **Visualización Científica:** Dashboards con Plotly, gráficos interactivos, matrices de confusión
-- 📚 **Análisis de Modelos:** Métricas completas, validación cruzada, interpretabilidad
-- 💾 **Gestión de Datos:** Base de datos SQLite para histórico de predicciones
-- 🎨 **Diseño Biomédico:** Interfaz moderna con tema profesional
+- Demo en Render: https://onco-seq-explorer-app.onrender.com/
+- Web del proyecto: https://bootcamp-da-p2.github.io/OncoLens/
 
 ---
 
-## 🏗️ Arquitectura
+## 1. Vision general del proyecto
 
-### Estructura de Directorios
+OncoLens implementa un flujo completo de ciencia de datos y despliegue productivo:
 
+- Analisis y preparacion de datos RNA-Seq.
+- Prediccion jerarquica con modelos entrenados.
+- Interfaz Streamlit para uso clinico supervisado.
+- Registro de resultados y feedback clinico.
+- Reentrenamiento manual con casos confirmados.
+- Contenerizacion Docker.
+- Pipeline CI/CD con GitHub Actions, Docker Hub y Render.
+
+---
+
+## 2. Caracteristicas funcionales
+
+### Prediccion clinica en 2 etapas
+
+1. Modelo 1: clasifica TUMOR vs NORMAL.
+2. Modelo 2: si la muestra es tumoral, clasifica subtipo (BRCA, COAD, KIRC, LUAD, PRAD).
+
+### Dashboard de analisis
+
+- KPIs de muestras, cohortes y participantes.
+- Distribuciones de cohortes y tipo de muestra.
+- Proyecciones PCA (global y tumoral).
+- Previsualizacion del espacio transcriptomico en HTML.
+
+### Operacion y mejora continua
+
+- Historial de casos y validacion clinica.
+- Buffer de casos para reentrenamiento.
+- Versionado de modelos en base de datos.
+
+---
+
+## 3. Herramientas y stack tecnologico
+
+### Machine Learning y analisis
+
+![scikit-learn](https://img.shields.io/badge/scikit--learn-Modelado-F7931E?style=flat-square&logo=scikitlearn&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-Datos-150458?style=flat-square&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-Calculo-013243?style=flat-square&logo=numpy&logoColor=white)
+![Plotly](https://img.shields.io/badge/Plotly-Visualizacion-3F4F75?style=flat-square&logo=plotly&logoColor=white)
+
+- Python
+- scikit-learn
+- pandas
+- numpy
+- plotly
+
+### Aplicacion y backend
+
+![Streamlit](https://img.shields.io/badge/Streamlit-Frontend-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Postgres-3ECF8E?style=flat-square&logo=supabase&logoColor=white)
+
+- Streamlit
+- Supabase (Postgres + API)
+
+### MLOps e infraestructura
+
+![Docker](https://img.shields.io/badge/Docker-Container-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker%20Compose-Orquestacion-1D63ED?style=flat-square&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?style=flat-square&logo=github-actions&logoColor=white)
+![Render](https://img.shields.io/badge/Render-Deploy-46E3B7?style=flat-square&logo=render&logoColor=1A1A1A)
+
+- Docker y Docker Compose
+- GitHub Actions
+- Docker Hub
+- Render
+
+---
+
+## 4. Estructura del repositorio
+
+```text
+Onco_Seq_Explorer/
+|- .github/
+|  |- workflows/
+|     |- docker-publish.yml
+|- .streamlit/
+|- assets/
+|- data/
+|  |- raw/
+|  |- processed/
+|  |- retraining/
+|  |- uploads/
+|- database/
+|- docs/
+|- managers/
+|- models/
+|- notebooks/
+|- reports/
+|  |- metrics/
+|  |- interpretability/
+|- scripts/
+|- services/
+|- streamlit_app/
+|  |- ui/
+|  |  |- components/
+|  |- components/   # puente de compatibilidad temporal
+|  |- pages/
+|  |- pca/
+|  |- config.py
+|  |- main.py
+|- utils/
+|- app.py
+|- Dockerfile
+|- docker-compose.yml
+|- .dockerignore
+|- .gitignore
+|- requirements.txt
+|- README.md
 ```
-OncoLens/
-│
-├── app.py                        # Launcher estable: streamlit run app.py
-├── config.py                     # Configuración centralizada
-├── requirements.txt              # Dependencias
-├── Dockerfile                    # Contenedor Docker
-├── README.md                     # Este archivo
-│
-├── streamlit_app/                # UI Streamlit (refactorizado)
-│   ├── main.py                   # Entrypoint real de la UI
-│   ├── pages/                    # Dashboard, Modelos, Nuevo Paciente, Histórico
-│   ├── components/               # Componentes reutilizables de UI
-│   └── static/                   # HTML embebido transcriptómico
-│
-├── managers/                     # Lógica de predicción/feedback/modelos
-├── database/                     # Acceso y esquema SQLite
-├── services/                     # Capa de servicios y loaders
-├── utils/                        # Helpers, constantes y métricas
-│
-├── models/                       # Artefactos entrenados (.joblib/.json)
-├── outputs/                      # Resultados de CV y top genes
-├── reports/                      # Métricas finales de evaluación
-├── data/                         # Datos clínicos y transcriptómicos
-└── scripts/                      # Scripts de mantenimiento y smoke tests
-```
-
-### Separación de Concerns
-
-- **`streamlit_app/`**: Interfaz de usuario y navegación por pestañas
-- **`managers/` + `services/`**: Orquestación de inferencia y carga de artefactos
-- **`database/`**: Persistencia y consultas SQLite
-- **`models/`**: Modelos pre-entrenados joblib
-- **`data/`**: Datos de entrada, predicciones históricas
-- **`outputs/` + `reports/`**: Resultados de CV, top genes y métricas finales
 
 ---
 
-## 🚀 Inicio Rápido
+## 5. Docker: estructura y uso
 
-### Requisitos
+### Archivos de contenedorizacion
 
-- Python 3.10+
-- pip o conda
+- Dockerfile: imagen de la aplicacion.
+- docker-compose.yml: ejecucion local con variables y volumen de data.
+- .dockerignore: controla contexto de build para incluir solo artefactos necesarios.
 
-### Instalación Local
+### Build de imagen
 
 ```bash
-# 1. Clonar o descargar
-git clone <repo-url>
-cd OncoLens
+docker build -t onco-seq-explorer:latest .
+```
 
-# 2. Crear entorno virtual
+### Ejecucion local
+
+```bash
+docker run -p 8501:8501 -v ${PWD}/data:/app/data onco-seq-explorer:latest
+```
+
+### Ejecucion con Compose
+
+```bash
+docker compose up --build
+```
+
+### Buenas practicas ya aplicadas
+
+- Dependencias instaladas desde requirements.txt.
+- Exposicion del puerto 8501.
+- Arranque por streamlit run app.py.
+- Reglas de inclusion/exclusion para artefactos runtime en .dockerignore.
+
+---
+
+## 6. CI/CD automatizado
+
+El pipeline actual publica imagen Docker y dispara despliegue:
+
+1. Push a ramas configuradas en workflow.
+2. GitHub Actions ejecuta build de imagen Docker.
+3. Push automatico a Docker Hub.
+4. Llamada al deploy hook de Render.
+
+### Secrets requeridos en GitHub
+
+- DOCKERHUB_USERNAME
+- DOCKERHUB_TOKEN
+- RENDER_DEPLOY_HOOK
+
+### Flujo de despliegue
+
+```text
+GitHub Push
+   |
+   v
+GitHub Actions
+   |
+   v
+Docker Build + Push (Docker Hub)
+   |
+   v
+Render Deploy Hook
+   |
+   v
+Aplicacion en Produccion
+```
+
+---
+
+## 7. Configuracion local
+
+```bash
 python -m venv .venv
 
 # Windows
@@ -86,287 +214,62 @@ python -m venv .venv
 # macOS/Linux
 source .venv/bin/activate
 
-# 3. Instalar dependencias
 pip install -r requirements.txt
-
-# 4. Ejecutar aplicación
 streamlit run app.py
-```
-
-La aplicación se abrirá en `http://localhost:8501`
-
-### Docker
-
-```bash
-# Construir imagen
-docker build -t onco-seq-explorer:latest .
-
-# Ejecutar contenedor
-docker run -p 8501:8501 -v $(pwd)/data:/app/data onco-seq-explorer:latest
-
-# Windows PowerShell
-docker run -p 8501:8501 -v ${PWD}/data:/app/data onco-seq-explorer:latest
 ```
 
 ---
 
-## ✅ Verificación
+## 8. Persistencia y seguridad
 
-Antes de fusionar cambios a `main` o de la entrega final, se recomienda correr el script de chequeo, que ejecuta todos los notebooks y scripts del proyecto y reporta cuáles corren sin errores:
+La persistencia operativa se realiza con Supabase.
+
+Tablas principales:
+
+- patients
+- samples
+- predictions
+- clinical_feedback
+- retraining_buffer
+- model_versions
+
+El archivo scripts/supabase_rls_min_policies.sql incluye una base para permisos y politicas minimas del rol anon.
+
+Aviso:
+
+- Herramienta de apoyo para investigacion y soporte clinico.
+- No sustituye el juicio medico profesional.
+
+---
+
+## 9. Verificacion y calidad
+
+Comando recomendado de chequeo:
 
 ```bash
 python scripts/oncocheck.py .
 ```
 
 ---
-## 📊 Características
 
-### 1. **Dashboard**
-- 📈 KPIs principales (muestras, participantes, cohortes, genes)
-- 📊 Dos gráficos de barras (NORMAL vs TUMOR, distribución por cohorte)
-- 🔬 Dos proyecciones PCA (global y tumoral)
-- 🌐 Previsualización embebida de `transcriptomic_space_explorer.html`
-
-### 2. **Análisis de Modelos**
-- 📊 Comparativa de modelos
-- 📈 Validación cruzada 5-fold
-- 🧬 Top genes discriminantes (coeficientes LR)
-- 📋 Métricas por clase
-
-### 3. **Nuevo Paciente**
-- 📤 Upload de CSV con expresión génica
-- ✓ Validación automática de datos
-- 🧪 Verificación estructural contra `feature_names.json`
-- 🧭 Flujo guiado para fase de inferencia clínica
-
-### 4. **Histórico**
-- 📋 Historial de predicciones
-- 🩺 Registro de feedback clínico y concordancia diagnóstica
-
----
-
-## 🧠 Modelos
-
-### Modelo 1: Clasificación TUMOR vs NORMAL
-
-- **Algoritmo:** Logistic Regression con regularización L2
-- **Balanced Accuracy (test):** 0.9888
-- **F1 Macro (test):** 0.9743
-- **ROC AUC (test):** 0.9971
-- **Kappa (test):** 0.9487
-
-### Modelo 2: Tipificación de Cáncer
-
-- **Algoritmo:** Logistic Regression Multiclase (One-vs-Rest)
-- **Clases:** BRCA, COAD, KIRC, LUAD, PRAD
-- **Balanced Accuracy (test):** 1.0000
-- **F1 Macro (test):** 1.0000
-- **ROC AUC OvR (test):** 1.0000
-- **Kappa (test):** 1.0000
-
----
-
-## 📊 Interpretabilidad
-
-**No usamos SHAP.** La interpretabilidad se realiza mediante:
-
-- **Coeficientes de Regresión Logística:** Directamente interpretables
-  - Coef > 0: Favorable a clase positiva
-  - Coef < 0: Favorable a clase negativa
-  - |Coef| alto: Mayor importancia
-- **Top Genes:** Los genes con mayor coeficiente
-- **Validación:** Genes correlacionan con literatura biomédica (TP53, BRCA1, EGFR, etc.)
-
----
-
-## 🔧 Configuración
-
-Editar `config.py` para personalizar:
-
-```python
-# Colores tema
-COLORS = {
-    "primary": "#003A70",      # Azul oscuro
-    "secondary": "#00BCD4",    # Turquesa
-    ...
-}
-
-# Clases
-CANCER_TYPES = ["BRCA", "COAD", "KIRC", "LUAD", "PRAD"]
-BINARY_CLASSES = ["NORMAL", "TUMOR"]
-
-# Directorios
-MODELS_DIR = Path("models")
-DATA_DIR = Path("data")
-OUTPUTS_DIR = Path("outputs")
-```
-
----
-
-## 📦 Dependencias Principales
-
-| Librería | Versión | Uso |
-|----------|---------|-----|
-| Streamlit | 1.28.1 | Framework UI |
-| Pandas | 2.0.3 | Manipulación datos |
-| NumPy | 1.24.3 | Cálculos numéricos |
-| Scikit-learn | 1.3.0 | Modelos ML |
-| Joblib | 1.3.1 | Serialización modelos |
-| Plotly | 5.16.1 | Visualización interactiva |
-
----
-
-## 🚀 Flujo de Trabajo
-
-### Predicción Jerárquica
-
-```
-┌─────────────────────────────────────────┐
-│      Cargar CSV con Expresión Génica   │
-└──────────────┬──────────────────────────┘
-               │
-               ▼
-┌─────────────────────────────────────────┐
-│   Validar datos (columnas, valores)     │
-└──────────────┬──────────────────────────┘
-               │
-               ▼
-┌─────────────────────────────────────────┐
-│ Preprocesar (normalización, log2)       │
-└──────────────┬──────────────────────────┘
-               │
-               ▼
-┌─────────────────────────────────────────┐
-│  ETAPA 1: Predicción TUMOR vs NORMAL    │
-│  (Modelo 1 - Logistic Regression)       │
-└──────────────┬──────────────────────────┘
-               │
-          ┌────┴────┐
-          │          │
-      NORMAL      TUMOR
-          │          │
-       [FIN]    ▼─────────────────────────┐
-                │ ETAPA 2: Tipificación   │
-                │ (Modelo 2 - Multiclass) │
-                │ BRCA, COAD, KIRC,       │
-                │ LUAD, PRAD              │
-                └─────────────────────────┘
-                        │
-                        ▼
-              ┌────────────────────────┐
-              │  Guardar en SQLite BD  │
-              │  Retornar Probabilidades
-              └────────────────────────┘
-```
-
----
-
-## 🎨 Diseño
-
-### Colores - Tema Biomédico
-
-- **Primario:** #003A70 (Azul oscuro) - Profesional, confianza
-- **Secundario:** #00BCD4 (Turquesa) - Ciencia, tecnología
-- **Acento:** #26A69A (Turquesa oscuro) - Detalles
-- **Peligro:** #F44336 (Rojo) - Tumores, alertas
-- **Éxito:** #4CAF50 (Verde) - Normal, aprobado
-
-### Componentes UI
-
-- Tarjetas KPI con bordes coloreados
-- Gráficos Plotly con tema white
-- Sidebar oscuro profesional
-- Expansores con información detallada
-- Badges de estado
-
----
-
-## 📈 Métricas de Evaluación
-
-### Validación Cruzada (5-fold, agrupada por paciente)
-
-**Modelo 1 (TUMOR vs NORMAL):** F1-macro medio = **97,75%**
-
-**Modelo 2 (Tipificación de cáncer):** F1-macro medio = **99,93%**
-
-*(detalle por fold disponible en `notebooks/02_feature_selection_&_modeling.ipynb`)*
-
----
-
-## 🗄️ Base de Datos (Supabase)
-
-El proyecto **Oncoseq** utiliza una base de datos relacional alojada en **Supabase** para gestionar la información clínica, genómica y los modelos de predicción.
-
-### 📋 Tablas Principales
-
-*   **`patients`**: Almacena la información demográfica y clínica de los pacientes (edad, sexo, nacionalidad, peso, altura, hábitos como tabaquismo, etc.).
-*   **`samples`**: Contiene los datos de las muestras biológicas asociadas a los pacientes y sus respectivas cohortes o fechas de carga.
-*   **`genes`**: Información detallada sobre genes, símbolos, cromosomas y longitud génica.
-*   **`predictions`**: Resultados y probabilidades de los modelos de predicción (etapas, confianza, características, estado del caso y validaciones).
-*   **`model_versions`**: Control de versiones de los modelos de machine learning utilizados, métricas en formato JSON y rutas asociadas.
-*   **`retraining_buffer`**: Almacén temporal para la gestión de reentrenamiento de los modelos y datos confirmados.
-*   **`expression`**: Datos de expresión relacionados con las muestras.
-
----
-
-## 🔐 Seguridad
-
-- ⚠️ **NO es para diagnóstico clínico** - solo educación e investigación
-- ✓ Modelos validados en hold-out test set
-- ✓ Validación automática de entrada
-- ✓ Gestión de NaN y valores inválidos
-- ✓ Logging completo de errores
-
----
-
-## 📚 Referencias
-
-- TCGA (The Cancer Genome Atlas): https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga
-- RNA-Seq: https://www.nature.com/articles/s41576-020-00235-7
-- Logistic Regression Interpretability: https://towardsdatascience.com/logistic-regression-explained-58ba86595e19
-
----
-
-## 🤝 Contribución
-
-Para reportar bugs o sugerencias:
-1. Abre un Issue
-2. Describe el problema detalladamente
-3. Incluye logs si es posible
-
----
-
-## 📄 Licencia
-
-MIT License - Uso educativo y de investigación
-
----
-## 👩‍💻 Equipo
+## 10. Equipo
 
 | Integrante | Responsabilidad |
 |---|---|
-| **Alejandra Duque García** | Diseño y creación de la base de datos |
-| **Noelia Sánchez Fácila** | Desarrollo de la app en Streamlit |
-| **Yasira Blanco Moreno** | Desarrollo web y app en Streamlit  |
-| **Romina Navea Rodríguez** | Informe ejecutivo y script de verificación (oncocheck) |
+| Alejandra Duque Garcia | Diseno y creacion de base de datos |
+| Noelia Sanchez Facila | Desarrollo de la app en Streamlit |
+| Yasira Blanco Moreno | Desarrollo web y app en Streamlit |
+| Romina Navea Rodriguez | Informe ejecutivo y script de verificacion |
 
-**Trabajo compartido por todo el equipo:** exploración de datos (EDA), modelado y evaluación de los clasificadores, y contenerización del proyecto con Docker.
----
-## ⚠️ Descargo Legal
+Trabajo compartido del equipo:
 
-Esta herramienta es **SOLO para fines educativos y de investigación**.
-
-**NO debe usarse para:**
-- Diagnóstico clínico
-- Tratamiento médico
-- Decisiones médicas sin validación profesional
-
-Siempre consulta con personal médico certificado.
+- EDA
+- modelado
+- evaluacion
+- contenerizacion
 
 ---
 
-## 📞 Contacto
+## Licencia
 
-Para preguntas, sugerencias o colaboraciones, contactar al equipo de desarrollo.
-
-**Estado:** ✓ Producción | v1.0.0 | 2026
+MIT License
