@@ -372,10 +372,10 @@
         </div>
         <div class="nb-cuerpo">
           <ul class="nb-lista">
-            <li style="--i:0"><span class="nb-celda">[1]</span><span class="nb-txt">Selección de genes con <strong>Ridge</strong> (L2) y <strong>Lasso</strong> (L1): los 250 mejores de cada uno.</span></li>
-            <li style="--i:1"><span class="nb-celda">[2]</span><span class="nb-txt">Intersección de ambos: <strong>106 genes comunes</strong> como conjunto final.</span></li>
-            <li style="--i:2"><span class="nb-celda">[3]</span><span class="nb-txt">Evaluación de <strong>7 clasificadores</strong>: HistGradientBoosting, K-Nearest Neighbors, Regresión logística, SVM lineal, Random Forest, Regresión logística · L1 y Regresión logística · PCA.</span></li>
-            <li style="--i:3"><span class="nb-celda">[4]</span><span class="nb-txt">Validación con partición <strong>70/30</strong> y <strong>5-Fold Cross-Validation</strong>.</span></li>
+            <li style="--i:0"><span class="nb-celda">[1]</span><span class="nb-txt">Selección de genes por <strong>ANOVA F-test</strong>, con el número de genes optimizado entre 500 y 3.000.</span></li>
+            <li style="--i:1"><span class="nb-celda">[2]</span><span class="nb-txt">Escalado y selección <strong>dentro del pipeline</strong>, para que se recalculen en cada partición.</span></li>
+            <li style="--i:2"><span class="nb-celda">[3]</span><span class="nb-txt">Evaluación de <strong>7 clasificadores</strong>: HistGradientBoosting, KNN, regresión logística (L2, L1 y PCA), SVM lineal y Random Forest.</span></li>
+            <li style="--i:3"><span class="nb-celda">[4]</span><span class="nb-txt">Validación con partición <strong>80/20 agrupada por paciente</strong> y <strong>5-Fold Cross-Validation</strong>.</span></li>
           </ul>
           <p class="nb-out">→ modelos entrenados y versionados en joblib</p>
         </div>

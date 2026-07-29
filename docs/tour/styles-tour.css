@@ -1557,7 +1557,30 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-wei
 @media(max-width:900px){ .cods{grid-template-columns:1fr;gap:24px} }
 @media(prefers-reduced-motion:reduce){ .cod,.cods-pie{transition:none} }
 
+.card-met {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
 
+.card-met dt {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 4px;
+}
+
+.card-met dd {
+  font-family: var(--font-display);
+  font-size: clamp(20px, 1.7vw, 26px);
+  font-weight: 500;
+  color: var(--ink);
+}
 /* =============================================================
    PANTALLA DE ACCESO A LA DEMO (capítulo 04)
    ============================================================= */

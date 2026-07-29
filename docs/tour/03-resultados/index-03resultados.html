@@ -48,7 +48,7 @@
  
       <div class="rank">
         <div class="rank-cab">
-          <span>Modelo</span><span>F1-macro</span><span></span><span>Tiempo</span>
+          <span>Modelo</span><span>F1-macro · CV</span><span></span><span>Tiempo</span>
         </div>
  
         <div class="fila is-alto" style="--i:0">
@@ -104,7 +104,7 @@
       </div>
  
       <div class="elegido">
-        <span class="elegido-tag">Modelo seleccionado</span>
+        <span class="elegido-tag">Modelo seleccionado · prueba</span>
         <h3>Regresión logística L2</h3>
         <p class="elegido-sub">SelectKBest k=3000 · C=0,05</p>
         <p>No es el que más puntúa. Es el que <strong>explica sus decisiones</strong> y entrena once veces más rápido que el que va primero.</p>
@@ -137,22 +137,25 @@
         <span class="tour-card-num">Modelo 1 · 340 muestras</span>
         <p><strong>¿Tumoral o sano?</strong><br>
         Acertó el <strong>100%</strong> de las muestras sanas, sin un solo falso positivo, y el <strong>97,8%</strong> de las tumorales.</p>
+
+        <dl class="card-met">
+          <div><dt>F1-macro</dt><dd>0,974</dd></div>
+          <div><dt>Balanced accuracy</dt><dd>0,989</dd></div>
+        </dl>
       </article>
 
       <article class="tour-card">
         <span class="tour-card-num">Modelo 2 · 268 muestras</span>
         <p><strong>¿Qué tipo de cáncer?</strong><br>
         Una vez confirmado el tumor, identificó el tipo correcto en el <strong>100%</strong> de los casos, entre cinco posibles.</p>
+
+        <dl class="card-met">
+          <div><dt>F1-macro</dt><dd>1,000</dd></div>
+          <div><dt>Kappa</dt><dd>1,000</dd></div>
+        </dl>
       </article>
 
     </div>
-
-    <dl class="chart-foot">
-      <div><dt>F1-macro · Modelo 1</dt><dd>0,974</dd></div>
-      <div><dt>Balanced accuracy</dt><dd>0,989</dd></div>
-      <div><dt>F1-macro · Modelo 2</dt><dd>1,000</dd></div>
-      <div><dt>Kappa · Modelo 2</dt><dd>1,000</dd></div>
-    </dl>
 
     <p class="tour-note">Un 100% pide explicación. El Modelo 2 solo distingue el <strong>órgano de origen</strong>, y cada tejido tiene un programa génico muy característico — es una tarea más fácil de lo que parece. La cifra que de verdad limita el sistema es el 97,8%: ese 2,2% de tumores que el Modelo 1 clasifica como sanos ya no llega nunca al segundo paso.</p>
 
