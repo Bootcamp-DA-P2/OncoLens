@@ -258,7 +258,7 @@ python scripts/oncocheck.py .
 | Alejandra Duque Garcia | Diseno y creacion de base de datos |
 | Noelia Sanchez Facila | Desarrollo de la app en Streamlit |
 | Yasira Blanco Moreno | Desarrollo web y app en Streamlit |
-| Romina Navea Rodriguez | Informe ejecutivo y script de verificacion |
+| Romina Navea Rodriguez | Desarrollo web y verificación técnica |
 
 Trabajo compartido del equipo:
 
