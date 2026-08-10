@@ -25,8 +25,9 @@ function actualizarProgreso() {
     const progressEl = document.querySelector('.tour-progress');
     
     if (progressEl && apartado) {
-        progressEl.textContent = `${String(apartado.id).padStart(2, '0')} · ${apartado.titulo}`;
-    }
+            progressEl.innerHTML =
+                `<span class="prog-num">${String(apartado.id).padStart(2, '0')}</span>` +
+                `<span class="prog-tit"> · ${apartado.titulo}</span>`;    }
 }
 
 // Navegar al siguiente apartado
