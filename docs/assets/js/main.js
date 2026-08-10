@@ -9,3 +9,29 @@ const track = document.getElementById('tickerTrack');
       track.appendChild(el);
     }
   }
+
+/* ---------- Menú móvil ---------- */
+(function () {
+  const toggle = document.getElementById('navToggle');
+  const wrap = document.querySelector('.nav-wrap');
+  const links = document.getElementById('tabsBar');
+  if (!toggle || !wrap) return;
+
+  const close = () => {
+    wrap.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Abrir menú');
+  };
+
+  toggle.addEventListener('click', () => {
+    const open = wrap.classList.toggle('menu-open');
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  });
+
+  if (links) links.addEventListener('click', (e) => {
+    if (e.target.closest('a')) setTimeout(close, 0);
+  });
+
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+})();
