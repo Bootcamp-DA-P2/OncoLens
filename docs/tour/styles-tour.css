@@ -2469,8 +2469,37 @@ body.gate-page {
 .tour-bar-next:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 
 @media (max-width: 720px) {
-  .tour-bar { grid-template-columns: 1fr auto; }
-  .tour-bar-tag, .tour-bar-prev { display: none; }
+  .tour-bar { grid-template-columns: auto 1fr auto; }
+  .tour-bar-tag { display: none; }
+
+  .tour-bar-prev,
+  .tour-bar-next {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0;
+    line-height: 0;
+  }
+  
+  .tour-bar-prev { justify-self: start; }
+  .tour-bar-next { justify-self: end; }
+
+  .tour-bar-prev svg,
+  .tour-bar-next svg { width: 18px; height: 18px; }
+
+  .tour-bar-next { opacity: 1; pointer-events: auto; }
+  .tour-bar-next { color: var(--ink-faint); }
+
+  .tour-bar-next.is-end {
+    background: none;
+    color: var(--accent);
+    padding: 0;
+    border-radius: 50%;
+  }
 }
 
 body.gate-page .tour-bar-next { opacity: 1; pointer-events: auto; }
