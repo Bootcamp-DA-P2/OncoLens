@@ -52,7 +52,7 @@ function nextApartado() {
 
 // Navegación por teclado
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === ' ') {
+    if (e.key === 'ArrowRight') {
         e.preventDefault();
         nextApartado();
     }
@@ -116,28 +116,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Gestos táctiles para móvil
 function setupSwipeGestures() {
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
+    let x0 = 0, y0 = 0, t0 = 0;
+
     document.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, false);
-    
+        x0 = e.changedTouches[0].screenX;
+        y0 = e.changedTouches[0].screenY;
+        t0 = Date.now();
+    }, { passive: true });
+
     document.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, false);
-    
-    function handleSwipe() {
-        if (touchEndX < touchStartX - 50) {
-            // Swipe izquierda = siguiente
-            nextApartado();
-        }
-        if (touchEndX > touchStartX + 50) {
-            // Swipe derecha = anterior
-            prevApartado();
-        }
-    }
+        const dx = e.changedTouches[0].screenX - x0;
+        const dy = e.changedTouches[0].screenY - y0;
+        const dt = Date.now() - t0;
+
+        // Debe ser horizontal, amplio y rápido; si no, es un scroll.
+        if (Math.abs(dx) < 90) return;              // recorrido mínimo
+        if (Math.abs(dx) < Math.abs(dy) * 2.5) return; // claramente horizontal
+        if (dt > 600) return;                        // gesto deliberado, no arrastre lento
+
+        if (dx < 0) nextApartado();
+        else prevApartado();
+    }, { passive: true });
 }
 
 // Funciones útiles para navegación avanzada
